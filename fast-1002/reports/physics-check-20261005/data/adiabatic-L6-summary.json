@@ -1,0 +1,36 @@
+{
+  "scope": "static adiabatic reference, L6 periodic honeycomb, fixed zero-flux Wilson(+,+) sector; lowest solution found numerically, not a proof of the global minimum",
+  "parameters": {
+    "L": 6,
+    "Nc": 36,
+    "lambda": 2.4,
+    "g": 1.5491933384829668,
+    "k": 1,
+    "J": [
+      1.0,
+      1.0,
+      0.5
+    ],
+    "wilson_sector": [
+      1,
+      1
+    ]
+  },
+  "energy_units": "J=1; energies for the full 36-cell system",
+  "solution": {
+    "energy_total": -84.99428739008714,
+    "energy_matter": -120.82889133041128,
+    "energy_elastic": 35.83460394032414,
+    "mean_X": [
+      0.9302793734969543,
+      0.9302793695969211,
+      0.5098744078363586
+    ],
+    "gradient_max": 4.811343545796376e-10,
+    "hessian_minimum": 0.014405560421748738,
+    "det_T_sign": -1.0
+  },
+  "source": "adiabatic-L6-lambda2p4-20261004/results.json; existing calculation, no recomputation for this note",
+  "matter_parity_constraint": "same parity as the QMC trial state; unrestricted search found the same energy and determinant sign",
+  "solution_source_key": "trial_parity (same solution values as unrestricted_matter)"
+}
