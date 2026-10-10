@@ -1,0 +1,150 @@
+{
+  "workspace": "/home/asus/newsusy/quick1010",
+  "integrated_utc": "2026-10-10T03:47:20.831857+00:00",
+  "baseline_archive_sha256": "0a200aea9559becbafd23874166bc1e6da0d27ea25b3b0514aec5328c43732b7",
+  "optimization_archive": "new/fast1006_guided_sampling_source_20261010.zip",
+  "optimization_archive_sha256": "21166ee4066c34508d5b392e3c18d593b554409fb5e240f68072885c357431a3",
+  "status": "integrated; native MKL focused correctness and legacy compatibility passed",
+  "physics_target_changed": false,
+  "cli_defaults_preserved": true,
+  "production_whole_bond_proposal": "bond-guided, bare fixed reference, beta=1; explicit settings per AGENTS.md",
+  "q_pool_default": false,
+  "L9_production_mixing_certified": false,
+  "performance_benchmarks_rerun": false,
+  "native_validation": {
+    "guided_proposal": {
+      "exit": 0,
+      "log": "native-guided.log",
+      "worst_deterministic_residual": 7.780442956573097e-13
+    },
+    "legacy_q_mode": {
+      "exit": 0,
+      "log": "native-q-mode.log"
+    },
+    "legacy_monte_carlo": {
+      "exit": 0,
+      "log": "native-mc.log"
+    },
+    "cli_regressions": {
+      "exit": 0,
+      "cases": 11,
+      "results": "native-regressions.json"
+    },
+    "L9_dimension_smoke": {
+      "exit": 0,
+      "log": "native-L9-smoke.log",
+      "L": 9,
+      "intervals": 8,
+      "dt": 0.1,
+      "total_tau": 0.8,
+      "warmup": 1,
+      "sweeps": 2,
+      "production_convergence_certified": false
+    },
+    "numerical_failure": {
+      "exit": 0,
+      "log": "native-numerical-failure.log"
+    },
+    "vbs_susceptibility": {
+      "exit": 0,
+      "log": "native-vbs-susceptibility.log"
+    },
+    "candidate_build": {
+      "exit": 0,
+      "log": "build-candidate.log"
+    },
+    "baseline_build": {
+      "exit": 0,
+      "log": "build-baseline.log"
+    }
+  },
+  "changed_or_added_files": [
+    "AGENTS.md",
+    "BASELINE_ORIGIN.txt",
+    "CMakeLists.txt",
+    "CODEX_HANDOFF.md",
+    "GPT_README_CN.txt",
+    "OPTIMIZATION_README_CN.md",
+    "ORIGINAL_SHA256SUMS",
+    "SHA256SUMS",
+    "SNAPSHOT.json",
+    "SNAPSHOT.original.json",
+    "STATIC_VBS_README_CN.txt",
+    "VBS_AMPLITUDE_README_CN.txt",
+    "docs/CODE_MAP.md",
+    "docs/OBSERVABLES.md",
+    "docs/SAMPLING_OPTIMIZATION_RESULTS_20261010.md",
+    "docs/STATUS.md",
+    "docs/decisions/ADR-017-guided-bond-and-q-pool.md",
+    "docs/decisions/ADR-018-fixed-background-static-curvature.md",
+    "docs/decisions/ADR-019-vbs-amplitude-peaks.md",
+    "docs/decisions/README.md",
+    "examples/qpool_L9_s0.txt",
+    "execution.log",
+    "kitaev_ssh/analyze_vbs_amplitude.py",
+    "kitaev_ssh/coupled_mc.cpp",
+    "kitaev_ssh/guided_proposal_validate.cpp",
+    "kitaev_ssh/phonon_guided_proposal.h",
+    "kitaev_ssh/phonon_mc.h",
+    "kitaev_ssh/phonon_q_mode.h",
+    "kitaev_ssh/static_vbs_response.py",
+    "kitaev_ssh/test_static_vbs_response.py",
+    "kitaev_ssh/test_vbs_amplitude.py",
+    "kitaev_ssh/vbs_amplitude.h",
+    "kitaev_ssh/vbs_amplitude_validate.cpp",
+    "scripts/build_nodeps.sh",
+    "scripts/validate_vbs_amplitude.py"
+  ],
+  "original_manifest": "ORIGINAL_SHA256SUMS",
+  "original_snapshot": "SNAPSHOT.original.json",
+  "report": "../fast-1006/audit/1010/quick1010-guided-integration/REPORT.txt",
+  "latest_hpc_submission": {
+    "record": "../fast-1006/audit/1010/quick1010-guided-validation-20261010/submission-record.json",
+    "status": "native HPC five validators and smoke PASS; 12 pair tasks / 24 chains running; statistical results pending",
+    "frozen_source_sha256": "fbe588d0ad4a6d85656979abe8de504bdc2e18edfd6d2ddb610f123e0e1f3fb4",
+    "job_ids": [
+      "156985.mgt",
+      "156986[].mgt",
+      "156987[].mgt",
+      "156988[].mgt"
+    ],
+    "candidate_binary_sha256": "37cd275e51887006408b2113a40d9b0a2e1c21304612b87404ccdb0e665bfa02"
+  },
+  "latest_static_tool_validation": {
+    "date": "2026-10-10",
+    "report": "../fast-1006/audit/1010/static-vbs-note-20261010/REPORT.txt",
+    "status": "13 tests PASS; 105 nonzero finite q and 12 selected reference q checked; independent production matrix comparison PASS",
+    "schema": "static-vbs-curvature-v2",
+    "production_cpp_changed": false,
+    "parameters": {
+      "J": [
+        1,
+        1,
+        0.5
+      ],
+      "g": 0.3,
+      "mass": 1.7,
+      "omega_ph": 0.8,
+      "spring_k": 1.088
+    },
+    "quantum_critical_point_certified": false,
+    "hpc_jobs_submitted": false,
+    "note_version": "old note; superseded as current task; independent static reference retained"
+  },
+  "latest_amplitude_measurement_validation": {
+    "date": "2026-10-10",
+    "note_sha256": "6c78e4ceec66453972f66b0c64736c7c98d66f6012ffcf66a4fb4980adfa94c2",
+    "report": "../fast-1006/audit/1010/vbs-amplitude-peaks-corrected-note-20261010/REPORT.txt",
+    "schema": "vbs-amplitude-v1",
+    "status": "native modulus/source tests and 12 offline tests PASS; three bit-identical legacy comparisons, L6 and five-lambda interface smokes PASS",
+    "binary": "build-amplitude-20261010/kitaev_ssh_mc",
+    "binary_sha256": "66f9e8797465f33459f57686da309bb80d3186bf65e2b22a1c043e34bde9b13a",
+    "frozen_source": "../fast-1006/audit/1010/vbs-amplitude-peaks-corrected-note-20261010/final-source",
+    "cli_defaults_preserved": true,
+    "weight_and_trial_changed": false,
+    "fidelity_implemented": false,
+    "physical_peak_or_critical_point_certified": false,
+    "hpc_jobs_submitted": false,
+    "previous_note_task_superseded": true
+  }
+}

@@ -1,0 +1,4 @@
+# For Lx=Ly=9, shear=0 only. Each entry already includes its -q partner.
+5 4
+3 5
+4 6

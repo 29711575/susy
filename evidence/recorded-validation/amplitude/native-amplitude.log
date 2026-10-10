@@ -1,0 +1,3 @@
+free complex A=0.180627 VA=0.0539406 B4=2.00286
+free real A=0.162808 VA=0.0911265 B4=3.02164
+PASS max_direct_DFT_error=6.938893903907228e-17 max_modulus_source_derivative_error=2.708896304213326e-10

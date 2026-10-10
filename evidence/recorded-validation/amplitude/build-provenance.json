@@ -1,0 +1,14 @@
+{
+  "frozen_at_utc": "2026-10-10T05:13:23.907823+00:00",
+  "source_archive": "/home/asus/newsusy/fast-1006/audit/1010/vbs-amplitude-peaks-corrected-note-20261010/quick1010-amplitude-source-20261010.tar.gz",
+  "source_archive_sha256": "0d38af1e53b0b54923fa62cf965e0c6ca2937e7c4837bdb8e47c413b3abb3346",
+  "manifest_sha256": "abdc384721775c94157e3cbf8943d157789bf632714b862c3db9d5e630b0fab3",
+  "manifest_files": 340,
+  "native_binary_sha256": "66f9e8797465f33459f57686da309bb80d3186bf65e2b22a1c043e34bde9b13a",
+  "native_validator_sha256": "0edc2b83f6d74c1d7aedc977191a11211aa8361fb2ed06d0368cc4659b93bf69",
+  "baseline_binary_sha256": "eb25b3c7d90026d12d22c29edaf3deed0201c2c95cbf2b7fd7bf7d9eafc9b4d2",
+  "compiler": "g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "mklroot": "/opt/intel/oneapi/mkl/2026.1",
+  "threads_per_chain": 1,
+  "note_sha256": "6c78e4ceec66453972f66b0c64736c7c98d66f6012ffcf66a4fb4980adfa94c2"
+}

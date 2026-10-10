@@ -1,0 +1,16 @@
+{
+  "snapshot_beijing": "2026-10-10T09:22:06.524391+08:00",
+  "baseline": "fast-1006",
+  "source_directory": "/home/asus/newsusy/fast-1006",
+  "source_files": 316,
+  "included_dirs": [
+    "inc",
+    "src",
+    "kitaev_ssh",
+    "reproduction",
+    "cmake",
+    "scripts",
+    "docs"
+  ],
+  "validation": "Archive CRC, per-file hashes and concrete CMake source coverage; no new build or numerical tests"
+}

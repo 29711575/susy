@@ -1,0 +1,30 @@
+{
+  "definition": "free stationary real mode; fixed vacuum trial; Nc=6,mass=4,omega=.5,tau=4",
+  "continuum_reference": 0.14636747095881095,
+  "trapezoid": [
+    {
+      "M": 20,
+      "dt": 0.2,
+      "chiA_trapezoid": 0.1470777153313959,
+      "absolute_error": 0.0007102443725849616
+    },
+    {
+      "M": 40,
+      "dt": 0.1,
+      "chiA_trapezoid": 0.14654876787533258,
+      "absolute_error": 0.00018129691652163382
+    },
+    {
+      "M": 80,
+      "dt": 0.05,
+      "chiA_trapezoid": 0.14641343826880918,
+      "absolute_error": 4.59673099982294e-05
+    },
+    {
+      "M": 160,
+      "dt": 0.025,
+      "chiA_trapezoid": 0.14637907495416577,
+      "absolute_error": 1.1603995354825258e-05
+    }
+  ]
+}

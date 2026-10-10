@@ -1,0 +1,458 @@
+#ifndef PURE_PROJECTOR_GREEN_H
+#define PURE_PROJECTOR_GREEN_H
+
+#include "operator.h"
+#include "types.h"
+#include "pure_projector_svd.h"
+#include "pure_projector_factor.h"
+#include <vector>
+
+#include <algorithm>
+#include <cmath>
+#include <limits>
+#include <string>
+
+enum class PureProjectorStatus {
+    success,
+    invalid_dimension,
+    nonfinite_input,
+    subspace_rank_deficient,
+    overlap_rank_deficient,
+    overlap_ill_conditioned,
+    solve_residual_exceeded,
+    green_residual_exceeded,
+    green_structure_exceeded
+};
+
+inline const char *pureProjectorStatusName(PureProjectorStatus status) {
+    switch (status) {
+    case PureProjectorStatus::success: return "success";
+    case PureProjectorStatus::invalid_dimension: return "invalid_dimension";
+    case PureProjectorStatus::nonfinite_input: return "nonfinite_input";
+    case PureProjectorStatus::subspace_rank_deficient: return "subspace_rank_deficient";
+    case PureProjectorStatus::overlap_rank_deficient: return "overlap_rank_deficient";
+    case PureProjectorStatus::overlap_ill_conditioned: return "overlap_ill_conditioned";
+    case PureProjectorStatus::solve_residual_exceeded: return "solve_residual_exceeded";
+    case PureProjectorStatus::green_residual_exceeded: return "green_residual_exceeded";
+    case PureProjectorStatus::green_structure_exceeded: return "green_structure_exceeded";
+    }
+    return "unknown";
+}
+
+struct PureProjectorOptions {
+    double rank_tolerance = 1e-12;
+    double minimum_overlap_rcond = 1e-12;
+    double solve_residual_tolerance = 1e-10;
+    // Optional production tolerance scaled by the measured overlap rcond.
+    // Zero preserves the strict solve gate. The original gate remains the
+    // floor for ill-conditioned systems, which still receive full recovery.
+    double well_conditioned_solve_tolerance = 0.0;
+    double green_residual_tolerance = 1e-10;
+    // Stable signed weights already accept the relative involution residual
+    // of an oblique Green. Apply that same policy before expensive recovery;
+    // strict/reference callers retain the dimension-normalized default.
+    bool allow_oblique_green = false;
+    // Production solves with pivoted LU after the same SVD rank/rcond gate.
+    // The SVD then needs singular values only; strict callers keep its solve.
+    bool prefer_lu_green_solve = false;
+    // Always compute skew/diagonal diagnostics.  Enabling this flag promotes
+    // them to an additional fail-closed gate; it is off by default so this
+    // review does not silently change the frozen Phase 3C trust policy.
+    bool fail_on_green_structure = false;
+    // Off by default: endpoint and independent reference arithmetic is frozen.
+    bool accelerated_linear_algebra = false;
+    // Used only by cached factor views in the local stack.
+    bool pair_block_factors = true;
+    bool direct_green_columns = true;
+    // Opt-in until HPC confirms the parameter-dependent timing benefit.
+    bool reuse_rebuild_workspace = false;
+};
+
+struct ThinQrResult {
+    PureProjectorStatus status = PureProjectorStatus::invalid_dimension;
+    MatType q;
+    int rank = 0;
+    double orthonormal_residual = std::numeric_limits<double>::infinity();
+    bool ok() const { return status == PureProjectorStatus::success; }
+};
+
+struct PureProjectorGreenResult {
+    PureProjectorStatus status = PureProjectorStatus::invalid_dimension;
+    MatType green;
+    int overlap_rank = 0;
+    double overlap_rcond = 0.0;
+    double solve_residual = std::numeric_limits<double>::infinity();
+    double initial_solve_residual = std::numeric_limits<double>::infinity();
+    int solve_refinement_steps = 0;
+    bool extended_precision_solve = false;
+    double green_residual = std::numeric_limits<double>::infinity();
+    // Set only by the local oblique-Green recovery; the old diagnostic keeps
+    // its dimension-normalized meaning for strict/reference callers.
+    double green_relative_residual = std::numeric_limits<double>::infinity();
+    double green_skew_residual = std::numeric_limits<double>::infinity();
+    double green_diagonal_residual = std::numeric_limits<double>::infinity();
+    bool ok() const { return status == PureProjectorStatus::success; }
+};
+
+inline bool pureProjectorMatrixFinite(const PureFactorMatrix &matrix) { return matrix.allFinite(); }
+
+inline bool pureProjectorMatrixFinite(const MatType &matrix) {
+    for (int col = 0; col < matrix.cols(); ++col) {
+        for (int row = 0; row < matrix.rows(); ++row) {
+            if (!std::isfinite(matrix(row, col).real()) ||
+                !std::isfinite(matrix(row, col).imag())) return false;
+        }
+    }
+    return true;
+}
+
+inline double pureProjectorSolveTolerance(
+    const PureProjectorOptions &options, double overlapRcond) {
+    if (!std::isfinite(overlapRcond) || overlapRcond <= 0.0 ||
+        !std::isfinite(options.well_conditioned_solve_tolerance))
+        return options.solve_residual_tolerance;
+    return std::max(options.solve_residual_tolerance,
+        options.well_conditioned_solve_tolerance * std::min(1.0, overlapRcond));
+}
+
+inline ThinQrResult thinQrSubspace(
+    const MatType &subspace,
+    const PureProjectorOptions &options = PureProjectorOptions()) {
+    ThinQrResult result;
+    if (subspace.rows() <= 0 || subspace.cols() <= 0 ||
+        subspace.rows() < subspace.cols()) return result;
+    if (!pureProjectorMatrixFinite(subspace)) {
+        result.status = PureProjectorStatus::nonfinite_input;
+        return result;
+    }
+    if(options.accelerated_linear_algebra&&subspace.cols()>=32){
+        MatType packed=subspace;
+        const lapack_int m=subspace.rows(),n=subspace.cols();
+        std::vector<lapack_int> pivots(n,0);
+        cVecType tau(n);
+        const lapack_int info=LAPACKE_zgeqp3(LAPACK_COL_MAJOR,m,n,packed.data(),m,pivots.data(),tau.data());
+        if(info!=0||!pureProjectorMatrixFinite(packed)){
+            result.status=PureProjectorStatus::subspace_rank_deficient;return result;
+        }
+        const double maximum=packed.diagonal().cwiseAbs().maxCoeff();
+        result.rank=(packed.diagonal().cwiseAbs().array()>maximum*options.rank_tolerance).count();
+        if(result.rank!=n){result.status=PureProjectorStatus::subspace_rank_deficient;return result;}
+        if(options.reuse_rebuild_workspace)result.q.swap(packed);
+        else result.q=packed;
+        if(LAPACKE_zungqr(LAPACK_COL_MAJOR,m,n,n,result.q.data(),m,tau.data())!=0){
+            result.status=PureProjectorStatus::subspace_rank_deficient;return result;
+        }
+    }else{
+    Eigen::ColPivHouseholderQR<MatType> qr(subspace);
+    qr.setThreshold(options.rank_tolerance);
+    result.rank = qr.rank();
+    if (result.rank != subspace.cols()) {
+        result.status = PureProjectorStatus::subspace_rank_deficient;
+        return result;
+    }
+    result.q = qr.householderQ() *
+        MatType::Identity(subspace.rows(), subspace.cols());
+    }
+    result.orthonormal_residual =
+        (result.q.adjoint() * result.q -
+         MatType::Identity(subspace.cols(), subspace.cols())).norm() /
+        std::max(1.0, std::sqrt(double(subspace.cols())));
+    if (!pureProjectorMatrixFinite(result.q) ||
+        result.orthonormal_residual > options.solve_residual_tolerance) {
+        result.status = PureProjectorStatus::solve_residual_exceeded;
+        return result;
+    }
+    result.status = PureProjectorStatus::success;
+    return result;
+}
+
+inline PureProjectorGreenResult pureProjectorGreen(
+    const MatType &phiRight, const MatType &phiLeft,
+    const PureProjectorOptions &options = PureProjectorOptions()) {
+    PureProjectorGreenResult result;
+    if (phiRight.rows() <= 0 || phiRight.cols() <= 0 ||
+        phiRight.rows() != phiLeft.rows() || phiRight.cols() != phiLeft.cols() ||
+        phiRight.rows() < phiRight.cols()) return result;
+    if (!pureProjectorMatrixFinite(phiRight) || !pureProjectorMatrixFinite(phiLeft)) {
+        result.status = PureProjectorStatus::nonfinite_input;
+        return result;
+    }
+
+    const MatType overlap = phiLeft.adjoint() * phiRight;
+    PureGreenSvd svd(overlap,options.accelerated_linear_algebra,!options.prefer_lu_green_solve);
+    svd.setThreshold(options.rank_tolerance);
+    result.overlap_rank = svd.rank();
+    if (result.overlap_rank != overlap.rows()) {
+        result.status = PureProjectorStatus::overlap_rank_deficient;
+        return result;
+    }
+    const double largest = svd.singularValues()(0);
+    const double smallest = svd.singularValues()(svd.singularValues().size() - 1);
+    result.overlap_rcond = largest > 0.0 ? smallest / largest : 0.0;
+    if (!std::isfinite(result.overlap_rcond) ||
+        result.overlap_rcond < options.minimum_overlap_rcond) {
+        result.status = PureProjectorStatus::overlap_ill_conditioned;
+        return result;
+    }
+
+    const double solveTolerance = pureProjectorSolveTolerance(options, result.overlap_rcond);
+
+    const MatType rightHandSide = phiLeft.adjoint();
+    const double rightHandSideScale = std::max(1.0, rightHandSide.norm());
+    Eigen::PartialPivLU<MatType> lu;
+    MatType solved;
+    if(options.prefer_lu_green_solve) {
+        lu.compute(overlap);solved=lu.solve(rightHandSide);
+    } else solved=svd.solve(rightHandSide);
+    result.solve_residual = (overlap * solved - rightHandSide).norm() /
+        rightHandSideScale;
+    result.initial_solve_residual = result.solve_residual;
+    using ExtendedComplex=std::complex<long double>;
+    using ExtendedMatrix=Eigen::Matrix<ExtendedComplex,Eigen::Dynamic,Eigen::Dynamic>;
+    auto extendedSolve=[&]() {
+        if(std::numeric_limits<long double>::digits<=std::numeric_limits<double>::digits)return false;
+        const ExtendedMatrix right=phiRight.cast<ExtendedComplex>();
+        const ExtendedMatrix leftAdj=phiLeft.cast<ExtendedComplex>().adjoint();
+        // Form the actual overlap of the supplied subspaces at the precision
+        // used for the solve. A double-rounded overlap can otherwise create
+        // an inconsistent oblique projector even after accurate refinement.
+        const ExtendedMatrix matrix=leftAdj*right;
+        Eigen::PartialPivLU<ExtendedMatrix> lu(matrix);
+        const ExtendedMatrix solution=lu.solve(leftAdj);
+        const long double residual=(matrix*solution-leftAdj).norm()/std::max(1.L,leftAdj.norm());
+        if(!solution.allFinite()||!std::isfinite(residual)||residual>solveTolerance)return false;
+        const ExtendedMatrix green=ExtendedMatrix::Identity(phiRight.rows(),phiRight.rows())-2.L*right*solution;
+        if(!green.allFinite())return false;
+        result.green=green.cast<DataType>();result.solve_residual=double(residual);
+        result.solve_refinement_steps=5;result.extended_precision_solve=true;
+        return true;
+    };
+    // A full-rank overlap can amplify the SVD's decomposition error in the
+    // inverse action. Retry the SAME linear system with pivoted LU and mixed
+    // precision refinement only after the original solve fails its gate.
+    // Rank/rcond still come from the original SVD. Double candidates retain
+    // the original residual check and scale; the final extended solve below
+    // retains its precision through certification and Green assembly.
+    bool extendedGreenReady=false;
+    if(pureProjectorMatrixFinite(solved)&&std::isfinite(result.solve_residual)&&
+       result.solve_residual>solveTolerance) {
+        if(!options.prefer_lu_green_solve)lu.compute(overlap);
+        MatType candidate=options.prefer_lu_green_solve?solved:MatType(lu.solve(rightHandSide));
+        ExtendedMatrix extendedOverlap,extendedRhs;
+        for(int step=1;step<=4;++step) {
+            if(!pureProjectorMatrixFinite(candidate))break;
+            const double residual=(overlap*candidate-rightHandSide).norm()/
+                rightHandSideScale;
+            if(std::isfinite(residual)&&residual<result.solve_residual) {
+                solved=candidate;result.solve_residual=residual;
+                result.solve_refinement_steps=step;
+            }
+            if(result.solve_residual<=solveTolerance)break;
+            if(step==4)break;
+            if(extendedOverlap.size()==0) {
+                extendedOverlap=overlap.cast<ExtendedComplex>();
+                extendedRhs=rightHandSide.cast<ExtendedComplex>();
+            }
+            const ExtendedMatrix defect=extendedRhs-extendedOverlap*candidate.cast<ExtendedComplex>();
+            const MatType correction=lu.solve(defect.cast<DataType>().eval());
+            if(!pureProjectorMatrixFinite(correction))break;
+            candidate+=correction;
+        }
+        // Retain precision through overlap formation and Green assembly when
+        // double solution rounding cannot pass the original solve gate.
+        if(result.solve_residual>solveTolerance)
+            extendedGreenReady=extendedSolve();
+    }
+    if (!pureProjectorMatrixFinite(solved) || !std::isfinite(result.solve_residual) ||
+        result.solve_residual > solveTolerance) {
+        result.status = PureProjectorStatus::solve_residual_exceeded;
+        return result;
+    }
+    if(!extendedGreenReady)
+        result.green = MatType::Identity(phiRight.rows(), phiRight.rows()) -
+                       2.0 * phiRight * solved;
+    const double greenScale=std::max(1.0,std::sqrt(double(result.green.rows())));
+    bool greenFinite=false;
+    auto certifyGreen=[&]() {
+        greenFinite=pureProjectorMatrixFinite(result.green);
+        if(!greenFinite)return false;
+        result.green_residual=(result.green*result.green-
+            MatType::Identity(result.green.rows(),result.green.cols())).norm()/greenScale;
+        if(!std::isfinite(result.green_residual))return false;
+        if(result.green_residual<=options.green_residual_tolerance)return true;
+        if(!options.allow_oblique_green)return false;
+        const double normScale=std::max(greenScale,result.green.norm());
+        if(!std::isfinite(normScale))return false;
+        result.green_relative_residual=result.green_residual*(greenScale/normScale);
+        return std::isfinite(result.green_relative_residual)&&
+            result.green_relative_residual<=options.green_residual_tolerance;
+    };
+    bool greenTrusted=certifyGreen();
+    if(!greenTrusted&&greenFinite&&std::isfinite(result.green_residual)&&
+       !result.extended_precision_solve&&extendedSolve())
+        greenTrusted=certifyGreen();
+    if (!greenTrusted) {
+        result.status = PureProjectorStatus::green_residual_exceeded;
+        return result;
+    }
+    result.green_skew_residual =
+        (result.green + result.green.transpose()).norm() / greenScale;
+    result.green_diagonal_residual =
+        result.green.diagonal().norm() / greenScale;
+    if (!std::isfinite(result.green_skew_residual) ||
+        !std::isfinite(result.green_diagonal_residual) ||
+        (options.fail_on_green_structure &&
+         (result.green_skew_residual > options.green_residual_tolerance ||
+          result.green_diagonal_residual > options.green_residual_tolerance))) {
+        result.status = PureProjectorStatus::green_structure_exceeded;
+        return result;
+    }
+    result.status = PureProjectorStatus::success;
+    return result;
+}
+
+inline PureProjectorGreenResult pureProjectorGreenThinQr(
+    const MatType &phiRight, const MatType &phiLeft,
+    const PureProjectorOptions &options = PureProjectorOptions()) {
+    const ThinQrResult rightQr = thinQrSubspace(phiRight, options);
+    if (!rightQr.ok()) {
+        PureProjectorGreenResult result;
+        result.status = rightQr.status;
+        return result;
+    }
+    const ThinQrResult leftQr = thinQrSubspace(phiLeft, options);
+    if (!leftQr.ok()) {
+        PureProjectorGreenResult result;
+        result.status = leftQr.status;
+        return result;
+    }
+    return pureProjectorGreen(rightQr.q, leftQr.q, options);
+}
+
+// A1: the LEFT basis is the immutable trial state, identical for every slice
+// and every proposal. Its pivoted thin QR is prepared once and reused. The
+// Green function I-2 Q_R (Q_L^dag Q_R)^{-1} Q_L^dag is invariant under
+// independent unitary rephasings Q->Q O of either Stiefel basis, so caching
+// this QR and feeding an already-orthonormal right basis changes no physics;
+// every rank/rcond/solve/involution gate of pureProjectorGreen() is retained.
+struct PreparedGreenTrial {
+    MatType qLeft;
+    PureProjectorStatus status = PureProjectorStatus::invalid_dimension;
+    int rank = 0;
+    double orthonormal_residual = std::numeric_limits<double>::infinity();
+    bool ok() const { return status == PureProjectorStatus::success; }
+};
+
+inline PreparedGreenTrial prepareGreenTrial(
+        const GaussianTrialState &trial, const PureProjectorOptions &options) {
+    PreparedGreenTrial prepared;
+    const ThinQrResult leftQr = thinQrSubspace(trial.Phi, options);
+    if (!leftQr.ok()) { prepared.status = leftQr.status; return prepared; }
+    prepared.qLeft = leftQr.q;
+    prepared.status = PureProjectorStatus::success;
+    prepared.rank = leftQr.rank;
+    prepared.orthonormal_residual = leftQr.orthonormal_residual;
+    return prepared;
+}
+
+// Right basis is supplied already orthonormal (it is the explicit thin Q of
+// the per-slice Householder QR). Verify it with the SAME gate used inside
+// thinQrSubspace; any discrepancy, dimension mismatch or failed preparation
+// falls back to the full two-sided thin-QR path, preserving old behavior.
+inline PureProjectorGreenResult pureProjectorGreenPreparedRight(
+        const MatType &qRight, const GaussianTrialState &trial,
+        const PreparedGreenTrial &prepared, const PureProjectorOptions &options) {
+    if (!prepared.ok() ||
+        qRight.rows() != prepared.qLeft.rows() ||
+        qRight.cols() != prepared.qLeft.cols() ||
+        qRight.rows() <= 0 || qRight.cols() <= 0 ||
+        qRight.rows() < qRight.cols() ||
+        !pureProjectorMatrixFinite(qRight)) {
+        return pureProjectorGreenThinQr(qRight, trial.Phi, options);
+    }
+    const double orth =
+        (qRight.adjoint() * qRight -
+         MatType::Identity(qRight.cols(), qRight.cols())).norm() /
+        std::max(1.0, std::sqrt(double(qRight.cols())));
+    if (!std::isfinite(orth) || orth > options.solve_residual_tolerance) {
+        return pureProjectorGreenThinQr(qRight, trial.Phi, options);
+    }
+    const PureProjectorGreenResult preparedResult =
+        pureProjectorGreen(qRight, prepared.qLeft, options);
+    if (preparedResult.ok()) return preparedResult;
+
+    // The prepared QR is mathematically equivalent to re-orthogonalizing the
+    // trial basis, but the two factorizations can make different pivoting
+    // decisions near an ill-conditioned overlap.  Retry with the frozen
+    // uncached two-sided QR only when the prepared route fails.  A fallback is
+    // accepted only if it passes every original rank, solve, and Green gate;
+    // otherwise retain the original failure rather than relaxing a criterion.
+    const PureProjectorGreenResult uncachedResult =
+        pureProjectorGreenThinQr(qRight, trial.Phi, options);
+    return uncachedResult.ok() ? uncachedResult : preparedResult;
+}
+// Only reconsider a purity-residual failure of an otherwise certified solve.
+// This changes the check's scale, never the Green matrix or the update formula.
+inline PureProjectorGreenResult pureProjectorCheckObliqueGreen(
+    const PureProjectorGreenResult& failed,const PureProjectorOptions& options) {
+    if(failed.status!=PureProjectorStatus::green_residual_exceeded||
+       failed.green.rows()<=0||failed.green.rows()!=failed.green.cols()||
+       failed.overlap_rank*2!=failed.green.rows()||
+       !pureProjectorMatrixFinite(failed.green)||
+       !std::isfinite(failed.overlap_rcond)||failed.overlap_rcond<options.minimum_overlap_rcond||
+       !std::isfinite(failed.solve_residual)||
+       failed.solve_residual>pureProjectorSolveTolerance(options,failed.overlap_rcond)||
+       !std::isfinite(failed.green_residual)||failed.green_residual<0)return failed;
+    PureProjectorGreenResult result=failed;
+    const double dimensionScale=std::max(1.,std::sqrt(double(result.green.rows())));
+    const double greenScale=std::max(dimensionScale,result.green.norm());
+    if(!std::isfinite(greenScale))return failed;
+    result.green_relative_residual=result.green_residual*(dimensionScale/greenScale);
+    if(!std::isfinite(result.green_relative_residual)||
+       result.green_relative_residual>options.green_residual_tolerance)return failed;
+    result.green_skew_residual=(result.green+result.green.transpose()).norm()/dimensionScale;
+    result.green_diagonal_residual=result.green.diagonal().norm()/dimensionScale;
+    if(!std::isfinite(result.green_skew_residual)||!std::isfinite(result.green_diagonal_residual)||
+       (options.fail_on_green_structure&&(result.green_skew_residual>options.green_residual_tolerance||
+                                        result.green_diagonal_residual>options.green_residual_tolerance)))return failed;
+    result.status=PureProjectorStatus::success;
+    return result;
+}
+
+inline bool propagateKet(const MatType &factor, MatType &subspace) {
+    if (factor.rows() <= 0 || factor.rows() != factor.cols() ||
+        factor.cols() != subspace.rows() || !pureProjectorMatrixFinite(factor) ||
+        !pureProjectorMatrixFinite(subspace)) return false;
+    subspace = factor * subspace;
+    return pureProjectorMatrixFinite(subspace);
+}
+
+inline bool propagateBra(const MatType &factor, MatType &subspace) {
+    if (factor.rows() <= 0 || factor.rows() != factor.cols() ||
+        factor.cols() != subspace.rows() || !pureProjectorMatrixFinite(factor) ||
+        !pureProjectorMatrixFinite(subspace)) return false;
+    subspace = factor.adjoint() * subspace;
+    return pureProjectorMatrixFinite(subspace);
+}
+
+inline bool propagateKet(Operator &factor, MatType &subspace) {
+    if (!pureProjectorMatrixFinite(subspace)) return false;
+    MatType output;
+    factor.left_multiply(subspace, output);
+    if (output.rows() != subspace.rows() || output.cols() != subspace.cols() ||
+        !pureProjectorMatrixFinite(output)) return false;
+    subspace.swap(output);
+    return true;
+}
+
+inline bool propagateBra(Operator &factor, MatType &subspace) {
+    if (!pureProjectorMatrixFinite(subspace)) return false;
+    MatType output;
+    factor.adjoint_left_multiply(subspace, output);
+    if (output.rows() != subspace.rows() || output.cols() != subspace.cols() ||
+        !pureProjectorMatrixFinite(output)) return false;
+    subspace.swap(output);
+    return true;
+}
+
+#endif

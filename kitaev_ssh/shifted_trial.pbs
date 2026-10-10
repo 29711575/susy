@@ -1,0 +1,51 @@
+#!/bin/bash
+#PBS -N kitaev_shift_trial
+#PBS -q workq
+#PBS -l nodes=1:ppn=4
+#PBS -l walltime=00:15:00
+#PBS -j oe
+source /opt/ohpc/pub/apps/intel/oneapi/setvars.sh >/dev/null 2>&1
+set -euo pipefail
+cd "${PBS_O_WORKDIR:?}"
+trap 'code=$?; printf "%s\n" "$code" > job_exit.txt' EXIT
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_DYNAMIC=FALSE
+hostname; date -Is
+mkdir -p results
+compile() {
+ icpc -O3 -std=c++17 -mkl=sequential -DPFQMC_SCALE_SAFE_UDT \
+  -fp-model=precise -fimf-arch-consistency=true -no-fma \
+  -Iinc -I/home/sunxr/software/eigen-3.4.0 -I/home/sunxr/boost_1_70_0 \
+  "$1" src/skewMatUtils.cpp \
+  /home/sunxr/new-pfqmc-main/inc/pfapack/c_interface/libcpfapack.a \
+  /home/sunxr/new-pfqmc-main/inc/pfapack/fortran/libpfapack.a -o "$2" > "$2.build.log" 2>&1
+}
+compile kitaev_ssh/coupled_mc.cpp shifted_mc & a=$!
+compile kitaev_ssh/shifted_trial_validate.cpp shifted_validate & b=$!
+ca=0; wait "$a" || ca=$?; cb=0; wait "$b" || cb=$?
+test "$ca" -eq 0 && test "$cb" -eq 0
+./shifted_validate > results/validation.log 2>&1
+# Same compiler/library environment, independent old executable: d=0 regression.
+old=/home/sunxr/kitaev_ssh_project_smoke_v2.AEKaLn/mc_smoke
+for variant in old new; do
+ binary=./shifted_mc; if [[ "$variant" == old ]]; then binary=$old; fi
+ "$binary" --proposal bond-refresh --vbs 1 --seed 6990 --warmup 4 --sweeps 16 \
+  --measure-every 1 --block-samples 4 --output "results/d0_$variant" > "results/d0_$variant.stdout" 2> "results/d0_$variant.stderr"
+done
+/opt/ohpc/pub/apps/anaconda3/bin/python - <<'PY'
+import csv
+a=list(csv.DictReader(open('results/d0_old_blocks.csv')))
+b=list(csv.DictReader(open('results/d0_new_blocks.csv')))
+error=max(abs(float(x[k])-float(y[k])) for x,y in zip(a,b) for k in x)
+assert len(a)==len(b)==4 and error<2e-12
+print('D0_OLD_BINARY_MAX_BLOCK_ERROR',error)
+PY
+sha256sum shifted_mc shifted_validate
+export P5_BINARY="$PWD/shifted_mc" P5_OUTPUT_DIR="$PWD/results"
+pids=()
+for stage in shifted_t16_a shifted_t16_b shifted_t32_a shifted_t32_b; do
+ bash kitaev_ssh/run_p5.sh "$stage" & pids+=("$!")
+done
+code=0
+for pid in "${pids[@]}"; do status=0; wait "$pid" || status=$?; printf 'chain exit %s\n' "$status"; if [[ $status != 0 ]]; then code=$status; fi; done
+date -Is
+exit "$code"

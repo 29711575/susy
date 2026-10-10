@@ -1,0 +1,50 @@
+COMPLEX exact_phase=(0.71636040078772611,0.13506385114513528) exact_ratio=(0.22554982579615276,0.38761028070504749)
+SAMPLING g=0 acceptance=1 center_X=0.008308725706137228 stderr=0.023655175983003148 exact=0 center_cov=0.35810791297743577 cov_stderr=0.011151275073559966 cov_exact=0.36764705882352938 doubled_block_center_stderr=0.02877723826246395
+SAMPLING g=0.59999999999999998 acceptance=0.9608985507246377 center_X=0.26359587922414823 stderr=0.02925626344274353 exact=0.26290504395797909 center_cov=0.39768781912980145 cov_stderr=0.015536615128189659 cov_exact=0.36764705882352938 doubled_block_center_stderr=0.034595663424372397
+SAMPLING g=0 acceptance=1 center_X=0.00012949404466292087 stderr=0.010703860663398693 exact=0 center_cov=0.35911528885064004 cov_stderr=0.011676311591919503 cov_exact=0.36764705882352938 doubled_block_center_stderr=0.010556572600483404
+SAMPLING g=0.59999999999999998 acceptance=0.71999999999999997 center_X=0.2784090480633164 stderr=0.014477795288052807 exact=0.26290504395797909 center_cov=0.38929669082153689 cov_stderr=0.012208743310645294 cov_exact=0.36764705882352938 doubled_block_center_stderr=0.016266655476650183
+PASS Fock_acceptance_log_ratio max_error=9.9920072216264089e-16 tolerance=2e-12
+PASS MH_detailed_balance max_error=7.1054273576010019e-15 tolerance=2e-12
+PASS actual_accept_reject max_error=0 tolerance=0
+PASS complex_denominator_resolved max_error=0 tolerance=0
+PASS complex_exact_phase max_error=1.1102230246251565e-16 tolerance=2e-14
+PASS complex_exact_ratio max_error=1.1443916996305594e-16 tolerance=2e-14
+PASS complex_jackknife_covariance max_error=9.7578195523695399e-18 tolerance=2e-14
+PASS complex_jackknife_error max_error=5.5511151231257827e-17 tolerance=2e-14
+PASS conditional_phonon_cancellation max_error=5.3290705182007514e-15 tolerance=2e-12
+PASS coupled_rejected_states_measured max_error=0 tolerance=0
+PASS coupled_sampling_zscore max_error=2.0798509444115787 tolerance=6
+PASS deferred_state_green max_error=0 tolerance=0
+PASS expected_failure max_error=0 tolerance=0
+PASS failure_not_rejection max_error=0 tolerance=0
+PASS finite_sampling_error max_error=0 tolerance=0
+PASS g0_all_accepted max_error=0 tolerance=0
+PASS g0_sampling_zscore max_error=1.6099840531691705 tolerance=6
+PASS general_vs_simplified_MH max_error=8.5487172896137054e-15 tolerance=2e-12
+PASS insufficient_blocks_flagged max_error=0 tolerance=0
+PASS joint_jackknife_identity_error max_error=3.3368271095839065e-16 tolerance=2e-14
+PASS measurement_schedule max_error=0 tolerance=0
+PASS not_mean_of_block_ratios max_error=0 tolerance=0
+PASS phase_classification_counts max_error=0 tolerance=0
+PASS phase_classification_identity_ratio max_error=0 tolerance=2.0000000000000002e-15
+PASS phase_counts_reblock max_error=0 tolerance=0
+PASS phase_modulus_joint_jackknife max_error=0 tolerance=2.0000000000000002e-15
+PASS phase_not_rounded max_error=0 tolerance=2.0000000000000002e-15
+PASS proposal_counters max_error=0 tolerance=0
+PASS refresh_AR_endpoint_density max_error=2.2204460492503131e-16 tolerance=2e-12
+PASS refresh_Fock_log_ratio max_error=4.9960036108132044e-16 tolerance=2e-12
+PASS refresh_actual_accept_reject max_error=0 tolerance=0
+PASS refresh_detailed_balance max_error=8.8817841970012523e-16 tolerance=2e-12
+PASS refresh_failures_not_rejections max_error=0 tolerance=0
+PASS refresh_general_MH max_error=1.8873791418627661e-15 tolerance=2e-12
+PASS refresh_other_bonds_untouched max_error=0 tolerance=0
+PASS sampled_imaginary_parts max_error=0 tolerance=2e-12
+PASS singular_leave_one_flagged max_error=0 tolerance=0
+PASS state_coordinates max_error=0 tolerance=0
+PASS state_factors max_error=0 tolerance=0
+PASS state_green max_error=0 tolerance=2e-12
+PASS state_log_weight max_error=8.8817841970012523e-16 tolerance=2e-12
+PASS state_phase max_error=0 tolerance=2e-12
+PASS sweep_covers_all_nodes max_error=0 tolerance=0
+PASS unresolved_nonzero_phase_flagged max_error=0 tolerance=0
+PASS zero_phase_denominator_flagged max_error=0 tolerance=0

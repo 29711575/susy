@@ -1,0 +1,17 @@
+# Example --vbs-q-file for Lx=Ly=4, Jx=Jy=1, Jz=0.5 (bare couplings).
+# Format: one point per line "label u v" with Q = u*b1 + v*b2 in fractional
+# reciprocal coordinates of the code (b1,b2 from HoneycombLattice::reciprocal).
+# Blank lines and '#' / '//' comments are allowed; commas/tabs count as spaces.
+#
+# Bare iVBS prediction Q = +/- 2*Ktilde mod reciprocal lattice,
+# theta = acos(-Jz/(2 Jx)) = acos(-0.25), Qp = (theta/pi, 1-theta/pi):
+ivbs_Qp   0.5804306   0.4195694
+ivbs_Qm   0.4195694   0.5804306
+# Nearest shear=0 PBC grid momenta on Lx=Ly=4 (q index = n1*Ly+n2 = 10 here):
+g_q10     0.5         0.5
+g_q9      0.5         0.25
+# Kekule VBS K points (period-3); NOT on the L=4 grid:
+kek_Kp    0.3333333   0.6666667
+kek_Km    0.6666667   0.3333333
+# Uniform background diagnostic (excluded from candidate_max):
+qzero     0.0         0.0

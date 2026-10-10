@@ -1,0 +1,26 @@
+{
+ "fixed_before_results": true,
+ "seeds": [7301,7302,7303,7304,7305,7306,7307,7308],
+ "batches": [[7301,7302,7303,7304],[7305,7306,7307,7308]],
+ "physics": {"Lx":2,"Ly":2,"J":[1,1,0.5],"g":0.3,"mass":1.7,"omega_ph":0.8,"wilson_loops":[1,1]},
+ "trial_shift": [0.1378676470588235,0.1378676470588235,0.1378676470588235],
+ "T":3.2,"h":0.2,"intervals":16,"proposal":"bond-refresh",
+ "per_chain":{"warmup_sweeps":3200,"measurement_sweeps":8000,"measure_every":1,"raw_block":25},
+ "cpu_slots_per_batch":4,"threads_per_chain_and_math_library":1,
+ "binary_sha256":"75440fcce5f9781c2f89eb776d78d4209cc46509b07cdf8def34727d1be2edf4",
+ "primary": {
+  "observable":"Szz_q1","q_integer":[0,1],
+  "first_quarter_measured_sweeps_inclusive":[1,2000],
+  "fourth_quarter_measured_sweeps_inclusive":[6001,8000],
+  "chain_difference":"phase-reweighted Q4 minus Q1 within the same chain",
+  "estimate":"equal-weight mean of 8 paired chain differences",
+  "stderr":"sample SD of 8 paired differences divided by sqrt(8)",
+  "interval":"two-sided 95% Student-t with df=7; chains are independent repeats, blocks are not repeats",
+  "small_sample_caveat":"t interval assumes approximately normal independent chain differences; eight chains remain a small sample",
+  "practical_tolerance":0.02,
+  "criterion":"complete 95% interval inside [-0.02,0.02]"
+ },
+ "historical":"7101-7104 and 7201-7204 shown separately; never pooled into primary batch",
+ "auxiliary":"existing 100/200/400 blocking and diagnostics; no new veto conditions",
+ "stop":"exactly 8 new chains; no outcome-dependent additions and no T=6.4 in these jobs"
+}

@@ -1,0 +1,13 @@
+#!/bin/bash
+#PBS -N density_sign_reg
+#PBS -q workq
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=00:10:00
+#PBS -j oe
+export LC_ALL=C LANG=C
+source /opt/ohpc/pub/apps/intel/oneapi/setvars.sh >/dev/null 2>&1
+set -e
+cd "${PBS_O_WORKDIR:?}"
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_DYNAMIC=FALSE
+./density_sign_regression pure_state_driven_stage1/density_sign_fixtures
+date -Is

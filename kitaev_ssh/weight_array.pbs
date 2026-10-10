@@ -1,0 +1,30 @@
+#!/bin/bash
+#PBS -N kitaev_weight_array
+#PBS -q workq
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=00:15:00
+#PBS -J 1-4
+#PBS -j oe
+export LC_ALL=C LANG=C
+source /opt/ohpc/pub/apps/intel/oneapi/setvars.sh >/dev/null 2>&1
+set -euo pipefail
+cd "${PBS_O_WORKDIR:?}"
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_DYNAMIC=FALSE
+mode=$((PBS_ARRAY_INDEX-1))
+test "$mode" -ge 0 && test "$mode" -le 3
+trap 'code=$?; printf "%s\n" "$code" > "array_exit_${mode}.txt"' EXIT
+hostname; date -Is; sha256sum bench
+for repeat in 1 2; do
+ test ! -e "results/bench_${repeat}_${mode}.json"
+ ./bench "$mode" > "results/bench_${repeat}_${mode}.json" 2>"results/bench_${repeat}_${mode}.stderr"
+done
+if [[ $mode == 3 ]]; then
+ ./bench_profile 3 > results/combined_profile.json 2>results/combined_profile.stderr
+fi
+engines=(reference svd-values node-merge combined)
+engine=${engines[$mode]}
+./mc --Lx 2 --Ly 2 --Jz .5 --intervals 8 --dt .2 --proposal bond-refresh \
+ --trial-dx .1378676470588235 --trial-dy .1378676470588235 --trial-dz .1378676470588235 \
+ --weight-engine "$engine" --seed 7910 --warmup 2 --sweeps 8 --measure-every 1 --block-samples 2 --vbs 1 \
+ --output "results/smoke_$engine" > "results/smoke_$engine.stdout" 2>"results/smoke_$engine.stderr"
+date -Is

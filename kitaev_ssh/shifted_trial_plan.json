@@ -1,0 +1,11 @@
+{
+ "budget_fixed_before_results": true,
+ "physics": {"Lx":2,"Ly":2,"J":[1,1,0.5],"g":0.3,"mass":1.7,"omega_ph":0.8,"wilson_loops":[1,1]},
+ "trial_shift":[0.1378676470588235,0.1378676470588235,0.1378676470588235],
+ "h":0.2,"T":[1.6,3.2],"seeds":[6701,6702,6801,6802],
+ "per_chain":{"warmup":400,"measurement_sweeps":1600,"stride":1,"block_samples":25},
+ "proposal":"bond-refresh", "primary_block_sweeps":100,
+ "Szz_scale":0.02,"TrS_scale":0.04,
+ "baseline":"reuse P5 t16_a/b/c and t32_a/b/c at d=0; do not pool distinct trial states",
+ "stop":"one batch only; no extension for significance; no automatic T/size/coupling scan"
+}

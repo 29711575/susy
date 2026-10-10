@@ -1,0 +1,23 @@
+{
+  "scope": "fixed_gauge_matter_sector",
+  "physical_parameters": {"Lx": 2, "Ly": 2, "Jx": 1, "Jy": 1, "Jz": 0.5, "g": 0.3, "mass": 1.7, "omega_ph": 0.8},
+  "fixed_momentum_indices": [1, 3],
+  "fixed_momentum_integer_coordinates": [[0, 1], [1, 1]],
+  "primary_observables": ["Szz_q1", "TrS_q1", "Szz_q3", "TrS_q3"],
+  "absolute_tolerances": {"Szz_q1": 0.02, "Szz_q3": 0.02, "TrS_q1": 0.04, "TrS_q3": 0.04},
+  "intervals": "two-sided approximate normal 95%; simultaneous four-observable intervals also reported",
+  "primary_block_sweeps": 100,
+  "diagnostic_block_sweeps": [25, 50, 100, 200, 400],
+  "chain_boundary_policy": "reblock within each chain only; stratified joint phase/numerator jackknife; never pool different T,h or physical/gauge/trial parameters",
+  "p4_reuse": "audit/planning and same-target algorithm checks; P5 primary comparisons use new independent chains, not the data that selected the P4 discrepancy",
+  "initial_decision": "increase independent statistics at T=.8 and 1.6, h=.2 before selecting additional projection lengths",
+  "groups": {
+    "T08_h02": ["t08_a", "t08_b"],
+    "T16_h02": ["t16_a", "t16_b", "t16_c"],
+    "T32_h02": ["t32_a", "t32_b", "t32_c"],
+    "T32_h01": ["t32_h01_a", "t32_h01_b"]
+  },
+  "projection_extension_decision": "P5 T=.8->1.6 TrS(q1) difference .01063 +/- .01120 SE, versus P4 .071; nonzero-q precision is now useful, but uniform trace background changes .03417 +/- .00268. Extend only to T=3.2 at h=.2 rather than adding more samples at the original two T values. Same absolute targets, two independent 8000-sweep chains.",
+  "final_fixed_budget_decision": "T=1.6->3.2 TrS(q1) difference -.00250 +/- .01168, while Szz(q3) marginal upper bound .02116 is slightly above .02 and uniform background is still growing. Add exactly one independent 8000-sweep chain at each of T=1.6 and 3.2, then stop supplementation regardless of pass/fail. Check only h=.1 at T=3.2 with two new 8000-sweep chains. No T=6.4, third step or size/coupling grid this round.",
+  "final_interval_look_safeguard": "Besides marginal 95% and four-observable simultaneous intervals, report a two-look Bonferroni safeguard for the supplementary projection/statistics decisions. These remain approximate block-normal intervals, not exact sequential guarantees."
+}

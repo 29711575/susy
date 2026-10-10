@@ -1,0 +1,15 @@
+{
+ "budget_fixed_before_results":true,
+ "physics":{"Lx":2,"Ly":2,"J":[1,1,0.5],"g":0.3,"mass":1.7,"omega_ph":0.8,"wilson_loops":[1,1]},
+ "trial_shift":[0.1378676470588235,0.1378676470588235,0.1378676470588235],
+ "h":0.2,"T":[1.6,3.2],"intervals":[8,16],"seeds":[6901,6902,7001,7002],
+ "per_chain":{"warmup":800,"measurement_sweeps":8000,"stride":1,"block_samples":25},
+ "proposal":"bond-refresh","CPUs":4,"threads_per_chain":1,
+ "primary_block_sweeps":200,"focus_block_sweeps":[100,200,400],
+ "primary_data":"new long chains only; 400 sweeps leaves 20 blocks in each chain",
+ "historical_data":"separate supplemental comparison to previous shifted 1600-sweep chains; not pooled",
+ "quantities":["X_z","uniform_background_trace","Szz_q1","TrS_q1","Szz_q3","TrS_q3"],
+ "Szz_scale":0.02,"TrS_scale":0.04,
+ "binary_sha256":"75440fcce5f9781c2f89eb776d78d4209cc46509b07cdf8def34727d1be2edf4",
+ "stop":"exactly four new chains; no data-dependent extension or T/size/coupling scan"
+}

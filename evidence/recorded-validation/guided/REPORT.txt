@@ -1,0 +1,89 @@
+quick1010 guided 采样优化整合审查
+日期：2026-10-10，Asia/Shanghai。
+
+结论：固定参考整键 pCN 与固定 q 池扩展的实现合理，已选择性整合到
+/home/asus/newsusy/quick1010。保持物理目标分布、Hamiltonian、trial、相位
+重加权及测量定义；原 Pfaffian/Green 内核和已验证的半步优化不变。
+快照、最终 manifest 和本机二进制身份另存于本目录及 quick1010。
+
+输入与完整性
+源码包 SHA256：21166ee4066c34508d5b392e3c18d593b554409fb5e240f68072885c357431a3
+测试包 SHA256：1b03d7e6bd609527a026d1bb7ecca6dcc7a255c38413697ac42725b53198743a
+两个 ZIP 完整性通过；源码 329 项、测试证据 141 项 SHA256SUMS 全部通过。
+输入压缩包和用户提供的报告保留在 quick1010/new，未修改。
+候选与基线差异见 candidate.diff、comparison.json；整合前原版保存在
+baseline-source/，上传内容保存在 candidate-source/ 和 candidate-tests/。
+
+审查要点
+1. 固定参考力只用于提议均值。目标仍是 W_ph(X)|W_f(X)|，参考接受率为
+   matter log magnitude 差减 f_b sum_j w_j (X'_jb-X_jb)，其中端点权重
+   w=tanh(omega*dt/2)/omega、内点权重 2w。实现保留这项修正；参考均值
+   与独立 Cw 求和一致，完整前后向 Gaussian 密度与简化 MH 比一致。
+   bare 参考由固定裸模型初始化并冻结，不是更新物理外场或 trial。
+2. q 池为固定、与构型无关的均匀混合，各项实正交模式保持原自由参考
+   可逆性。基础 guided 更新和 q 更新使用各自的接受率。Gamma、重复
+   q/-q、非法键类型和互斥 CLI 被检查；all-q 物理测量保持原样。
+3. 整键与集体候选沿用不可变快照提交/拒绝和一次无缓存参考恢复。
+   数值失败不当作拒绝，同候选/同随机数重试，持续失败中止。
+4. inc/ 全部文件加 Hamiltonian/几何/声子路径/投影/测量等共 116 个
+   关键组件与原版逐字节相同，见 unchanged-components.json。
+5. 未直接覆盖项目指令或用候选元数据冒充本机验收。补齐上传包遗漏的
+   scripts/build_nodeps.sh 的 kitaev_ssh_guided_validate 注册，更新本地
+   CODE_MAP、STATUS、交接、出处与使用说明。完整最终 diff 另存。
+
+本次实际验证（不是把上传报告算作本次执行）
+环境：GCC/gfortran 15.2、MKL 2026.1 sequential、Eigen/Boost 既有本机依赖；
+-O3 -DNDEBUG -std=c++17 -DPFQMC_SCALE_SAFE_UDT -fno-fast-math -ffp-contract=off。
+OMP/MKL/OpenBLAS/BLIS 均 1 线程，MKL_DYNAMIC=FALSE。
+新旧程序均从本次保留的源树重新构建，未拿旧生产二进制替代基线构建。
+构建输出见 build-baseline.log、build-candidate.log，构建参数见各自的
+scripts/build_nodeps.sh。没有使用上传包的 OpenBLAS 兼容层。
+
+PASS 新 guided_proposal_validate：精确 Gaussian/MH、开放端点和真实源、
+错误参考力 Fock、非对易剪切系统、接受/拒绝、恢复/持续失败、多键正交、
+池输入、g=0 池及精确线性热浴。最大确定性残差 7.780442956573097e-13；
+0.014818438728930697 是有限样本差，不是详细平衡误差。见 native-guided.log。
+PASS 原 q_mode_validate，见 native-q-mode.log。
+PASS 原 mc_validate，见 native-mc.log。
+PASS 原 numerical_failure_validate，见 native-numerical-failure.log。
+PASS 原 vbs_susceptibility_validate：源项有限差分误差 8.5546035533123899e-11，
+自由响应误差 6.6613381477509392e-16，Fourier 误差 1.1857187100668868e-16。
+见 native-vbs-susceptibility.log 和 native-validation-summary.json。
+基线生产程序及候选生产程序/五个专项验证目标均编译成功、exit0；上述
+检查全部 PASS。当前源码与实际编译的 numerical/source 文件逐一核对一致。
+
+PASS 原生 CLI 11 项，见 native_regressions.py、native-regressions.json、
+native-commands.json 和 native-results-release/：
+- local/bond-refresh × q 开/关四组，同 seed；测量 blocks 与 warmup CSV
+  逐字节相同，共有物理 JSON、路径、计数、相位精确一致。
+- zero guide/beta1 退化为旧 bond-refresh，blocks、路径/计数/相位一致。
+- guided bare/manual override + xyz 池及计数，guided + 实际 VBS 源/固定
+  非零 trial shift 完成且数值失败为零。
+- Gamma、重复池、池与单 q 参数冲突、local 错用 guide 参数被拒绝。
+比较排除运行耗时和 argv（可执行文件/输出位置不同）；物理字段未放宽。
+首轮审计脚本误把 argv 的文件路径差异计入物理差异，保留该断言日志；
+修正后使用新输出目录重跑通过。再次使用旧前缀时，程序的防覆盖检查
+正确拒绝运行，也保留其日志；这些不是生产权重或采样错误。
+
+PASS 原生 L9 尺寸 smoke：J=(1,1,.5)、g=sqrt(2.4)、omega=.3、k=1，
+M8、dt=.1、总 tau=.8、warmup1+sweeps2，guided bare/beta1、单 q(5,4)、
+combined/deferred/prefix/Cayley、VBS/chi/fermions/energy 全开。
+完成 244 个预热提议及 488 个测量提议，数值失败为零，采样部分墙钟约
+26.48 秒；命令包含在该结果的 argv 中。见 native-L9-smoke.log 与
+native-results-release/L9-smoke_results.json。这只是尺寸和入口检查。
+
+使用与证据边界
+按用户已授权的“验证后默认启用适用优化”偏好，未来普通整键链显式用
+--proposal bond-guided --bond-guide bare --bond-beta 1，沿用原单 q 设置。
+对照或用户指定的 local/bond-refresh 优先；CLI 默认仍保留 local。
+q 池/多键配置正确性可用，但上传包自己的小系统结果也未显示普遍更快，
+因此按具体采样目的选择。pool q-diagnostic 仅记录首项 z 分量。
+本次未重跑上传报告的长性能 benchmark，未认证 L9/tau8 或 tau14 的
+每有效样本 CPU 改善、热化截断、自相关、长链或物理投影收敛。不要由
+高接受率或 L2 位移结果推断临界极化率加速，也不据此缩短 tau/warmup。
+未提交 HPC 作业，未改变 fast-1006 源码、既有任务和冻结生产二进制。
+
+可直接运行的本机构建：quick1010/build-guided-20261010/run_mc.sh。
+该 wrapper 显式设置 MKL 库路径及单线程；生产/对照参数仍由调用者显式
+传入，不替调用者决定物理参数。SOURCE_BUILD.json 记录冻结源码 manifest、
+snapshot 与二进制身份，final-source/ 和 source.tar.gz 保存本次最终源码。

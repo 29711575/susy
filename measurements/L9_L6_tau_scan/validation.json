@@ -1,0 +1,7 @@
+{
+  "weighted_reconstruction_max_residual": 4.263256414560601e-14,
+  "completed_L6_cut3000_vs_prior_max_residual": 1.1102230246251565e-15,
+  "excluded_only_insufficient_sweeps": 22,
+  "L9_cells": 85,
+  "L6_cells": 13
+}

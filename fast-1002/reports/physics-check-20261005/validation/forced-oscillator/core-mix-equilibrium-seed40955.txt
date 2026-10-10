@@ -1,1 +1,0 @@
-omega=0.050000000000000003 init=equilibrium seed=40955 exact_center=1.5208220410978099 measured_center=1.6086946921308705 accepted=0 proposed=1000 numerical_failures=0

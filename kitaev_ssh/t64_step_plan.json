@@ -1,0 +1,11 @@
+{
+ "fixed_before_results":true,
+ "coarse":{"h":0.2,"intervals":32,"T":6.4,"seeds":[7401,7402,7403,7404],"source":"build-kitaev-p01/t32_t64_projection/results"},
+ "fine":{"h":0.1,"intervals":64,"T":6.4,"seeds":[7501,7502,7503,7504],"warmup_sweeps":3200,"measurement_sweeps":8000,"measure_every":1,"raw_block":25},
+ "common":{"Lx":2,"Ly":2,"J":[1,1,0.5],"g":0.3,"mass":1.7,"omega_ph":0.8,"wilson_loops":[1,1],"trial_shift":[0.1378676470588235,0.1378676470588235,0.1378676470588235],"proposal":"bond-refresh"},
+ "compute":{"cpu_slots":4,"threads_per_chain_and_math_library":1},
+ "binary_sha256":"75440fcce5f9781c2f89eb776d78d4209cc46509b07cdf8def34727d1be2edf4",
+ "statistics":{"primary_block_sweeps":200,"sensitivity_block_sweeps":[100,200,400],"comparison":"h=.1 minus h=.2","estimator":"chain-preserving joint complex phase/numerator jackknife; separate group sample weights","reported":["X_z","uniform_background_trace","Szz_q1","TrS_q1","Szz_q3","TrS_q3"],"multiple_observable_family":["Szz_q1","TrS_q1","Szz_q3","TrS_q3"],"targets":{"Szz_q1":0.02,"Szz_q3":0.02,"TrS_q1":0.04,"TrS_q3":0.04},"criterion":"complete blocking-sensitive four-observable 95-percent interval inside target","auxiliary":"fine-chain time, chain, phase, numerical and blocking diagnostics; no new isolated 3-sigma veto"},
+ "conditional_second_order":{"formula":"if O(h)=O(0)+c*h^2+O(h^4), then O(.1)-O(0)=-[O(.1)-O(.2)]/3","interval":"linear propagation of the same difference intervals divided by -3","limitation":"two steps neither establish the asymptotic h^2 regime nor turn this extrapolation into a measured continuum result"},
+ "stop":"exactly four new fine-step chains; no outcome-dependent additions, h=.05, T=12.8, size or coupling scan"
+}

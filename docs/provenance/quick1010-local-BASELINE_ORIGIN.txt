@@ -1,0 +1,25 @@
+Active code optimization baseline: /home/asus/newsusy/quick1010
+Selected by user: 2026-10-10 (Asia/Shanghai)
+Archive: ../fast-1006/audit/1010/core-code-for-gpt/fast-1006-core-current-20261010.zip
+Archive SHA256: 0a200aea9559becbafd23874166bc1e6da0d27ea25b3b0514aec5328c43732b7
+
+The archive's outer fast-1006/ directory was removed during extraction.
+ZIP integrity and all 321 SHA256SUMS entries passed before local documentation edits.
+No source code was modified, compiled, or executed during extraction.
+AGENTS.md was then updated to identify quick1010 as the optimization baseline.
+SHA256SUMS and SNAPSHOT.json are preserved as original archive provenance;
+the inherited AGENTS.md checksum therefore describes the original archive file.
+Existing submitted jobs, historical source directories, and the input archive remain unchanged.
+
+2026-10-10 guided-sampling integration:
+Source archive: new/fast1006_guided_sampling_source_20261010.zip
+Source archive SHA256: 21166ee4066c34508d5b392e3c18d593b554409fb5e240f68072885c357431a3
+Evidence archive: new/fast1006_guided_sampling_tests_20261010.zip
+Evidence archive SHA256: 1b03d7e6bd609527a026d1bb7ecca6dcc7a255c38413697ac42725b53198743a
+Approved source files were selectively integrated; local project instructions were preserved.
+Original source and metadata are backed up under:
+../fast-1006/audit/1010/quick1010-guided-integration/baseline-source/
+Added native validation target to scripts/build_nodeps.sh.
+SHA256SUMS and SNAPSHOT.json now describe the integrated source;
+ORIGINAL_SHA256SUMS and SNAPSHOT.original.json describe the original uploaded snapshot.
+See the integration REPORT.txt for native build and test results and their limits.

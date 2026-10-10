@@ -1,0 +1,12 @@
+#!/bin/bash
+#PBS -N kitaev_weight_replay
+#PBS -q workq
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=00:10:00
+#PBS -j oe
+export LC_ALL=C LANG=C
+set -e
+cd "${PBS_O_WORKDIR:?}"
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_DYNAMIC=FALSE
+./replay > results/replay.json 2> results/replay.stderr
+date -Is

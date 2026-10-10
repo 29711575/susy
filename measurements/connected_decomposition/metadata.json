@@ -1,0 +1,212 @@
+{
+  "sources": [
+    {
+      "campaign": "tau_scan",
+      "path": "/home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/measurements/L9_L6_tau_scan/order-snapshot-20015.json.gz",
+      "sha256": "1975ad5178c88970bb5a9ce31457b1dcd692430c065d02f6cdf9788242b6f15e",
+      "start": "2026-10-10T07:51:38.425076Z",
+      "finish": "2026-10-10T07:53:36.995948Z"
+    },
+    {
+      "campaign": "tau_scan",
+      "path": "/home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/measurements/L9_L6_tau_scan/order-snapshot-20022.json.gz",
+      "sha256": "95217c701a0d899c8000593cff35b7bda95e4368a67be0875e9ed7221113967a",
+      "start": "2026-10-10T07:46:03.320680Z",
+      "finish": "2026-10-10T07:48:17.786892Z"
+    },
+    {
+      "campaign": "tau8_lambda_scan",
+      "path": "/home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/measurements/L9_tau8_lambda/order-snapshot-20015.json.gz",
+      "sha256": "32ae68f4cac05f425dd9217c8aeb88745f0a15eab465da340ac368b70ec4e0b2",
+      "start": "2026-10-10T06:25:13.011992Z",
+      "finish": "2026-10-10T06:26:55.425345Z"
+    },
+    {
+      "campaign": "tau8_lambda_scan",
+      "path": "/home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/measurements/L9_tau8_lambda/order-snapshot-20022.json.gz",
+      "sha256": "5082bd9761e228c7fd7e77c28b7b042cb1afd3dc1c9e8dfd85f50b1743b4b9a6",
+      "start": "2026-10-10T06:19:39.119717Z",
+      "finish": "2026-10-10T06:20:01.849159Z"
+    }
+  ],
+  "cells": 125,
+  "identity_max_residual": 0.0,
+  "prior_plotted_chi_max_residual": 0.0,
+  "definition": "Cfull=Re(<ChiRaw>)=Nc Re(<D Iconj>); Cdisc=Nc Re(<D><Iconj>); chi=Cfull-Cdisc. Every ensemble mean uses pooled complex-phase sums.",
+  "fixed_targets": {
+    "L9": "n=(5,4), q=(5/9,4/9)",
+    "L6": "n=(3,3), q=(1/2,1/2)"
+  },
+  "error": "Delete-one-seed jackknife, recompute pooled means and their product. For decomposition at selected connected-peak q, q is held fixed across replicas to keep the additive identity; prior peak curves recomputed their maximum per replicate.",
+  "summary": {
+    "tau_scan_L9_fixed_target": {
+      "cells": 20,
+      "median_absolute_disc_percent": 0.6853802413903776,
+      "max_absolute_disc_percent": 3.5535379531609235,
+      "largest": {
+        "campaign": "tau_scan",
+        "L": 9,
+        "lambda_value": 2.6,
+        "tau": 14.0,
+        "selection": "fixed_target",
+        "q": 49,
+        "n1": 5,
+        "n2": 4,
+        "seeds": 10,
+        "retained_sweeps": 11670,
+        "discard_sweeps": 1000,
+        "C_full": 1.2282237913628435,
+        "C_full_stderr": 0.1113460968789725,
+        "C_disc": 0.043645398575830684,
+        "C_disc_stderr": 0.0541232280178505,
+        "chi": 1.1845783927870128,
+        "chi_stderr": 0.06682300923523268,
+        "disc_percent_of_full": 3.5535379531609235,
+        "disc_percent_stderr": 4.159318636303961,
+        "raw_peak_q": 48,
+        "connected_peak_q": 48
+      }
+    },
+    "tau_scan_L9_connected_peak": {
+      "cells": 20,
+      "median_absolute_disc_percent": 0.9278926964338425,
+      "max_absolute_disc_percent": 3.598192070649124,
+      "largest": {
+        "campaign": "tau_scan",
+        "L": 9,
+        "lambda_value": 2.4,
+        "tau": 12.0,
+        "selection": "connected_peak",
+        "q": 32,
+        "n1": 3,
+        "n2": 5,
+        "seeds": 8,
+        "retained_sweeps": 14140,
+        "discard_sweeps": 1000,
+        "C_full": 1.5049012616862003,
+        "C_full_stderr": 0.06527146370751127,
+        "C_disc": 0.05414923786909149,
+        "C_disc_stderr": 0.0273398081374893,
+        "chi": 1.4507520238171088,
+        "chi_stderr": 0.05901358694986958,
+        "disc_percent_of_full": 3.598192070649124,
+        "disc_percent_stderr": 1.7410374340997834,
+        "raw_peak_q": 48,
+        "connected_peak_q": 32
+      }
+    },
+    "tau_scan_L6_fixed_target": {
+      "cells": 13,
+      "median_absolute_disc_percent": 0.07706409765684955,
+      "max_absolute_disc_percent": 0.6941691382584044,
+      "largest": {
+        "campaign": "tau_scan",
+        "L": 6,
+        "lambda_value": 2.6,
+        "tau": 14.0,
+        "selection": "fixed_target",
+        "q": 21,
+        "n1": 3,
+        "n2": 3,
+        "seeds": 4,
+        "retained_sweeps": 48000,
+        "discard_sweeps": 3000,
+        "C_full": 1.1681857062600272,
+        "C_full_stderr": 0.04700617388101955,
+        "C_disc": 0.008109184650403086,
+        "C_disc_stderr": 0.010133442923380049,
+        "chi": 1.160076521609624,
+        "chi_stderr": 0.052516134902009994,
+        "disc_percent_of_full": 0.6941691382584044,
+        "disc_percent_stderr": 0.8985646702824577,
+        "raw_peak_q": 20,
+        "connected_peak_q": 20
+      }
+    },
+    "tau_scan_L6_connected_peak": {
+      "cells": 13,
+      "median_absolute_disc_percent": 0.22662254431288614,
+      "max_absolute_disc_percent": 1.950398203812802,
+      "largest": {
+        "campaign": "tau_scan",
+        "L": 6,
+        "lambda_value": 2.6,
+        "tau": 10.0,
+        "selection": "connected_peak",
+        "q": 20,
+        "n1": 3,
+        "n2": 2,
+        "seeds": 4,
+        "retained_sweeps": 48000,
+        "discard_sweeps": 3000,
+        "C_full": 1.4129567184584029,
+        "C_full_stderr": 0.030070322264823927,
+        "C_disc": 0.027558282457465003,
+        "C_disc_stderr": 0.0265615866278261,
+        "chi": 1.385398436000938,
+        "chi_stderr": 0.009821406607781493,
+        "disc_percent_of_full": 1.950398203812802,
+        "disc_percent_stderr": 1.835293797142168,
+        "raw_peak_q": 20,
+        "connected_peak_q": 20
+      }
+    },
+    "tau8_lambda_scan_L9_fixed_target": {
+      "cells": 27,
+      "median_absolute_disc_percent": 0.5383089878927755,
+      "max_absolute_disc_percent": 5.788035916405187,
+      "largest": {
+        "campaign": "tau8_lambda_scan",
+        "L": 9,
+        "lambda_value": 3.6,
+        "tau": 8.0,
+        "selection": "fixed_target",
+        "q": 49,
+        "n1": 5,
+        "n2": 4,
+        "seeds": 5,
+        "retained_sweeps": 8850,
+        "discard_sweeps": 500,
+        "C_full": 1.2073418963239246,
+        "C_full_stderr": 0.11786404054640831,
+        "C_disc": 0.06988138259303624,
+        "C_disc_stderr": 0.05276038325284951,
+        "chi": 1.1374605137308884,
+        "chi_stderr": 0.07017936889508293,
+        "disc_percent_of_full": 5.788035916405187,
+        "disc_percent_stderr": 3.8659826849783396,
+        "raw_peak_q": 32,
+        "connected_peak_q": 32
+      }
+    },
+    "tau8_lambda_scan_L9_connected_peak": {
+      "cells": 27,
+      "median_absolute_disc_percent": 1.0082668142100883,
+      "max_absolute_disc_percent": 7.865101846504567,
+      "largest": {
+        "campaign": "tau8_lambda_scan",
+        "L": 9,
+        "lambda_value": 5.0,
+        "tau": 8.0,
+        "selection": "connected_peak",
+        "q": 32,
+        "n1": 3,
+        "n2": 5,
+        "seeds": 5,
+        "retained_sweeps": 6370,
+        "discard_sweeps": 500,
+        "C_full": 1.8706187800707694,
+        "C_full_stderr": 0.2852309176878851,
+        "C_disc": 0.14712607221240728,
+        "C_disc_stderr": 0.12587991382607575,
+        "chi": 1.7234927078583622,
+        "chi_stderr": 0.18006083988546884,
+        "disc_percent_of_full": 7.865101846504567,
+        "disc_percent_stderr": 5.592702971788354,
+        "raw_peak_q": 32,
+        "connected_peak_q": 32
+      }
+    }
+  },
+  "limitations": "Frozen current plotted snapshots, not a fresh HPC collection; differing cutoff and chain scopes kept as separate campaigns. Small pooled first moments may reflect sector cancellation; does not establish equilibration or a physical low-energy mechanism. No autocorrelation estimate from aggregates. Cdisc need not be clipped positive for separately complex-phase-reweighted Iconj."
+}

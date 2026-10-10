@@ -1,1 +1,0 @@
-omega=0.050000000000000003 init=free seed=40956 exact_center=1.5208220410978099 measured_center=0.38374064366074012 accepted=2 proposed=1000 numerical_failures=0

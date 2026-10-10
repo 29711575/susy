@@ -1,0 +1,35 @@
+#!/bin/bash
+#PBS -N kitaev_l4_mixing
+#PBS -q workq
+#PBS -l nodes=1:ppn=4
+#PBS -l walltime=03:00:00
+#PBS -j oe
+export LC_ALL=C LANG=C
+source /opt/ohpc/pub/apps/intel/oneapi/setvars.sh >/dev/null 2>&1
+set -euo pipefail
+cd "${PBS_O_WORKDIR:?}"
+trap 'code=$?; printf "%s\n" "$code" > job_exit.txt' EXIT
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_DYNAMIC=FALSE
+binary=/home/sunxr/kitaev_shift_trial_20260916.1TSYvf/shifted_mc
+expected=75440fcce5f9781c2f89eb776d78d4209cc46509b07cdf8def34727d1be2edf4
+actual=$(sha256sum "$binary"); test "${actual%% *}" = "$expected"
+hostname; date -Is; sha256sum "$binary"
+mkdir results
+run() {
+ local seed=$1
+ "$binary" --Lx 4 --Ly 4 --Jx 1 --Jy 1 --Jz .5 --g .3 --mass 1.7 --omega-ph .8 \
+  --trial-dx .1378676470588235 --trial-dy .1378676470588235 --trial-dz .1378676470588235 \
+  --intervals 64 --dt .1 --proposal bond-refresh --seed "$seed" \
+  --warmup 800 --sweeps 1600 --measure-every 1 --block-samples 25 --qr-block 4 --vbs 1 \
+  --output "results/l4_$seed" > "results/l4_${seed}_stdout.log" 2> "results/l4_${seed}_stderr.log"
+}
+pids=()
+for seed in 7801 7802 7803 7804; do run "$seed" & pids+=("$!"); done
+code=0
+for pid in "${pids[@]}"; do
+ status=0; wait "$pid" || status=$?
+ printf 'chain exit %s\n' "$status"
+ if [[ $status != 0 ]]; then code=$status; fi
+done
+date -Is
+exit "$code"

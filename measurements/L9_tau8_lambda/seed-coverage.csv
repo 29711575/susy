@@ -1,0 +1,204 @@
+batch,seed,lambda_value,tau,status,raw_count,discard,count,blocks,root
+production-L9-omega0p3-chi-dense-tau8-20261007,106070000,3.0,8.0,partial,1930,500,1430,143,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070001,3.0,8.0,partial,1930,500,1430,143,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070002,3.0,8.0,partial,1910,500,1410,141,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070003,3.0,8.0,partial,1910,500,1410,141,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070004,3.0,8.0,partial,1330,500,830,83,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070005,3.0,8.0,partial,1310,500,810,81,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070006,2.9,8.0,partial,3750,500,3250,325,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070007,2.9,8.0,partial,3700,500,3200,320,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070008,2.9,8.0,partial,3750,500,3250,325,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070009,2.9,8.0,partial,3520,500,3020,302,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070010,2.9,8.0,partial,1320,500,820,82,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070011,2.9,8.0,partial,1200,500,700,70,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070012,2.9,8.0,partial,1210,500,710,71,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070013,2.9,8.0,partial,1210,500,710,71,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070014,2.9,8.0,partial,1210,500,710,71,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070015,2.9,8.0,partial,1210,500,710,71,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070016,2.8,8.0,partial,3460,500,2960,296,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070017,2.8,8.0,partial,3450,500,2950,295,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070018,2.8,8.0,partial,3450,500,2950,295,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070019,2.8,8.0,partial,3230,500,2730,273,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070020,2.8,8.0,partial,1200,500,700,70,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070021,2.8,8.0,partial,1210,500,710,71,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070022,2.8,8.0,partial,1210,500,710,71,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070023,2.8,8.0,partial,1200,500,700,70,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070024,2.8,8.0,partial,1210,500,710,71,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070025,2.8,8.0,partial,1240,500,740,74,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070026,2.7,8.0,partial,3330,500,2830,283,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070027,2.7,8.0,partial,3500,500,3000,300,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070028,2.7,8.0,partial,3510,500,3010,301,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070029,2.7,8.0,partial,3270,500,2770,277,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070030,2.7,8.0,partial,1250,500,750,75,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070031,2.7,8.0,partial,1220,500,720,72,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070032,2.7,8.0,partial,1230,500,730,73,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070033,2.7,8.0,partial,1190,500,690,69,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070034,2.7,8.0,partial,1250,500,750,75,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070035,2.7,8.0,partial,1260,500,760,76,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070036,2.6,8.0,partial,1800,500,1300,130,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070037,2.6,8.0,partial,1820,500,1320,132,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070038,2.6,8.0,partial,1800,500,1300,130,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070039,2.6,8.0,partial,1710,500,1210,121,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070040,2.6,8.0,partial,1250,500,750,75,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070041,2.6,8.0,partial,1240,500,740,74,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070042,2.5,8.0,partial,1170,500,670,67,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070043,2.5,8.0,partial,1150,500,650,65,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070044,2.5,8.0,partial,1150,500,650,65,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070045,2.5,8.0,partial,1150,500,650,65,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070046,2.5,8.0,partial,1160,500,660,66,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070047,2.5,8.0,partial,1150,500,650,65,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070048,2.5,8.0,partial,1160,500,660,66,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070049,2.5,8.0,partial,1150,500,650,65,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070050,2.5,8.0,partial,1160,500,660,66,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070051,2.5,8.0,partial,1150,500,650,65,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070052,2.4,8.0,partial,1780,500,1280,128,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070053,2.4,8.0,partial,1770,500,1270,127,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070054,2.4,8.0,partial,1780,500,1280,128,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070055,2.4,8.0,partial,1770,500,1270,127,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070056,2.4,8.0,partial,1160,500,660,66,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070057,2.4,8.0,partial,1150,500,650,65,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070058,2.3,8.0,partial,3240,500,2740,274,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070059,2.3,8.0,partial,3270,500,2770,277,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070060,2.3,8.0,partial,3240,500,2740,274,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070061,2.3,8.0,partial,3080,500,2580,258,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070062,2.3,8.0,partial,1150,500,650,65,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070063,2.3,8.0,partial,1160,500,660,66,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070064,2.3,8.0,partial,1140,500,640,64,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070065,2.3,8.0,partial,1140,500,640,64,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070066,2.3,8.0,partial,1140,500,640,64,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070067,2.3,8.0,partial,1140,500,640,64,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070068,2.2,8.0,partial,1100,500,600,60,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070069,2.2,8.0,partial,1100,500,600,60,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070070,2.2,8.0,partial,1080,500,580,58,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070071,2.2,8.0,partial,1070,500,570,57,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070072,2.2,8.0,partial,1080,500,580,58,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070073,2.2,8.0,partial,1100,500,600,60,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070074,2.2,8.0,partial,1100,500,600,60,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070075,2.2,8.0,partial,1080,500,580,58,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070076,2.2,8.0,partial,1090,500,590,59,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070077,2.2,8.0,partial,1080,500,580,58,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070078,2.1,8.0,partial,3250,500,2750,275,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070079,2.1,8.0,partial,3270,500,2770,277,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070080,2.1,8.0,partial,3280,500,2780,278,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070081,2.1,8.0,partial,3070,500,2570,257,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070082,2.1,8.0,partial,1150,500,650,65,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070083,2.1,8.0,partial,1160,500,660,66,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070084,2.1,8.0,partial,1150,500,650,65,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070085,2.1,8.0,partial,1160,500,660,66,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070086,2.1,8.0,partial,1140,500,640,64,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070087,2.1,8.0,partial,1170,500,670,67,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070088,2.0,8.0,partial,1680,500,1180,118,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070089,2.0,8.0,partial,1680,500,1180,118,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070090,2.0,8.0,partial,1650,500,1150,115,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070091,2.0,8.0,partial,1650,500,1150,115,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070092,2.0,8.0,partial,1150,500,650,65,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070093,2.0,8.0,partial,1160,500,660,66,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070094,1.9,8.0,partial,3270,500,2770,277,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070095,1.9,8.0,partial,3250,500,2750,275,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070096,1.9,8.0,partial,3260,500,2760,276,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070097,1.9,8.0,partial,3080,500,2580,258,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070098,1.9,8.0,partial,1170,500,670,67,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070099,1.9,8.0,partial,1340,500,840,84,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070100,1.9,8.0,partial,1350,500,850,85,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070101,1.9,8.0,partial,1310,500,810,81,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070102,1.9,8.0,partial,1340,500,840,84,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-dense-tau8-20261007,106070103,1.9,8.0,partial,1330,500,830,83,/home/sunxr/fast1006-L9-omega0p3-chi-dense-tau8-20015-20261007
+production-L9-omega0p3-chi-lambda1p3-1p8-tau8-20261008,106081320,1.6,8.0,partial,2190,500,1690,169,/home/sunxr/fast1006-L9-omega0p3-chi-lambda1p3-1p8-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda1p3-1p8-tau8-20261008,106081321,1.6,8.0,partial,2190,500,1690,169,/home/sunxr/fast1006-L9-omega0p3-chi-lambda1p3-1p8-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda1p3-1p8-tau8-20261008,106081322,1.6,8.0,partial,2150,500,1650,165,/home/sunxr/fast1006-L9-omega0p3-chi-lambda1p3-1p8-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda1p3-1p8-tau8-20261008,106081323,1.6,8.0,partial,1970,500,1470,147,/home/sunxr/fast1006-L9-omega0p3-chi-lambda1p3-1p8-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda1p3-1p8-tau8-20261008,106081350,1.3,8.0,partial,2160,500,1660,166,/home/sunxr/fast1006-L9-omega0p3-chi-lambda1p3-1p8-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda1p3-1p8-tau8-20261008,106081351,1.3,8.0,partial,2160,500,1660,166,/home/sunxr/fast1006-L9-omega0p3-chi-lambda1p3-1p8-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda1p3-1p8-tau8-20261008,106081352,1.3,8.0,partial,2170,500,1670,167,/home/sunxr/fast1006-L9-omega0p3-chi-lambda1p3-1p8-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda1p3-1p8-tau8-20261008,106081353,1.3,8.0,partial,2040,500,1540,154,/home/sunxr/fast1006-L9-omega0p3-chi-lambda1p3-1p8-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082800,2.975,8.0,partial,2250,500,1750,175,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082801,2.975,8.0,partial,2250,500,1750,175,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082802,2.975,8.0,partial,2240,500,1740,174,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082803,2.975,8.0,partial,2040,500,1540,154,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082804,2.975,8.0,partial,2040,500,1540,154,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082805,2.975,8.0,partial,2040,500,1540,154,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082810,2.95,8.0,partial,2240,500,1740,174,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082811,2.95,8.0,partial,2240,500,1740,174,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082812,2.95,8.0,partial,2240,500,1740,174,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082813,2.95,8.0,partial,2030,500,1530,153,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082814,2.95,8.0,partial,2030,500,1530,153,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082815,2.95,8.0,partial,2030,500,1530,153,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082820,2.925,8.0,partial,2240,500,1740,174,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082821,2.925,8.0,partial,2260,500,1760,176,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082822,2.925,8.0,partial,2250,500,1750,175,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082823,2.925,8.0,partial,2050,500,1550,155,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082824,2.925,8.0,partial,2050,500,1550,155,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082825,2.925,8.0,partial,2040,500,1540,154,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082830,2.875,8.0,partial,2250,500,1750,175,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082831,2.875,8.0,partial,2250,500,1750,175,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082832,2.875,8.0,partial,2260,500,1760,176,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082833,2.875,8.0,partial,2050,500,1550,155,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082834,2.875,8.0,partial,2040,500,1540,154,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082835,2.875,8.0,partial,2040,500,1540,154,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082840,2.85,8.0,partial,2600,500,2100,210,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082841,2.85,8.0,partial,2500,500,2000,200,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082842,2.85,8.0,partial,2520,500,2020,202,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082843,2.85,8.0,partial,2390,500,1890,189,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082844,2.85,8.0,partial,2370,500,1870,187,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082845,2.85,8.0,partial,2360,500,1860,186,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082850,2.825,8.0,partial,2150,500,1650,165,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082851,2.825,8.0,partial,2170,500,1670,167,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082852,2.825,8.0,partial,2180,500,1680,168,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082853,2.825,8.0,partial,1960,500,1460,146,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082854,2.825,8.0,partial,1990,500,1490,149,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20261008,106082855,2.825,8.0,partial,1980,500,1480,148,/home/sunxr/fast1006-L9-omega0p3-chi-lambda2p8-3-step0p025-tau8-20015-20261008
+production-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20261008,106083100,3.6,8.0,partial,2270,500,1770,177,/home/sunxr/fast1006-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20015-20261008
+production-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20261008,106083101,3.6,8.0,partial,2270,500,1770,177,/home/sunxr/fast1006-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20015-20261008
+production-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20261008,106083102,3.6,8.0,partial,2250,500,1750,175,/home/sunxr/fast1006-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20015-20261008
+production-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20261008,106083103,3.6,8.0,partial,2280,500,1780,178,/home/sunxr/fast1006-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20015-20261008
+production-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20261008,106083104,3.6,8.0,partial,2280,500,1780,178,/home/sunxr/fast1006-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20015-20261008
+production-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20261008,106083105,3.4,8.0,partial,2270,500,1770,177,/home/sunxr/fast1006-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20015-20261008
+production-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20261008,106083106,3.4,8.0,partial,2290,500,1790,179,/home/sunxr/fast1006-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20015-20261008
+production-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20261008,106083107,3.4,8.0,partial,2240,500,1740,174,/home/sunxr/fast1006-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20015-20261008
+production-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20261008,106083108,3.4,8.0,partial,2240,500,1740,174,/home/sunxr/fast1006-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20015-20261008
+production-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20261008,106083109,3.4,8.0,partial,2230,500,1730,173,/home/sunxr/fast1006-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20015-20261008
+production-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20261008,106083110,3.2,8.0,partial,2230,500,1730,173,/home/sunxr/fast1006-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20015-20261008
+production-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20261008,106083111,3.2,8.0,partial,2230,500,1730,173,/home/sunxr/fast1006-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20015-20261008
+production-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20261008,106083112,3.2,8.0,partial,2230,500,1730,173,/home/sunxr/fast1006-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20015-20261008
+production-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20261008,106083113,3.2,8.0,partial,2230,500,1730,173,/home/sunxr/fast1006-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20015-20261008
+production-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20261008,106083114,3.2,8.0,partial,2240,500,1740,174,/home/sunxr/fast1006-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20015-20261008
+production-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20261008,106083115,3.1,8.0,partial,2100,500,1600,160,/home/sunxr/fast1006-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20015-20261008
+production-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20261008,106083116,3.1,8.0,partial,2110,500,1610,161,/home/sunxr/fast1006-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20015-20261008
+production-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20261008,106083117,3.1,8.0,partial,2100,500,1600,160,/home/sunxr/fast1006-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20015-20261008
+production-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20261008,106083118,3.1,8.0,partial,2100,500,1600,160,/home/sunxr/fast1006-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20015-20261008
+production-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20261008,106083119,3.1,8.0,partial,2110,500,1610,161,/home/sunxr/fast1006-L9-omega0p3-chi-lambda3p1-3p6-tau8-5seed-20015-20261008
+1009/production-L9-omega0p3-chi-lambda4-4p5-5-tau8-5seed-20261009,106094000,5.0,8.0,partial,1860,500,1360,136,/home/sunxr/fast1006-L9-lambda4-4p5-5-tau8-20261009
+1009/production-L9-omega0p3-chi-lambda4-4p5-5-tau8-5seed-20261009,106094001,5.0,8.0,partial,1860,500,1360,136,/home/sunxr/fast1006-L9-lambda4-4p5-5-tau8-20261009
+1009/production-L9-omega0p3-chi-lambda4-4p5-5-tau8-5seed-20261009,106094002,5.0,8.0,partial,1650,500,1150,115,/home/sunxr/fast1006-L9-lambda4-4p5-5-tau8-20261009
+1009/production-L9-omega0p3-chi-lambda4-4p5-5-tau8-5seed-20261009,106094003,5.0,8.0,partial,1770,500,1270,127,/home/sunxr/fast1006-L9-lambda4-4p5-5-tau8-20261009
+1009/production-L9-omega0p3-chi-lambda4-4p5-5-tau8-5seed-20261009,106094004,5.0,8.0,partial,1730,500,1230,123,/home/sunxr/fast1006-L9-lambda4-4p5-5-tau8-20261009
+1009/production-L9-omega0p3-chi-lambda4-4p5-5-tau8-5seed-20261009,106094005,4.5,8.0,partial,1740,500,1240,124,/home/sunxr/fast1006-L9-lambda4-4p5-5-tau8-20261009
+1009/production-L9-omega0p3-chi-lambda4-4p5-5-tau8-5seed-20261009,106094006,4.5,8.0,partial,1730,500,1230,123,/home/sunxr/fast1006-L9-lambda4-4p5-5-tau8-20261009
+1009/production-L9-omega0p3-chi-lambda4-4p5-5-tau8-5seed-20261009,106094007,4.5,8.0,partial,1720,500,1220,122,/home/sunxr/fast1006-L9-lambda4-4p5-5-tau8-20261009
+1009/production-L9-omega0p3-chi-lambda4-4p5-5-tau8-5seed-20261009,106094008,4.5,8.0,partial,1730,500,1230,123,/home/sunxr/fast1006-L9-lambda4-4p5-5-tau8-20261009
+1009/production-L9-omega0p3-chi-lambda4-4p5-5-tau8-5seed-20261009,106094009,4.5,8.0,partial,1730,500,1230,123,/home/sunxr/fast1006-L9-lambda4-4p5-5-tau8-20261009
+1009/production-L9-omega0p3-chi-lambda4-4p5-5-tau8-5seed-20261009,106094010,4.0,8.0,partial,1630,500,1130,113,/home/sunxr/fast1006-L9-lambda4-4p5-5-tau8-20261009
+1009/production-L9-omega0p3-chi-lambda4-4p5-5-tau8-5seed-20261009,106094011,4.0,8.0,partial,1630,500,1130,113,/home/sunxr/fast1006-L9-lambda4-4p5-5-tau8-20261009
+1009/production-L9-omega0p3-chi-lambda4-4p5-5-tau8-5seed-20261009,106094012,4.0,8.0,partial,1630,500,1130,113,/home/sunxr/fast1006-L9-lambda4-4p5-5-tau8-20261009
+1009/production-L9-omega0p3-chi-lambda4-4p5-5-tau8-5seed-20261009,106094013,4.0,8.0,partial,1630,500,1130,113,/home/sunxr/fast1006-L9-lambda4-4p5-5-tau8-20261009
+1009/production-L9-omega0p3-chi-lambda4-4p5-5-tau8-5seed-20261009,106094014,4.0,8.0,partial,1720,500,1220,122,/home/sunxr/fast1006-L9-lambda4-4p5-5-tau8-20261009
+original tau scan,10055060,3.0,8.0,partial,4650,500,4150,415,/home/sunxr/fast1002-L9-omega0p3-vbs-response-20022-run-20261006
+original tau scan,10055061,3.0,8.0,partial,4680,500,4180,418,/home/sunxr/fast1002-L9-omega0p3-vbs-response-20022-run-20261006
+original tau scan,10055062,3.0,8.0,partial,4680,500,4180,418,/home/sunxr/fast1002-L9-omega0p3-vbs-response-20022-run-20261006
+original tau scan,10055063,3.0,8.0,partial,4660,500,4160,416,/home/sunxr/fast1002-L9-omega0p3-vbs-response-20022-run-20261006
+original tau scan,10055064,2.6,8.0,partial,4650,500,4150,415,/home/sunxr/fast1002-L9-omega0p3-vbs-response-20022-run-20261006
+original tau scan,10055065,2.6,8.0,partial,4670,500,4170,417,/home/sunxr/fast1002-L9-omega0p3-vbs-response-20022-run-20261006
+original tau scan,10055066,2.6,8.0,partial,4660,500,4160,416,/home/sunxr/fast1002-L9-omega0p3-vbs-response-20022-run-20261006
+original tau scan,10055067,2.6,8.0,partial,4680,500,4180,418,/home/sunxr/fast1002-L9-omega0p3-vbs-response-20022-run-20261006
+original tau scan,10055068,2.4,8.0,partial,4680,500,4180,418,/home/sunxr/fast1002-L9-omega0p3-vbs-response-20022-run-20261006
+original tau scan,10055069,2.4,8.0,partial,4670,500,4170,417,/home/sunxr/fast1002-L9-omega0p3-vbs-response-20022-run-20261006
+original tau scan,10055070,2.4,8.0,partial,4660,500,4160,416,/home/sunxr/fast1002-L9-omega0p3-vbs-response-20022-run-20261006
+original tau scan,10055071,2.4,8.0,partial,4670,500,4170,417,/home/sunxr/fast1002-L9-omega0p3-vbs-response-20022-run-20261006
+original tau scan,10055072,2.0,8.0,partial,4590,500,4090,409,/home/sunxr/fast1002-L9-omega0p3-vbs-response-20022-run-20261006
+original tau scan,10055073,2.0,8.0,partial,4610,500,4110,411,/home/sunxr/fast1002-L9-omega0p3-vbs-response-20022-run-20261006
+original tau scan,10055074,2.0,8.0,partial,4620,500,4120,412,/home/sunxr/fast1002-L9-omega0p3-vbs-response-20022-run-20261006
+original tau scan,10055075,2.0,8.0,partial,4610,500,4110,411,/home/sunxr/fast1002-L9-omega0p3-vbs-response-20022-run-20261006
+original tau scan,10055076,1.3,8.0,partial,4510,500,4010,401,/home/sunxr/fast1002-L9-omega0p3-vbs-response-20022-run-20261006
+original tau scan,10055077,1.3,8.0,partial,4510,500,4010,401,/home/sunxr/fast1002-L9-omega0p3-vbs-response-20022-run-20261006
+original tau scan,10055078,1.3,8.0,partial,4530,500,4030,403,/home/sunxr/fast1002-L9-omega0p3-vbs-response-20022-run-20261006
+original tau scan,10055079,1.3,8.0,partial,4550,500,4050,405,/home/sunxr/fast1002-L9-omega0p3-vbs-response-20022-run-20261006

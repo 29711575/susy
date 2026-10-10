@@ -1,0 +1,19 @@
+{
+ "fixed_before_results": true,
+ "reference": {"T":3.2,"intervals":16,"seeds":[7301,7302,7303,7304,7305,7306,7307,7308],"source":"build-kitaev-p01/t32_replication8/results"},
+ "new": {"T":6.4,"intervals":32,"seeds":[7401,7402,7403,7404],"warmup_sweeps":3200,"measurement_sweeps":8000,"measure_every":1,"raw_block":25},
+ "common": {"Lx":2,"Ly":2,"J":[1,1,0.5],"g":0.3,"mass":1.7,"omega_ph":0.8,"wilson_loops":[1,1],"trial_shift":[0.1378676470588235,0.1378676470588235,0.1378676470588235],"dt":0.2,"proposal":"bond-refresh"},
+ "compute":{"cpu_slots":4,"threads_per_chain_and_math_library":1},
+ "binary_sha256":"75440fcce5f9781c2f89eb776d78d4209cc46509b07cdf8def34727d1be2edf4",
+ "statistics": {
+  "primary_block_sweeps":200,"sensitivity_block_sweeps":[100,200,400],
+  "estimator":"chain-preserving joint complex phase/numerator jackknife; groups retain their own samples and weights",
+  "comparison":"T6.4 minus T3.2",
+  "reported":["X_z","uniform_background_trace","Szz_q1","TrS_q1","Szz_q3","TrS_q3"],
+  "multiple_observable_family":["Szz_q1","TrS_q1","Szz_q3","TrS_q3"],
+  "targets":{"Szz_q1":0.02,"Szz_q3":0.02,"TrS_q1":0.04,"TrS_q3":0.04},
+  "criterion":"for each fixed-q observable, complete blocking-sensitive four-observable 95-percent interval must lie inside its target; nonsignificance alone is insufficient",
+  "auxiliary":"new T6.4 half/quarter, between-chain and blocking diagnostics; no additional isolated 3-sigma veto"
+ },
+ "stop":"exactly four new T6.4 chains; no result-dependent additions, no T12.8 and no size/coupling scan"
+}

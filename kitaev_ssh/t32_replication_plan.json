@@ -1,0 +1,27 @@
+{
+ "fixed_before_results": true,
+ "seeds": [7201,7202,7203,7204],
+ "physics": {"Lx":2,"Ly":2,"J":[1,1,0.5],"g":0.3,"mass":1.7,"omega_ph":0.8,"wilson_loops":[1,1]},
+ "trial_shift": [0.1378676470588235,0.1378676470588235,0.1378676470588235],
+ "T":3.2,"h":0.2,"intervals":16,"proposal":"bond-refresh",
+ "per_chain":{"warmup_sweeps":3200,"measurement_sweeps":8000,"measure_every":1,"raw_block":25},
+ "cpu_slots":4,"threads_per_chain_and_math_library":1,
+ "binary_sha256":"75440fcce5f9781c2f89eb776d78d4209cc46509b07cdf8def34727d1be2edf4",
+ "primary": {
+  "observable":"Szz_q1", "q_integer":[0,1],
+  "first_quarter_measured_sweeps_inclusive":[1,2000],
+  "fourth_quarter_measured_sweeps_inclusive":[6001,8000],
+  "chain_difference":"phase-reweighted Q4 mean minus phase-reweighted Q1 mean within the same independent chain",
+  "estimate":"equal-weight mean of the four chain differences; report pooled complex ratio contrast as a consistency comparison",
+  "stderr":"sample standard deviation of four paired chain differences divided by sqrt(4)",
+  "interval":"two-sided 95% Student t with df=3; chain, not block, is the independent replicate",
+  "small_sample_caveat":"t interval assumes approximately normal independent chain contrasts; only four chains, no distribution-free coverage claim",
+  "positive_replication":"95% interval lies above zero",
+  "practical_tolerance":0.02,
+  "small_change":"entire 95% interval lies within [-0.02,0.02]",
+  "readiness":"consider T=6.4 only if primary interval supports small change and phase/numerics are sound; positive replication and unresolved intervals are reported separately"
+ },
+ "auxiliary":"existing six-observable half/quarter/between-chain and 100/200/400 blocking; no per-diagnostic 3-sigma veto",
+ "historical":"7101-7104 separate descriptive comparison using the same chain-replicate method; no pooling with new data",
+ "stop":"exactly four chains; no outcome-dependent additions, budget changes or T=6.4 in this job"
+}

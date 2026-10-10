@@ -1,0 +1,214 @@
+{
+  "sources": [
+    {
+      "port": 20015,
+      "start": "2026-10-10T07:51:38.425076Z",
+      "finish": "2026-10-10T07:53:36.995948Z",
+      "sha256": "1975ad5178c88970bb5a9ce31457b1dcd692430c065d02f6cdf9788242b6f15e"
+    },
+    {
+      "port": 20022,
+      "start": "2026-10-10T07:46:03.320680Z",
+      "finish": "2026-10-10T07:48:17.786892Z",
+      "sha256": "95217c701a0d899c8000593cff35b7bda95e4368a67be0875e9ed7221113967a"
+    }
+  ],
+  "chains": 478,
+  "cells": 98,
+  "excluded": [
+    {
+      "tau": 12.0,
+      "reason": "No retained samples after cutoff 1000",
+      "seed": 106088034,
+      "raw_count": 860,
+      "lambda_value": 3.0,
+      "batch": "L9-add6"
+    },
+    {
+      "tau": 12.0,
+      "reason": "No retained samples after cutoff 1000",
+      "seed": 106088035,
+      "raw_count": 860,
+      "lambda_value": 3.0,
+      "batch": "L9-add6"
+    },
+    {
+      "tau": 12.0,
+      "reason": "No retained samples after cutoff 1000",
+      "seed": 106088040,
+      "raw_count": 840,
+      "lambda_value": 2.6,
+      "batch": "L9-add6"
+    },
+    {
+      "tau": 12.0,
+      "reason": "No retained samples after cutoff 1000",
+      "seed": 106088041,
+      "raw_count": 850,
+      "lambda_value": 2.6,
+      "batch": "L9-add6"
+    },
+    {
+      "tau": 12.0,
+      "reason": "No retained samples after cutoff 1000",
+      "seed": 106088045,
+      "raw_count": 840,
+      "lambda_value": 2.4,
+      "batch": "L9-add6"
+    },
+    {
+      "tau": 12.0,
+      "reason": "No retained samples after cutoff 1000",
+      "seed": 106088046,
+      "raw_count": 840,
+      "lambda_value": 2.4,
+      "batch": "L9-add6"
+    },
+    {
+      "tau": 12.0,
+      "reason": "No retained samples after cutoff 1000",
+      "seed": 106088051,
+      "raw_count": 840,
+      "lambda_value": 2.0,
+      "batch": "L9-add6"
+    },
+    {
+      "tau": 12.0,
+      "reason": "No retained samples after cutoff 1000",
+      "seed": 106088052,
+      "raw_count": 840,
+      "lambda_value": 2.0,
+      "batch": "L9-add6"
+    },
+    {
+      "tau": 12.0,
+      "reason": "No retained samples after cutoff 1000",
+      "seed": 106088057,
+      "raw_count": 840,
+      "lambda_value": 1.3,
+      "batch": "L9-add6"
+    },
+    {
+      "tau": 12.0,
+      "reason": "No retained samples after cutoff 1000",
+      "seed": 106088058,
+      "raw_count": 840,
+      "lambda_value": 1.3,
+      "batch": "L9-add6"
+    },
+    {
+      "tau": 10.0,
+      "reason": "No retained samples after cutoff 3000",
+      "seed": 106086006,
+      "raw_count": 620,
+      "lambda_value": 2.95,
+      "batch": "L6-fine"
+    },
+    {
+      "tau": 10.0,
+      "reason": "No retained samples after cutoff 3000",
+      "seed": 106086007,
+      "raw_count": 620,
+      "lambda_value": 2.95,
+      "batch": "L6-fine"
+    },
+    {
+      "tau": 10.0,
+      "reason": "No retained samples after cutoff 3000",
+      "seed": 106086008,
+      "raw_count": 620,
+      "lambda_value": 2.95,
+      "batch": "L6-fine"
+    },
+    {
+      "tau": 10.0,
+      "reason": "No retained samples after cutoff 3000",
+      "seed": 106086009,
+      "raw_count": 620,
+      "lambda_value": 2.95,
+      "batch": "L6-fine"
+    },
+    {
+      "tau": 10.0,
+      "reason": "No retained samples after cutoff 3000",
+      "seed": 106086016,
+      "raw_count": 610,
+      "lambda_value": 2.9,
+      "batch": "L6-fine"
+    },
+    {
+      "tau": 10.0,
+      "reason": "No retained samples after cutoff 3000",
+      "seed": 106086017,
+      "raw_count": 610,
+      "lambda_value": 2.9,
+      "batch": "L6-fine"
+    },
+    {
+      "tau": 10.0,
+      "reason": "No retained samples after cutoff 3000",
+      "seed": 106086018,
+      "raw_count": 610,
+      "lambda_value": 2.9,
+      "batch": "L6-fine"
+    },
+    {
+      "tau": 10.0,
+      "reason": "No retained samples after cutoff 3000",
+      "seed": 106086019,
+      "raw_count": 610,
+      "lambda_value": 2.9,
+      "batch": "L6-fine"
+    },
+    {
+      "tau": 10.0,
+      "reason": "No retained samples after cutoff 3000",
+      "seed": 106086026,
+      "raw_count": 590,
+      "lambda_value": 2.85,
+      "batch": "L6-fine"
+    },
+    {
+      "tau": 10.0,
+      "reason": "No retained samples after cutoff 3000",
+      "seed": 106086027,
+      "raw_count": 590,
+      "lambda_value": 2.85,
+      "batch": "L6-fine"
+    },
+    {
+      "tau": 10.0,
+      "reason": "No retained samples after cutoff 3000",
+      "seed": 106086028,
+      "raw_count": 590,
+      "lambda_value": 2.85,
+      "batch": "L6-fine"
+    },
+    {
+      "tau": 10.0,
+      "reason": "No retained samples after cutoff 3000",
+      "seed": 106086029,
+      "raw_count": 590,
+      "lambda_value": 2.85,
+      "batch": "L6-fine"
+    }
+  ],
+  "retained_sweeps": 2572730,
+  "cuts": "L9 tau>6:1000, tau<=6:0; L6:3000",
+  "definition": "chi(q)=<ChiRaw(q)>-Nc<ChiD(q)><ChiIconj(q)>; pool raw sums and common phase before connected subtraction and q maximum; no free-phonon subtraction",
+  "error": "delete-one-independent-seed jackknife1SE; pool and connected subtraction and peak recomputed",
+  "weighted_reconstruction_max_residual": 4.263256414560601e-14,
+  "original_scan_weighted_residual": 8.526512829121202e-14,
+  "outputs": [
+    "chi-vs-tau-L9.png",
+    "chi-vs-tau-L9-loglog.png",
+    "chi-vs-tau-L9-fixed-q49.png",
+    "chi-vs-tau-L9-fixed-q49-loglog.png",
+    "chi-vs-lambda-L6-tau10.png",
+    "chi-vs-lambda-L6-tau14.png",
+    "chi-vs-lambda-L6-all-tau.png"
+  ],
+  "scope": "OriginalL9 tau scan340 plus add6tau10/12/14 90; originalL6tau10/14 40 plus fineL6tau10 30; controls and later algorithms excluded",
+  "limitations": "Incomplete/stopped chain data included where past cutoff; no certification of thermalization, autocorrelation or ground-state limit; nonzero-q maxima may have selection bias"
+}
+Reproduce frozen snapshot: python3 plot.py

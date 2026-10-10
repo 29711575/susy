@@ -1,0 +1,207 @@
+building kitaev_ssh_mc
+In file included from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/phonon_projector.h:4,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/phonon_mc.h:4,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/coupled_mc.cpp:1:
+/home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/phonon_path.h: In member function ‘double kitaev_ssh::PhononPath::freeMean(int, int) const’:
+/home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/phonon_path.h:72:20: warning: ignoring return value of ‘std::vector<_Tp, _Alloc>::const_reference std::vector<_Tp, _Alloc>::at(size_type) const [with _Tp = double; _Alloc = std::allocator<double>; const_reference = const double&; size_type = long unsigned int]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+   72 |         x_.at(j).at(b);
+      |         ~~~~~~~~~~~^~~
+In file included from /usr/include/c++/15/vector:68,
+                 from /usr/include/c++/15/bits/random.h:34,
+                 from /usr/include/c++/15/random:50,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/phonon_path.h:9:
+/usr/include/c++/15/bits/stl_vector.h:1332:7: note: declared here
+ 1332 |       at(size_type __n) const
+      |       ^~
+In file included from /home/asus/.cache/pfqmc_boost_1_70_0/boost/multiprecision/number.hpp:27,
+                 from /home/asus/.cache/pfqmc_boost_1_70_0/boost/multiprecision/cpp_dec_float.hpp:29,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/inc/pure_projector_mp.h:9,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/inc/pure_projector_fast.h:8,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/phonon_projector.h:7:
+/home/asus/.cache/pfqmc_boost_1_70_0/boost/container_hash/hash.hpp: At global scope:
+/home/asus/.cache/pfqmc_boost_1_70_0/boost/container_hash/hash.hpp:130:33: warning: ‘template<class _Arg, class _Result> struct std::unary_function’ is deprecated [-Wdeprecated-declarations]
+  130 |         struct hash_base : std::unary_function<T, std::size_t> {};
+      |                                 ^~~~~~~~~~~~~~
+In file included from /usr/include/c++/15/string:51,
+                 from /usr/include/c++/15/bits/locale_classes.h:42,
+                 from /usr/include/c++/15/bits/ios_base.h:43,
+                 from /usr/include/c++/15/iomanip:47,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/phonon_path.h:5:
+/usr/include/c++/15/bits/stl_function.h:120:12: note: declared here
+  120 |     struct unary_function
+      |            ^~~~~~~~~~~~~~
+In file included from /home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/Core:377,
+                 from /home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/Dense:1,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/inc/types.h:20,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/inc/skewMatUtils.h:4,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/kitaev_ssh_model.h:5,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/free_projector.h:4,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/phonon_projector.h:6:
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Assign_MKL.h: In instantiation of ‘static void Eigen::internal::Assignment<DstXprType, Eigen::CwiseUnaryOp<Eigen::internal::scalar_exp_op<std::complex<double> >, SrcXprNested>, Eigen::internal::assign_op<std::complex<double>, std::complex<double> >, Eigen::internal::Dense2Dense, typename Eigen::internal::enable_if<Eigen::internal::vml_assign_traits<Dst, Src>::EnableVml>::type>::run(DstXprType&, const SrcXprType&, const Eigen::internal::assign_op<std::complex<double>, std::complex<double> >&) [with DstXprType = Eigen::Matrix<std::complex<double>, -1, -1>; SrcXprNested = const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> >; SrcXprType = Eigen::CwiseUnaryOp<Eigen::internal::scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >]’:
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/AssignEvaluator.h:890:49:   required from ‘void Eigen::internal::call_assignment_no_alias(Dst&, const Src&, const Func&) [with Dst = Eigen::Matrix<std::complex<double>, -1, -1>; Src = Eigen::CwiseUnaryOp<scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >; Func = assign_op<std::complex<double>, std::complex<double> >]’
+  890 |   Assignment<ActualDstTypeCleaned,Src,Func>::run(actualDst, src, func);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/AssignEvaluator.h:858:27:   required from ‘void Eigen::internal::call_assignment(Dst&, const Src&, const Func&, typename enable_if<(! evaluator_assume_aliasing<Src>::value), void*>::type) [with Dst = Eigen::Matrix<std::complex<double>, -1, -1>; Src = Eigen::CwiseUnaryOp<scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >; Func = assign_op<std::complex<double>, std::complex<double> >; typename enable_if<(! evaluator_assume_aliasing<Src>::value), void*>::type = void*; typename evaluator_traits<SrcXprType>::Shape = Eigen::DenseShape]’
+  858 |   call_assignment_no_alias(dst, src, func);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/AssignEvaluator.h:836:18:   required from ‘void Eigen::internal::call_assignment(Dst&, const Src&) [with Dst = Eigen::Matrix<std::complex<double>, -1, -1>; Src = Eigen::CwiseUnaryOp<scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >]’
+  836 |   call_assignment(dst, src, internal::assign_op<typename Dst::Scalar,typename Src::Scalar>());
+      |   ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/PlainObjectBase.h:779:32:   required from ‘Derived& Eigen::PlainObjectBase<Derived>::_set(const Eigen::DenseBase<OtherDerived>&) [with OtherDerived = Eigen::CwiseUnaryOp<Eigen::internal::scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >; Derived = Eigen::Matrix<std::complex<double>, -1, -1>]’
+  779 |       internal::call_assignment(this->derived(), other.derived());
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Matrix.h:225:24:   required from ‘Eigen::Matrix<_Scalar, _Rows, _Cols, _Options, _MaxRows, _MaxCols>& Eigen::Matrix<_Scalar, _Rows, _Cols, _Options, _MaxRows, _MaxCols>::operator=(const Eigen::DenseBase<OtherDerived>&) [with OtherDerived = Eigen::CwiseUnaryOp<Eigen::internal::scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >; _Scalar = std::complex<double>; int _Rows = -1; int _Cols = -1; int _Options = 0; int _MaxRows = -1; int _MaxCols = -1]’
+  225 |       return Base::_set(other);
+      |              ~~~~~~~~~~^~~~~~~
+/home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/inc/skewMatUtils.h:62:27:   required from here
+   62 |         D = D.array().exp();
+      |                           ^
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Assign_MKL.h:90:63: warning: comparison between ‘enum Eigen::internal::vml_assign_traits<Eigen::Matrix<std::complex<double>, -1, -1>, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >::<unnamed>’ and ‘enum Eigen::TraversalType’ [-Wenum-compare]
+   90 |       if(vml_assign_traits<DstXprType,SrcXprNested>::Traversal==LinearTraversal) {                                              \
+      |                                                      ~~~~~~~~~^~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Assign_MKL.h:113:3: note: in expansion of macro ‘EIGEN_MKL_VML_DECLARE_UNARY_CALL’
+  113 |   EIGEN_MKL_VML_DECLARE_UNARY_CALL(EIGENOP, EIGEN_CAT(EIGEN_VMLMODE_PREFIX(VMLMODE),z##VMLOP), dcomplex, MKL_Complex16, VMLMODE)
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Assign_MKL.h:117:3: note: in expansion of macro ‘EIGEN_MKL_VML_DECLARE_UNARY_CALLS_CPLX’
+  117 |   EIGEN_MKL_VML_DECLARE_UNARY_CALLS_CPLX(EIGENOP, VMLOP, VMLMODE)
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Assign_MKL.h:130:1: note: in expansion of macro ‘EIGEN_MKL_VML_DECLARE_UNARY_CALLS’
+  130 | EIGEN_MKL_VML_DECLARE_UNARY_CALLS(exp,   Exp,   LA)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/Core:377,
+                 from /home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/Dense:1,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/inc/types.h:20,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/inc/skewMatUtils.h:4,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/src/skewMatUtils.cpp:6:
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Assign_MKL.h: In instantiation of ‘static void Eigen::internal::Assignment<DstXprType, Eigen::CwiseUnaryOp<Eigen::internal::scalar_exp_op<std::complex<double> >, SrcXprNested>, Eigen::internal::assign_op<std::complex<double>, std::complex<double> >, Eigen::internal::Dense2Dense, typename Eigen::internal::enable_if<Eigen::internal::vml_assign_traits<Dst, Src>::EnableVml>::type>::run(DstXprType&, const SrcXprType&, const Eigen::internal::assign_op<std::complex<double>, std::complex<double> >&) [with DstXprType = Eigen::Matrix<std::complex<double>, -1, -1>; SrcXprNested = const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> >; SrcXprType = Eigen::CwiseUnaryOp<Eigen::internal::scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >]’:
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/AssignEvaluator.h:890:49:   required from ‘void Eigen::internal::call_assignment_no_alias(Dst&, const Src&, const Func&) [with Dst = Eigen::Matrix<std::complex<double>, -1, -1>; Src = Eigen::CwiseUnaryOp<scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >; Func = assign_op<std::complex<double>, std::complex<double> >]’
+  890 |   Assignment<ActualDstTypeCleaned,Src,Func>::run(actualDst, src, func);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/AssignEvaluator.h:858:27:   required from ‘void Eigen::internal::call_assignment(Dst&, const Src&, const Func&, typename enable_if<(! evaluator_assume_aliasing<Src>::value), void*>::type) [with Dst = Eigen::Matrix<std::complex<double>, -1, -1>; Src = Eigen::CwiseUnaryOp<scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >; Func = assign_op<std::complex<double>, std::complex<double> >; typename enable_if<(! evaluator_assume_aliasing<Src>::value), void*>::type = void*; typename evaluator_traits<SrcXprType>::Shape = Eigen::DenseShape]’
+  858 |   call_assignment_no_alias(dst, src, func);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/AssignEvaluator.h:836:18:   required from ‘void Eigen::internal::call_assignment(Dst&, const Src&) [with Dst = Eigen::Matrix<std::complex<double>, -1, -1>; Src = Eigen::CwiseUnaryOp<scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >]’
+  836 |   call_assignment(dst, src, internal::assign_op<typename Dst::Scalar,typename Src::Scalar>());
+      |   ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/PlainObjectBase.h:779:32:   required from ‘Derived& Eigen::PlainObjectBase<Derived>::_set(const Eigen::DenseBase<OtherDerived>&) [with OtherDerived = Eigen::CwiseUnaryOp<Eigen::internal::scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >; Derived = Eigen::Matrix<std::complex<double>, -1, -1>]’
+  779 |       internal::call_assignment(this->derived(), other.derived());
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Matrix.h:225:24:   required from ‘Eigen::Matrix<_Scalar, _Rows, _Cols, _Options, _MaxRows, _MaxCols>& Eigen::Matrix<_Scalar, _Rows, _Cols, _Options, _MaxRows, _MaxCols>::operator=(const Eigen::DenseBase<OtherDerived>&) [with OtherDerived = Eigen::CwiseUnaryOp<Eigen::internal::scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >; _Scalar = std::complex<double>; int _Rows = -1; int _Cols = -1; int _Options = 0; int _MaxRows = -1; int _MaxCols = -1]’
+  225 |       return Base::_set(other);
+      |              ~~~~~~~~~~^~~~~~~
+/home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/inc/skewMatUtils.h:62:27:   required from here
+   62 |         D = D.array().exp();
+      |                           ^
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Assign_MKL.h:90:63: warning: comparison between ‘enum Eigen::internal::vml_assign_traits<Eigen::Matrix<std::complex<double>, -1, -1>, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >::<unnamed>’ and ‘enum Eigen::TraversalType’ [-Wenum-compare]
+   90 |       if(vml_assign_traits<DstXprType,SrcXprNested>::Traversal==LinearTraversal) {                                              \
+      |                                                      ~~~~~~~~~^~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Assign_MKL.h:113:3: note: in expansion of macro ‘EIGEN_MKL_VML_DECLARE_UNARY_CALL’
+  113 |   EIGEN_MKL_VML_DECLARE_UNARY_CALL(EIGENOP, EIGEN_CAT(EIGEN_VMLMODE_PREFIX(VMLMODE),z##VMLOP), dcomplex, MKL_Complex16, VMLMODE)
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Assign_MKL.h:117:3: note: in expansion of macro ‘EIGEN_MKL_VML_DECLARE_UNARY_CALLS_CPLX’
+  117 |   EIGEN_MKL_VML_DECLARE_UNARY_CALLS_CPLX(EIGENOP, VMLOP, VMLMODE)
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Assign_MKL.h:130:1: note: in expansion of macro ‘EIGEN_MKL_VML_DECLARE_UNARY_CALLS’
+  130 | EIGEN_MKL_VML_DECLARE_UNARY_CALLS(exp,   Exp,   LA)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+building kitaev_ssh_vbs_susceptibility_validate
+In file included from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/vbs_susceptibility.h:4,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/vbs_susceptibility_validate.cpp:1:
+/home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/phonon_path.h: In member function ‘double kitaev_ssh::PhononPath::freeMean(int, int) const’:
+/home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/phonon_path.h:72:20: warning: ignoring return value of ‘std::vector<_Tp, _Alloc>::const_reference std::vector<_Tp, _Alloc>::at(size_type) const [with _Tp = double; _Alloc = std::allocator<double>; const_reference = const double&; size_type = long unsigned int]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+   72 |         x_.at(j).at(b);
+      |         ~~~~~~~~~~~^~~
+In file included from /usr/include/c++/15/vector:68,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/honeycomb_lattice.h:10,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/vbs_observables.h:4,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/vbs_susceptibility.h:3:
+/usr/include/c++/15/bits/stl_vector.h:1332:7: note: declared here
+ 1332 |       at(size_type __n) const
+      |       ^~
+In file included from /home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/Core:377,
+                 from /home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/Dense:1,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/inc/types.h:20,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/inc/skewMatUtils.h:4,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/src/skewMatUtils.cpp:6:
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Assign_MKL.h: In instantiation of ‘static void Eigen::internal::Assignment<DstXprType, Eigen::CwiseUnaryOp<Eigen::internal::scalar_exp_op<std::complex<double> >, SrcXprNested>, Eigen::internal::assign_op<std::complex<double>, std::complex<double> >, Eigen::internal::Dense2Dense, typename Eigen::internal::enable_if<Eigen::internal::vml_assign_traits<Dst, Src>::EnableVml>::type>::run(DstXprType&, const SrcXprType&, const Eigen::internal::assign_op<std::complex<double>, std::complex<double> >&) [with DstXprType = Eigen::Matrix<std::complex<double>, -1, -1>; SrcXprNested = const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> >; SrcXprType = Eigen::CwiseUnaryOp<Eigen::internal::scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >]’:
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/AssignEvaluator.h:890:49:   required from ‘void Eigen::internal::call_assignment_no_alias(Dst&, const Src&, const Func&) [with Dst = Eigen::Matrix<std::complex<double>, -1, -1>; Src = Eigen::CwiseUnaryOp<scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >; Func = assign_op<std::complex<double>, std::complex<double> >]’
+  890 |   Assignment<ActualDstTypeCleaned,Src,Func>::run(actualDst, src, func);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/AssignEvaluator.h:858:27:   required from ‘void Eigen::internal::call_assignment(Dst&, const Src&, const Func&, typename enable_if<(! evaluator_assume_aliasing<Src>::value), void*>::type) [with Dst = Eigen::Matrix<std::complex<double>, -1, -1>; Src = Eigen::CwiseUnaryOp<scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >; Func = assign_op<std::complex<double>, std::complex<double> >; typename enable_if<(! evaluator_assume_aliasing<Src>::value), void*>::type = void*; typename evaluator_traits<SrcXprType>::Shape = Eigen::DenseShape]’
+  858 |   call_assignment_no_alias(dst, src, func);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/AssignEvaluator.h:836:18:   required from ‘void Eigen::internal::call_assignment(Dst&, const Src&) [with Dst = Eigen::Matrix<std::complex<double>, -1, -1>; Src = Eigen::CwiseUnaryOp<scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >]’
+  836 |   call_assignment(dst, src, internal::assign_op<typename Dst::Scalar,typename Src::Scalar>());
+      |   ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/PlainObjectBase.h:779:32:   required from ‘Derived& Eigen::PlainObjectBase<Derived>::_set(const Eigen::DenseBase<OtherDerived>&) [with OtherDerived = Eigen::CwiseUnaryOp<Eigen::internal::scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >; Derived = Eigen::Matrix<std::complex<double>, -1, -1>]’
+  779 |       internal::call_assignment(this->derived(), other.derived());
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Matrix.h:225:24:   required from ‘Eigen::Matrix<_Scalar, _Rows, _Cols, _Options, _MaxRows, _MaxCols>& Eigen::Matrix<_Scalar, _Rows, _Cols, _Options, _MaxRows, _MaxCols>::operator=(const Eigen::DenseBase<OtherDerived>&) [with OtherDerived = Eigen::CwiseUnaryOp<Eigen::internal::scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >; _Scalar = std::complex<double>; int _Rows = -1; int _Cols = -1; int _Options = 0; int _MaxRows = -1; int _MaxCols = -1]’
+  225 |       return Base::_set(other);
+      |              ~~~~~~~~~~^~~~~~~
+/home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/inc/skewMatUtils.h:62:27:   required from here
+   62 |         D = D.array().exp();
+      |                           ^
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Assign_MKL.h:90:63: warning: comparison between ‘enum Eigen::internal::vml_assign_traits<Eigen::Matrix<std::complex<double>, -1, -1>, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >::<unnamed>’ and ‘enum Eigen::TraversalType’ [-Wenum-compare]
+   90 |       if(vml_assign_traits<DstXprType,SrcXprNested>::Traversal==LinearTraversal) {                                              \
+      |                                                      ~~~~~~~~~^~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Assign_MKL.h:113:3: note: in expansion of macro ‘EIGEN_MKL_VML_DECLARE_UNARY_CALL’
+  113 |   EIGEN_MKL_VML_DECLARE_UNARY_CALL(EIGENOP, EIGEN_CAT(EIGEN_VMLMODE_PREFIX(VMLMODE),z##VMLOP), dcomplex, MKL_Complex16, VMLMODE)
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Assign_MKL.h:117:3: note: in expansion of macro ‘EIGEN_MKL_VML_DECLARE_UNARY_CALLS_CPLX’
+  117 |   EIGEN_MKL_VML_DECLARE_UNARY_CALLS_CPLX(EIGENOP, VMLOP, VMLMODE)
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Assign_MKL.h:130:1: note: in expansion of macro ‘EIGEN_MKL_VML_DECLARE_UNARY_CALLS’
+  130 | EIGEN_MKL_VML_DECLARE_UNARY_CALLS(exp,   Exp,   LA)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+building kitaev_ssh_vbs_amplitude_validate
+In file included from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/vbs_amplitude.h:4,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/vbs_amplitude_validate.cpp:1:
+/home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/phonon_path.h: In member function ‘double kitaev_ssh::PhononPath::freeMean(int, int) const’:
+/home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/phonon_path.h:72:20: warning: ignoring return value of ‘std::vector<_Tp, _Alloc>::const_reference std::vector<_Tp, _Alloc>::at(size_type) const [with _Tp = double; _Alloc = std::allocator<double>; const_reference = const double&; size_type = long unsigned int]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+   72 |         x_.at(j).at(b);
+      |         ~~~~~~~~~~~^~~
+In file included from /usr/include/c++/15/vector:68,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/honeycomb_lattice.h:10,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/vbs_observables.h:4,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/kitaev_ssh/vbs_amplitude.h:3:
+/usr/include/c++/15/bits/stl_vector.h:1332:7: note: declared here
+ 1332 |       at(size_type __n) const
+      |       ^~
+In file included from /home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/Core:377,
+                 from /home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/Dense:1,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/inc/types.h:20,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/inc/skewMatUtils.h:4,
+                 from /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/src/skewMatUtils.cpp:6:
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Assign_MKL.h: In instantiation of ‘static void Eigen::internal::Assignment<DstXprType, Eigen::CwiseUnaryOp<Eigen::internal::scalar_exp_op<std::complex<double> >, SrcXprNested>, Eigen::internal::assign_op<std::complex<double>, std::complex<double> >, Eigen::internal::Dense2Dense, typename Eigen::internal::enable_if<Eigen::internal::vml_assign_traits<Dst, Src>::EnableVml>::type>::run(DstXprType&, const SrcXprType&, const Eigen::internal::assign_op<std::complex<double>, std::complex<double> >&) [with DstXprType = Eigen::Matrix<std::complex<double>, -1, -1>; SrcXprNested = const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> >; SrcXprType = Eigen::CwiseUnaryOp<Eigen::internal::scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >]’:
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/AssignEvaluator.h:890:49:   required from ‘void Eigen::internal::call_assignment_no_alias(Dst&, const Src&, const Func&) [with Dst = Eigen::Matrix<std::complex<double>, -1, -1>; Src = Eigen::CwiseUnaryOp<scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >; Func = assign_op<std::complex<double>, std::complex<double> >]’
+  890 |   Assignment<ActualDstTypeCleaned,Src,Func>::run(actualDst, src, func);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/AssignEvaluator.h:858:27:   required from ‘void Eigen::internal::call_assignment(Dst&, const Src&, const Func&, typename enable_if<(! evaluator_assume_aliasing<Src>::value), void*>::type) [with Dst = Eigen::Matrix<std::complex<double>, -1, -1>; Src = Eigen::CwiseUnaryOp<scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >; Func = assign_op<std::complex<double>, std::complex<double> >; typename enable_if<(! evaluator_assume_aliasing<Src>::value), void*>::type = void*; typename evaluator_traits<SrcXprType>::Shape = Eigen::DenseShape]’
+  858 |   call_assignment_no_alias(dst, src, func);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/AssignEvaluator.h:836:18:   required from ‘void Eigen::internal::call_assignment(Dst&, const Src&) [with Dst = Eigen::Matrix<std::complex<double>, -1, -1>; Src = Eigen::CwiseUnaryOp<scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >]’
+  836 |   call_assignment(dst, src, internal::assign_op<typename Dst::Scalar,typename Src::Scalar>());
+      |   ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/PlainObjectBase.h:779:32:   required from ‘Derived& Eigen::PlainObjectBase<Derived>::_set(const Eigen::DenseBase<OtherDerived>&) [with OtherDerived = Eigen::CwiseUnaryOp<Eigen::internal::scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >; Derived = Eigen::Matrix<std::complex<double>, -1, -1>]’
+  779 |       internal::call_assignment(this->derived(), other.derived());
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Matrix.h:225:24:   required from ‘Eigen::Matrix<_Scalar, _Rows, _Cols, _Options, _MaxRows, _MaxCols>& Eigen::Matrix<_Scalar, _Rows, _Cols, _Options, _MaxRows, _MaxCols>::operator=(const Eigen::DenseBase<OtherDerived>&) [with OtherDerived = Eigen::CwiseUnaryOp<Eigen::internal::scalar_exp_op<std::complex<double> >, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >; _Scalar = std::complex<double>; int _Rows = -1; int _Cols = -1; int _Options = 0; int _MaxRows = -1; int _MaxCols = -1]’
+  225 |       return Base::_set(other);
+      |              ~~~~~~~~~~^~~~~~~
+/home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/repo/inc/skewMatUtils.h:62:27:   required from here
+   62 |         D = D.array().exp();
+      |                           ^
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Assign_MKL.h:90:63: warning: comparison between ‘enum Eigen::internal::vml_assign_traits<Eigen::Matrix<std::complex<double>, -1, -1>, const Eigen::ArrayWrapper<Eigen::Matrix<std::complex<double>, -1, -1> > >::<unnamed>’ and ‘enum Eigen::TraversalType’ [-Wenum-compare]
+   90 |       if(vml_assign_traits<DstXprType,SrcXprNested>::Traversal==LinearTraversal) {                                              \
+      |                                                      ~~~~~~~~~^~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Assign_MKL.h:113:3: note: in expansion of macro ‘EIGEN_MKL_VML_DECLARE_UNARY_CALL’
+  113 |   EIGEN_MKL_VML_DECLARE_UNARY_CALL(EIGENOP, EIGEN_CAT(EIGEN_VMLMODE_PREFIX(VMLMODE),z##VMLOP), dcomplex, MKL_Complex16, VMLMODE)
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Assign_MKL.h:117:3: note: in expansion of macro ‘EIGEN_MKL_VML_DECLARE_UNARY_CALLS_CPLX’
+  117 |   EIGEN_MKL_VML_DECLARE_UNARY_CALLS_CPLX(EIGENOP, VMLOP, VMLMODE)
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3/Eigen/src/Core/Assign_MKL.h:130:1: note: in expansion of macro ‘EIGEN_MKL_VML_DECLARE_UNARY_CALLS’
+  130 | EIGEN_MKL_VML_DECLARE_UNARY_CALLS(exp,   Exp,   LA)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Built in /home/asus/newsusy/fast-1006/audit/1010/quick1010-github-handoff/build

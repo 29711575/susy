@@ -1,0 +1,121 @@
+{
+  "name": "phase-tau-20260917",
+  "Lx": 4,
+  "Ly": 4,
+  "Jx": 1,
+  "Jy": 1,
+  "Jz": 0.5,
+  "g": 0.5,
+  "mass": 4,
+  "omega_ph": 0.5,
+  "k": 1,
+  "lambda": 0.25,
+  "dt": 0.1,
+  "intervals": [
+    8,
+    16,
+    32,
+    48,
+    64,
+    80
+  ],
+  "tau_total": [
+    0.8,
+    1.6,
+    3.2,
+    4.8,
+    6.4,
+    8.0
+  ],
+  "replicas": 2,
+  "warmup": 200,
+  "sweeps": 800,
+  "measure_every": 1,
+  "block_samples": 25,
+  "block_sensitivity": [
+    25,
+    50,
+    100
+  ],
+  "proposal": "bond-refresh",
+  "trial_shift": [
+    0,
+    0,
+    0
+  ],
+  "weight_engine": "combined",
+  "qr_block": 4,
+  "vbs": 1,
+  "max_workers": 12,
+  "threads_per_chain": 1,
+  "phase_reality_tolerance": 1e-10,
+  "scope": "fixed_gauge_matter_sector",
+  "wilson_loops": [
+    1,
+    1
+  ],
+  "stopping_rule": "Exactly 200 warmup and 800 measurement sweeps per chain. No significance-based extension. Abort/report numerical failure without replacing it by rejection.",
+  "interpretation": "Finite-run phase diagnostic; no strict positivity proof or stationarity guarantee.",
+  "jobs": [
+    {
+      "intervals": 8,
+      "tau_total": 0.8,
+      "seed": 950801
+    },
+    {
+      "intervals": 8,
+      "tau_total": 0.8,
+      "seed": 950802
+    },
+    {
+      "intervals": 16,
+      "tau_total": 1.6,
+      "seed": 951601
+    },
+    {
+      "intervals": 16,
+      "tau_total": 1.6,
+      "seed": 951602
+    },
+    {
+      "intervals": 32,
+      "tau_total": 3.2,
+      "seed": 953201
+    },
+    {
+      "intervals": 32,
+      "tau_total": 3.2,
+      "seed": 953202
+    },
+    {
+      "intervals": 48,
+      "tau_total": 4.8,
+      "seed": 954801
+    },
+    {
+      "intervals": 48,
+      "tau_total": 4.8,
+      "seed": 954802
+    },
+    {
+      "intervals": 64,
+      "tau_total": 6.4,
+      "seed": 956401
+    },
+    {
+      "intervals": 64,
+      "tau_total": 6.4,
+      "seed": 956402
+    },
+    {
+      "intervals": 80,
+      "tau_total": 8.0,
+      "seed": 958001
+    },
+    {
+      "intervals": 80,
+      "tau_total": 8.0,
+      "seed": 958002
+    }
+  ]
+}

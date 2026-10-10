@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-10",
+  "unchanged_source_files_verified": 328,
+  "production_physics_code_modified": false,
+  "build_targets": [
+    "kitaev_ssh_mc",
+    "kitaev_ssh_vbs_susceptibility_validate",
+    "kitaev_ssh_vbs_amplitude_validate"
+  ],
+  "python_tests_passed": 25,
+  "native_susceptibility": {
+    "status": "passed",
+    "max_score_finite_difference_error": 8.55460355331239e-11,
+    "max_free_response_error": 6.661338147750939e-16,
+    "max_direct_fourier_error": 1.1857187100668868e-16,
+    "monte_carlo_used": false
+  },
+  "native_amplitude_passed": true,
+  "offline_commands_passed": 4,
+  "offline_csv_byte_identical_to_frozen_originals": [
+    "measurements/L9_tau8_lambda/seed-coverage.csv",
+    "measurements/L9_tau8_lambda/allowed-grid.csv",
+    "measurements/L9_tau8_lambda/chi-vs-lambda-tau8-cut500.csv",
+    "measurements/L9_L6_tau_scan/grid-chi.csv",
+    "measurements/L9_L6_tau_scan/curves.csv",
+    "measurements/L9_L6_tau_scan/seed-coverage.csv",
+    "measurements/L9_L6_tau_scan/L9-original-curves.csv",
+    "measurements/connected_decomposition/all-q-decomposition.csv",
+    "measurements/connected_decomposition/seed-first-moments.csv",
+    "measurements/connected_decomposition/decomposition.csv"
+  ],
+  "limitations": "No new production Monte Carlo or proof of mixing, thermalization, or projection convergence."
+}

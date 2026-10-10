@@ -1,0 +1,147 @@
+{
+  "name": "fermion-gscan-20260917",
+  "Lx": 4,
+  "Ly": 4,
+  "Jx": 1,
+  "Jy": 1,
+  "Jz": 0.5,
+  "mass": 4,
+  "omega_ph": 0.5,
+  "k": 1,
+  "dt": 0.1,
+  "replicas": 2,
+  "warmup": 800,
+  "sweeps": 1600,
+  "measure_every": 1,
+  "block_samples": 25,
+  "block_sensitivity": [
+    25,
+    50,
+    100,
+    200
+  ],
+  "proposal": "bond-refresh",
+  "trial_shift": [
+    0,
+    0,
+    0
+  ],
+  "weight_engine": "combined",
+  "qr_block": 4,
+  "vbs": 1,
+  "max_workers": 10,
+  "threads_per_chain": 1,
+  "phase_reality_tolerance": 1e-10,
+  "scope": "fixed_gauge_matter_sector",
+  "wilson_loops": [
+    1,
+    1
+  ],
+  "stopping_rule": "Exactly 800 warmup and 1600 measurement sweeps per chain; no adaptive extension or replacement of failed chains.",
+  "interpretation": "Finite-run phase diagnostic; no strict positivity proof or stationarity guarantee.",
+  "jobs": [
+    {
+      "g": 0,
+      "lambda": 0,
+      "intervals": 64,
+      "tau_total": 6.4,
+      "seed": 970001
+    },
+    {
+      "g": 0,
+      "lambda": 0,
+      "intervals": 64,
+      "tau_total": 6.4,
+      "seed": 970002
+    },
+    {
+      "g": 0.3,
+      "lambda": 0.09,
+      "intervals": 64,
+      "tau_total": 6.4,
+      "seed": 970011
+    },
+    {
+      "g": 0.3,
+      "lambda": 0.09,
+      "intervals": 64,
+      "tau_total": 6.4,
+      "seed": 970012
+    },
+    {
+      "g": 0.5,
+      "lambda": 0.25,
+      "intervals": 64,
+      "tau_total": 6.4,
+      "seed": 970021
+    },
+    {
+      "g": 0.5,
+      "lambda": 0.25,
+      "intervals": 64,
+      "tau_total": 6.4,
+      "seed": 970022
+    },
+    {
+      "g": 0.7,
+      "lambda": 0.48999999999999994,
+      "intervals": 64,
+      "tau_total": 6.4,
+      "seed": 970031
+    },
+    {
+      "g": 0.7,
+      "lambda": 0.48999999999999994,
+      "intervals": 64,
+      "tau_total": 6.4,
+      "seed": 970032
+    },
+    {
+      "g": 0.5,
+      "lambda": 0.25,
+      "intervals": 80,
+      "tau_total": 8.0,
+      "seed": 970041
+    },
+    {
+      "g": 0.5,
+      "lambda": 0.25,
+      "intervals": 80,
+      "tau_total": 8.0,
+      "seed": 970042
+    }
+  ],
+  "fermions": 1,
+  "groups": [
+    {
+      "g": 0,
+      "lambda": 0,
+      "intervals": 64,
+      "tau_total": 6.4
+    },
+    {
+      "g": 0.3,
+      "lambda": 0.09,
+      "intervals": 64,
+      "tau_total": 6.4
+    },
+    {
+      "g": 0.5,
+      "lambda": 0.25,
+      "intervals": 64,
+      "tau_total": 6.4
+    },
+    {
+      "g": 0.7,
+      "lambda": 0.48999999999999994,
+      "intervals": 64,
+      "tau_total": 6.4
+    },
+    {
+      "g": 0.5,
+      "lambda": 0.25,
+      "intervals": 80,
+      "tau_total": 8.0
+    }
+  ]
+}

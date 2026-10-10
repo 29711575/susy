@@ -1,0 +1,129 @@
+更正 note 的 VBS 模长峰任务（quick1010，2026-10-10 Asia/Shanghai）
+
+结论
+当前 note 的优先建议合理，已加入零場模长矩、独立离散模长源响应和
+固定模式 Binder 斜率分析。完整原生/离线专项及接口验证通过。
+本次没有认证物理峰或临界点，没有启动新的 HPC 生产扫描。
+保真易感率按 note 的“再根据算力决定”保留为下一阶段；专用估计器未实现。
+
+1. 当前文档与旧任务
+读取 quick1010/new/note.docx；复制原文及提取内容为 note.docx、note-extracted.txt。
+SHA256 6c78e4ceec66453972f66b0c64736c7c98d66f6012ffcf66a4fb4980adfa94c2。
+7个外部链接来自 w:instrText 字段，见 note-provenance.json。
+之前静态工具对应被更换的旧 note；旧 audit 不改写，工具保留为独立静态参考。
+quick1010 的 STATUS/HANDOFF/ADR-018 和静态 README 已明确区分新旧依据。
+
+2. 已实现接口与定义
+--vbs-amplitude 1：每个允许q、x/y/z键保存逐构型 A/A2/A4，9列/q。
+--vbs-amplitude-response 1：另存 IA/AIA，15列/q；requires amplitude=1。
+两开关均默认0，需 --vbs 1 --vbs-mode all，不自动加入物理外场。
+IA先取每节点 |D| 后梯形积分；dt/2端点、dt内部，中心只做一次额外FFT。
+离散源 W_epsilon=W0 exp(epsilon*Nc*IA)，固定trial下源导数为NcCov(A,IA)。
+不使用精确线性 Mehler score、不把 |integral D| 当 IA、不把 tau*VA 当 chiA。
+新原始矩追加在旧列后；VBS派生入口只截取其既有原始块宽度。
+旧权重/采样器/trial/Green/Pfaffian源码与已验证 guided 冻结源一致；
+既有C++/h/c/f仅 coupled_mc.cpp改变，加两个 amplitude 文件，见 source-scope.json。
+
+后处理 analyze_vbs_amplitude.py：completed/原始块一致性读取，固定一个
+非零允许q及键，VA/B4/chiA共同phase比后连接/求比，不共轭均值或剪负值。
+每链内部重分块及联合JK/bootstrap；不丢尾、不跨链混块、不独立抽样不同矩。
+独立seed且固定裸参数/几何/dt/tau/trial的lambda扫描；保留虚部和联合实虚协方差。
+局部degree1/2，默认3/5/7点窗口，求signed slope后取abs并逐副本重算。
+不外推端点；少于3个内部fit中心时峰位未定义；边界候选需延长扫描。
+保留二倍块长误差、phase/M2/虚部诊断及峰所在网格单元。
+bootstrap零分母不被筛掉以继续输出区间；完整错误和限制见 ADR-019。
+
+3. 本次实际验证
+编译：GCC15.2、MKL2026.1 sequential、Eigen/Boost原环境，禁fast-math。
+build.log、build-provenance.json保存环境与哈希。
+
+原生 vbs_amplitude_validate：PASS，native-amplitude.log。
+独立 literal DFT 与完整链接梯形和，含 shear0/1，最大残差6.9388939e-17。
+旋转复D的路径：complex integral近零，integral |D|=tau，确认先模后积分。
+复权重有限离散源的归一化均值差分：三个步长，最终残差2.7088963e-10。
+60000自由平稳声子配置，Nc=6、mass4、omega.5：
+  非自共轭复模式：A=.180627，VA=.0539406，B4=2.00286；理论B4=2。
+  自共轭实模式：A=.162808，VA=.0911265，B4=3.02164；理论B4=3。
+这是Gaussian估计器基准，不是相变或SUSY结果。
+
+Python test_vbs_amplitude.py：12项PASS，python-tests-final.log。
+包括复相位连接、真正四阶矩、不等链长度联合JK、链内完整重分块、
+bootstrap矩关系、非均匀lambda的局部二次多项式、窗口及边界规则。
+独立自由实模长关联公式连续积分参考=.14636747095881095；
+dt=.2/.1/.05/.025 梯形误差=.0007102444/.0001812969/.00004596731/.00001160400，
+近似二阶收敛。实际值和参数见 free-modulus-dt.json。
+
+原生集成：native-integration-final/native-integration.json，PASS。
+三组 3x2、M4、dt.17，warmup4+measurement32，guided bare/beta1及q-update1：
+  shear0、只等时；shear1、模长响应；shear0、旧线性响应+h=0场+模长响应。
+每组跑旧verified二进制、新二进制关闭、新二进制开启；旧CSV字段逐列相同，
+旧observable估计及VBS派生量相同。h=0的 Field_absD2/4 与新AmpA2/4一致。
+L6 M4 tau.68 warmup1+measurement2同时打开旧线性与新模长响应，完成。
+两个非法开关组合被正确依赖关系拒绝。
+这些短链只验证集成，不认证采样独立、平衡或投影收敛。
+
+端到端短扫描：scan-smoke/run-manifest.json，5个lambda=.4/.6/.8/1/1.2，
+3x2/shear0，固定q=(1,0)，mass4/omega.5/k1、M4/dt.17/tau.68，
+guided bare/beta1、q every1/beta1，warmup4、measurement64、block4，独立seed。
+真正MC输出保留；最终分析 scan-analysis-final/amplitude_scan.json、
+binder_slopes.csv、amplitude_scan.png；200联合bootstrap副本。
+粗网格和短投影下，VA/chiA的网格候选区间横跨整个扫描范围，
+Binder三点窗口最大值位于fit边界，五点窗口只有一个中心、峰位未定义。
+上述情况不能用来认定物理峰；图上明确标记convergence unverified。
+早期 scan-analysis 的单中心条件已由最终版修正，最终结果以上述-final目录为准。
+初始扫描stdout用with_suffix命名导致部分lambda共用日志，原始_results/blocks
+及run-manifest完整保留；最终结论以原始结果与退出码、最终分析为依据。
+
+开发检查的修正记录
+python-tests.log保存初始2个失败：测试假路径同seed重复先触发文件重复检查、
+独立积分参考的两倍因子；修正夹具/积分区间后所有12项PASS。
+native-integration.log保存首次L6适配器重复--Lx导致CLI拒绝；修正适配器替换
+选项后，在native-integration-final全套通过。没有绕过采样数值策略。
+
+4. 科学评估与来源
+ALPS mc07官方教程：绝对值序参量、真实二/四阶矩比的实现参考；是经典Ising示例。
+https://alps.comp-phys.org/tutorials/mcs/mc07/
+Jauma等spin-glass Binder导数例子：非当前模型。Wiley页面直接读取未成功，
+核对原论文arxiv全文，未照搬其Pade插值。
+https://onlinelibrary.wiley.com/doi/10.1002/qute.202300245
+https://arxiv.org/pdf/2307.13065
+通常量子FSS及几何/边界/修正条件：
+https://arxiv.org/html/1401.0788v1
+投影/有限温度保真估计器前提与计数协方差：
+https://journals.aps.org/prx/abstract/10.1103/PhysRevX.5.031007
+https://arxiv.org/html/1502.06969
+保真谱式/时间权重及标度：
+https://journals.aps.org/prb/abstract/10.1103/PhysRevB.81.064418
+https://arxiv.org/html/0912.2689
+固定规范Kitaev-SSH Hamiltonian、Delta_|phi|2指数：
+https://arxiv.org/html/2510.07383v2
+
+沿固定J/k/m，lambda>0时 V_lambda=g/(2lambda)*sum X_b*u_b*i*cA*cB。
+模型保持平移，但无隙背景仍存在。nu≈.917、chiF/Nc奇异部分L^.18、
+alpha≈-.75是结合文献指数和通常标度所作推论，不是本次实测。
+专用两半Pfaffian重叠导数应包括混合log权重项；旧chi_zz不能提供它。
+
+5. 冻结与复现
+source tar: quick1010-amplitude-source-20261010.tar.gz
+SHA256 0d38af1e53b0b54923fa62cf965e0c6ca2937e7c4837bdb8e47c413b3abb3346。
+本机MC SHA256 66f9e8797465f33459f57686da309bb80d3186bf65e2b22a1c043e34bde9b13a。
+旧验证MC SHA256 eb25b3c7d90026d12d22c29edaf3deed0201c2c95cbf2b7fd7bf7d9eafc9b4d2。
+final-source/SHA256SUMS 340项通过；frozen-manifest-check.log。
+源码/二进制/依赖来源见build-provenance.json，工作区SNAPSHOT记录新测量版本。
+旧HPC源/二进制/优化设置保留，不自动补测新观测量。
+
+本机复现（/home/asus/newsusy）：
+env MKLROOT=/opt/intel/oneapi/mkl/2026.1 \
+  EIGEN3_INCLUDE_DIR=/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3 \
+  BOOST_INCLUDE_DIR=/home/asus/.cache/pfqmc_boost_1_70_0 \
+  bash quick1010/scripts/build_nodeps.sh YOUR_NEW_BUILD \
+    kitaev_ssh_vbs_amplitude_validate kitaev_ssh_mc
+env LD_LIBRARY_PATH=/opt/intel/oneapi/mkl/2026.1/lib MKL_NUM_THREADS=1 \
+  OMP_NUM_THREADS=1 YOUR_NEW_BUILD/kitaev_ssh_vbs_amplitude_validate
+env MPLCONFIGDIR=/tmp/quick1010-amplitude-mpl OPENBLAS_NUM_THREADS=1 \
+  python3 -m unittest discover -s quick1010/kitaev_ssh -p test_vbs_amplitude.py -v
+env MPLCONFIGDIR=/tmp/quick1010-amplitude-mpl OPENBLAS_NUM_THREADS=1 \
+  python3 quick1010/scripts/validate_vbs_amplitude.py \
+    --binary YOUR_NEW_BUILD/kitaev_ssh_mc \
+    --baseline quick1010/build-guided-20261010/kitaev_ssh_mc --output YOUR_NEW_AUDIT
+扫描MC的精确argv在scan-smoke/run-manifest.json；后处理用法在quick1010/VBS_AMPLITUDE_README_CN.txt。
