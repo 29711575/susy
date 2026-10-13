@@ -1,0 +1,27 @@
+usage: static_limit_response.py [-h] [--Lx LX] [--Ly LY] [--shear SHEAR]
+                                [--Jx JX] [--Jy JY] [--Jz JZ] --lambda LAM
+                                [--spring-k SPRING_K] [--starts STARTS]
+                                [--seed SEED] [--parity {trial,unrestricted}]
+                                --output-dir OUTPUT_DIR [--plot]
+
+Relax every bond in the strict static limit and measure source response. Fixed
+zero-flux, Wilson(+,+) matter sector; no phonon kinetic term. Unlike
+static_vbs_response.py, the background is a finite-torus stationary
+configuration of all bond variables, not a prescribed uniform BZ solution.
+Multistart local minimization is not a global optimality certificate.
+
+options:
+  -h, --help            show this help message and exit
+  --Lx LX
+  --Ly LY
+  --shear SHEAR
+  --Jx JX
+  --Jy JY
+  --Jz JZ
+  --lambda LAM
+  --spring-k SPRING_K
+  --starts STARTS
+  --seed SEED
+  --parity {trial,unrestricted}
+  --output-dir OUTPUT_DIR
+  --plot

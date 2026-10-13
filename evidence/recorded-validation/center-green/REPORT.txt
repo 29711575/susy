@@ -1,0 +1,44 @@
+中心 Green 加速验收（任务日期 Asia/Shanghai 2026-10-10）
+结论：新源码 center-green-fast=1 通过本次原生 MKL 验收；局部低秩引擎及关闭 QR guard 宏不启用。
+现有 HPC 数组157030–157035保留旧冻结二进制和参数。本次无取消、重提、远端修改或生产长链。
+
+实现与物理审查：
+- 新 CLI/PhononWeightOptions；全部普通 center rebuild 路由传递新开关，uncachedReference 保留false。
+- 占据维数>=32用无主元zgeqrf/zungqr，完整R对角log尺度在覆写前保存；不截断模式。
+- 完整endpoint overlap值SVD+LU；传播顺序、左右adjoint、signed Pfaffian phase和物理Green adjoint不变。
+- rank/rcond=1e-12，solve/Green/endpoint-Qorth=1e-10；无oblique或rcond容差放宽，精化和完整参考恢复不变。
+- helper设置的reuse_rebuild_workspace在当前endpoint未消费；不能把测速归因于此选项。
+
+实际执行与证据：
+- 三个新目标原生源码构建退出0，日志build.stdout/build.stderr（旧依赖弃用等警告，无编译错误）。
+- n=4/32/36/81复QR子空间/log尺度、.5e-12拒绝/2e-12接受和Green overlap拒绝边界PASS。
+- default.stdout：L6/M12的完整Green/权重/phase/能量及eager/deferred接受拒绝PASS。
+- PASS L=9 M=240 omega=0.29999999999999999 lambda=3 worst_scaled_error=9.1343470813585537e-15 reference_endpoint_seconds=3.3428708499999997 fast_endpoint_seconds=3.1388477799999999 fast_qr_calls=1089 reference_qr_calls=975 generator_change_rank=2 half_step_difference_rank=8; endpoint时间降低6.10%；全过程162.82s。
+- PASS L=9 M=200 omega=1 lambda=3.7000000000000002 worst_scaled_error=9.2701988761920075e-15 reference_endpoint_seconds=2.4351105359999998 fast_endpoint_seconds=2.2317308100000002 fast_qr_calls=909 reference_qr_calls=815 generator_change_rank=2 half_step_difference_rank=8; endpoint时间降低8.35%；全过程135.25s。
+- PASS L=6 M=100 omega=0.29999999999999999 lambda=2.3999999999999999 worst_scaled_error=6.4365340260426238e-15 reference_endpoint_seconds=0.141612871 fast_endpoint_seconds=0.13138256199999998 fast_qr_calls=459 reference_qr_calls=415 generator_change_rank=2 half_step_difference_rank=8; endpoint时间降低7.22%；全过程8.92s。
+- endpoint交错四次计时，人工平滑路径；不是HPC或整链收益承诺。
+- cli-results.json：L9两种omega deferred、L6 eager，每组旧native/新关闭/新开启，1warmup+3measurement，
+  guided bare/beta1、q池/xyz/q-beta.5，每组计数/最终路径完全一致，自然数值失败0。
+  aggregate物理输出最大缩放差8.50e-15；原始块见raw-block-comparison.json，关闭0差、开启<=3.93e-15。
+- failure.stdout最后PASS：原四配置加两新center配置事务；八CLI注入案例覆盖恢复、abort、初始化重抽。
+  故障注入为原小晶格，检验控制流；LAPACK数值边界另由新validator检验。所有门槛未为通过而修改。
+- 单SSH键生成矩阵变化秩2，半步指数变化在阈值1e-12下秩8。此数值秩不是所有路径固定秩；
+  仅足以否定直接套用秩2更新的假设。当前整键/q也未接HS局部walker。
+- PFQMC_UDT_DISABLE_RANK_LOSS_GUARD删除秩损失、指数范围、有限性及Q正交性保护，继续不定义。
+
+复现：
+EIGEN3_INCLUDE_DIR=/home/asus/old-p/kitaev_ssh_pfqmc_hpc/third_party/eigen3
+BOOST_INCLUDE_DIR=/home/asus/.cache/pfqmc_boost_1_70_0 MKLROOT=/opt/intel/oneapi/mkl/2026.1
+bash quick1010/scripts/build_nodeps.sh quick1010/build-center-green-20261010 kitaev_ssh_center_green_validate kitaev_ssh_mc kitaev_ssh_numerical_failure_validate
+ENV: MKL/OMP/OPENBLAS_NUM_THREADS=1, LD_LIBRARY_PATH=/opt/intel/oneapi/mkl/2026.1/lib
+确定性尺寸、完整argv和日志在deterministic-results.json；固定seed旧/新各argv在cli-results.json。
+run_acceptance.py/run_cli_comparison.py保存执行程序；已有CLI输出拒绝覆盖，重跑应使用新的审核目录。
+
+冻结与生产使用：
+accepted-source.tar.gz SHA256=1a37f776e24445ed7a86422e6fd827fcd3e538539d66a0467d72b2495865d003
+native kitaev_ssh_mc SHA256=968f59bafcc122c6e0a81d521f798307a968c8b9eaa86b77a2884d2437ad7c41
+source-hashes.json、before-reference-hashes.json、source.diff记录来源和变更。
+native-runtime为本地原生MKL ABI；不是现有HPC目标的发布包。未来从accepted-source构建HPC目标，
+节点预检后显式--center-green-fast 1；有意对照设0，省略CLI仍为0。不得把新参数传给旧HPC binary。
+本次验收不认证热化、平衡、统计独立、混合或整链有效样本效率；用户未要求额外长链。
+设计记录docs/decisions/ADR-021-center-green-acceleration.md。

@@ -45,6 +45,7 @@ libs=(-L"$MKLROOT/lib" -lmkl_intel_lp64 -lmkl_sequential -lmkl_core
 
 # 3) program -> source mapping (only files present in this tree).
 declare -A PROGS=(
+  [kitaev_ssh_center_green_validate]=kitaev_ssh/center_green_validate.cpp
   [kitaev_ssh_guided_validate]=kitaev_ssh/guided_proposal_validate.cpp
   [kitaev_ssh_pfqmc_free_phonon_validate]=kitaev_ssh/pfqmc_free_phonon_validate.cpp
   [kitaev_ssh_pfqmc_fock_validate]=kitaev_ssh/pfqmc_fock_validate.cpp

@@ -68,3 +68,5 @@ PBS arrays、目标主机源码构建脚本和 `summarize_chi.py` 联合连接/�
 和整键 proposal 使用相同强迫高斯。`coupled_mc.cpp` 的 `--vbs-field-*` 接口、
 CSV Field_* 和 JSON vbs_field/blocking 见 ADR-012。
 `vbs_field_validate.cpp` 为对应数学与详细平衡验证，CMake 和 nodeps 均可构建。
+
+2026-10-13 export update: center endpoint acceleration and its validator are documented in [ADR-021](decisions/ADR-021-center-green-acceleration.md). The independent strict-static whole-bond response tool is documented in [ADR-020](decisions/ADR-020-strict-static-limit-response.md). Current source uses the same guided/q-pool sampling implementation as the previous GitHub snapshot.

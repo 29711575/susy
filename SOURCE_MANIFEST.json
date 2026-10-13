@@ -1,7 +1,7 @@
 {
-  "exported_beijing": "2026-10-10T16:38:39.055505+08:00",
+  "exported_beijing": "2026-10-13T15:15:15.273704+08:00",
   "source_workspace": "/home/asus/newsusy/quick1010",
-  "prior_github_head": "aa8e1c7d254b8b18b66f07fb25ef49a0072d51c9",
+  "prior_github_head": "27f37df0e1d13bf35fbc03b99e14f7c5ec634742",
   "source_files": [
     {
       "path": "inc/pure_projector_stack.h",
@@ -41,7 +41,7 @@
     },
     {
       "path": "inc/pure_projector_endpoint.h",
-      "sha256": "90d32a3f4e27d76591045c3d0fabe069c591b9a0fb44f2313a07e70e999db71e"
+      "sha256": "915b0bb01aaaf2f7151e90b393fedc2e6b40b50fb1472d179dbcbbca7c08ee77"
     },
     {
       "path": "inc/pure_projector_mp.h",
@@ -581,7 +581,7 @@
     },
     {
       "path": "kitaev_ssh/coupled_mc.cpp",
-      "sha256": "a5850169a1c9e30f9fc27a216729a48d2cd4fe5e0d44da584578bc02be98f81a"
+      "sha256": "f674e9a34a0430c316b3693eb24bd7bcbccfba41cf6e25d8046c6a7d86b85b4c"
     },
     {
       "path": "kitaev_ssh/phase_tau_scan_plan.json",
@@ -753,7 +753,7 @@
     },
     {
       "path": "kitaev_ssh/phonon_projector.h",
-      "sha256": "d54a8d4db2c950e9066871fca03949609135e6a84bf8f2b458eaf477e4050ea1"
+      "sha256": "2a5d322523e408a9a4093f5d74f474fd3e7c5fb765a3b2907cf99c68e35789af"
     },
     {
       "path": "kitaev_ssh/analyze_shifted_t32_stationarity.sh",
@@ -837,7 +837,7 @@
     },
     {
       "path": "kitaev_ssh/numerical_failure_validate.cpp",
-      "sha256": "930a7fe2ce69b7949a19f2ce5ffc5d591520dcda1bd299db3377fc16155d40ac"
+      "sha256": "c74ce1f33e3bcb918c529ce8ac8d6d32aac75aab439c5eff56c17473679f4353"
     },
     {
       "path": "kitaev_ssh/test_export_vbs_momentum.py",
@@ -1129,7 +1129,7 @@
     },
     {
       "path": "scripts/build_nodeps.sh",
-      "sha256": "b5b4b5cb89c9ec0ac9f3c0273e1630cf9c76fa1aed1a01cf6b134c75ab80173f"
+      "sha256": "45fc32646d477af24723139aa0bc7b07399e2b13656a360e3d91b62ea79a0df6"
     },
     {
       "path": "scripts/run-density.sh",
@@ -1189,7 +1189,7 @@
     },
     {
       "path": "docs/CODE_MAP.md",
-      "sha256": "eea048ac1c04a1ad95c4cb375eda2ad9413b886955c354a9e8f0738c0dd61edf"
+      "sha256": "e7502fe961c32216649b83de6fa4e04fcf0125436777544502ff751bd78594e1"
     },
     {
       "path": "docs/evidence/USER_UPDATES_20260923.md",
@@ -1289,7 +1289,7 @@
     },
     {
       "path": "CMakeLists.txt",
-      "sha256": "c7ddbbbcabb6a8cd9e6d97c09cdd1effef0a5300c4f24496037eadc4d7b22d97"
+      "sha256": "f44512fe3e2e1eec170e59aee07913fb00c91e4e864d704a0d9da0652d1593d6"
     },
     {
       "path": "LICENSE",
@@ -1314,17 +1314,40 @@
     {
       "path": "VBS_AMPLITUDE_README_CN.txt",
       "sha256": "d7e29daffef8a9493b9ed6a984a5b12121bd81737801c2972fc627cf3636f481"
+    },
+    {
+      "path": "STRICT_STATIC_README_CN.txt",
+      "sha256": "407d2b161484222e8026c7c3e9dd0b6a6afe4f11b7c0336323789ab3c4fc7043"
+    },
+    {
+      "path": "docs/decisions/ADR-020-strict-static-limit-response.md",
+      "sha256": "bf3af5b50a95cce2a81b86c618b9ae4d9a5b80536e91895c1b5733f0447d6307"
+    },
+    {
+      "path": "docs/decisions/ADR-021-center-green-acceleration.md",
+      "sha256": "deedaddd59a21749d817c3a17caca4c06cd370a70b4dada9a222dbc10263e560"
+    },
+    {
+      "path": "kitaev_ssh/center_green_validate.cpp",
+      "sha256": "5a5813368e765915057552aeae057a584e5cbe82ccd393df68b94acf39d3724b"
+    },
+    {
+      "path": "kitaev_ssh/static_limit_response.py",
+      "sha256": "d2e89be0e659b3383a67b383ab207894d91478a9c4d3bb91bf27a8b38a4f0c2a"
     }
   ],
-  "core_files": 328,
+  "core_files": 333,
   "physics_code_changed": false,
   "excluded": [
-    "build-*",
-    "new/ archives and note.docx",
-    "analysis_context/ historical cut800 sample",
-    "execution.log",
-    "Python caches",
-    "credentials and local authentication configuration"
+    "local audit directories",
+    "build artifacts and dependencies",
+    "credentials and authentication configuration"
   ],
-  "measurements_source": "Existing frozen snapshots collected on 2026-10-10; no new HPC jobs submitted; production records preserve their earlier source versions"
+  "measurements_source": "Existing frozen snapshots collected on 2026-10-10; no new HPC jobs submitted; production records preserve their earlier source versions",
+  "preserved_old_tag": "quick1010-20261010-before-center-green",
+  "frozen_production_source_archive_sha256": "1a37f776e24445ed7a86422e6fd827fcd3e538539d66a0467d72b2495865d003",
+  "physical_model_or_sampling_changed": false,
+  "numerical_implementation_changed": true,
+  "historical_manifest": "docs/provenance/SOURCE_MANIFEST.20261010.json",
+  "export_validation": "evidence/source-update-20261013/summary.json"
 }

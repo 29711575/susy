@@ -1,0 +1,1 @@
+PASS L=6 M=12 omega=0.29999999999999999 lambda=2.3999999999999999 worst_scaled_error=6.9503666191404587e-15 reference_endpoint_seconds=0.016956154000000001 fast_endpoint_seconds=0.015689363000000001 fast_qr_calls=63 reference_qr_calls=63 generator_change_rank=2 half_step_difference_rank=8

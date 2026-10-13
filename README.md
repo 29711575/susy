@@ -1,6 +1,9 @@
 # SSH–Kitaev 声子投影 PfQMC：quick1010 源码与极化率交接
 
-本仓库是 2026-10-10 的 `quick1010` 整理版，供合作者检查计算方法、采样和测量。源码放在仓库根目录；旧仓库中的 `fast-1002/` 内容已由本版本替换，原提交历史仍可回溯。
+本仓库是 2026-10-13 更新的 `quick1010` 整理版，供合作者检查计算方法、采样和测量。源码放在仓库根目录；旧仓库中的 `fast-1002/` 内容已由本版本替换，原提交历史仍可回溯。
+
+
+2026-10-13 源码更新：增加显式 `--center-green-fast 1` 中心 Green 重建加速及严格静态全键响应工具。guided 整键和固定 q 池实现沿用上一版。旧版完整保存在标签 [`quick1010-20261010-before-center-green`](https://github.com/29711575/susy/tree/quick1010-20261010-before-center-green)；详见 [更新与验证说明](docs/updates/20261013-source-update.md)。下列测量仍是 2026-10-10 的历史快照，各自冻结版本保持原记录。
 
 **先读 [交接报告](HANDOFF_REPORT_CN.md)**。目前极化率曲线没有已确认的临界峰；尚未确认生产链热化、遍历或投影收敛。这里提供的数据来自较早冻结的生产版本，不能当作当前 quick1010 新更新算法的长链效果。
 
@@ -11,13 +14,15 @@
 | 生产 CLI 与结果写出 | [kitaev_ssh/coupled_mc.cpp](kitaev_ssh/coupled_mc.cpp) |
 | MC 更新与接受率 | [kitaev_ssh/phonon_mc.h](kitaev_ssh/phonon_mc.h) |
 | guided 整键提议 | [kitaev_ssh/phonon_guided_proposal.h](kitaev_ssh/phonon_guided_proposal.h) |
+| 中心 Green 加速与验证 | [inc/pure_projector_endpoint.h](inc/pure_projector_endpoint.h)、[验证器](kitaev_ssh/center_green_validate.cpp) |
+| 严格静态全键响应 | [工具](kitaev_ssh/static_limit_response.py)、[用法](STRICT_STATIC_README_CN.txt) |
 | 集体动量更新 | [kitaev_ssh/phonon_q_mode.h](kitaev_ssh/phonon_q_mode.h) |
 | 线性 connected 极化率 | [kitaev_ssh/vbs_susceptibility.h](kitaev_ssh/vbs_susceptibility.h) |
 | 新增模长矩与模长源响应 | [kitaev_ssh/vbs_amplitude.h](kitaev_ssh/vbs_amplitude.h)、[用法](VBS_AMPLITUDE_README_CN.txt) |
 | 模长/Binder 分析 | [kitaev_ssh/analyze_vbs_amplitude.py](kitaev_ssh/analyze_vbs_amplitude.py) |
 | 几何、物理及统计约定 | [docs/PHYSICS_CONVENTIONS.md](docs/PHYSICS_CONVENTIONS.md)、[docs/OBSERVABLES.md](docs/OBSERVABLES.md) |
 
-## 当前测量结果
+## 2026-10-10 测量快照
 
 | 数据 | 范围与口径 | 入口 |
 |---|---|---|
@@ -52,6 +57,6 @@ python3 measurements/connected_decomposition/analyze.py
 python3 measurements/connected_decomposition/seed_check.py
 ```
 
-最新普通生产设置显式使用 `bond-guided/bare/beta1`、集体q、combined/defer-phase/prefix/Cayley；CLI历史默认与生产偏好不同，见 [AGENTS.md](AGENTS.md)。本仓库整理没有修改 Hamiltonian、trial 或生产代码，也没有替换既有HPC任务。
+最新普通生产设置显式使用 `bond-guided/bare/beta1`、集体q、combined/defer-phase/prefix/Cayley；CLI历史默认与生产偏好不同，见 [AGENTS.md](AGENTS.md)。本次更新加入已验证的数值加速实现；Hamiltonian、trial、采样提议与观测定义保持原实现，既有 HPC 任务保留各自冻结版本。普通新生产显式增加 `--center-green-fast 1`，有意对照写 0。
 
 [源码来源清单](SOURCE_MANIFEST.json)、[本次导出验证](evidence/export-validation/README.md)、[历史验证](evidence/recorded-validation/) 分别记录不同证据。`docs/provenance/` 保存原本机文档；其中历史路径不是本仓库的相对路径，不能把历史测试记录误认为本次重跑。

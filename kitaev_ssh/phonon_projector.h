@@ -313,6 +313,8 @@ struct PhononWeightOptions {
     // Signed phase is always measured. Energy/fermion consumers additionally
     // request the center Green; phonon-only runs may explicitly omit it.
     bool compute_measurement_green=true;
+    // Endpoint-only acceleration; strict tolerances and uncached reference remain.
+    bool center_green_fast=false;
 };
 struct PhononCacheDiagnostics {
     std::uint64_t local_proposals=0;
@@ -333,6 +335,13 @@ inline std::string weightFailure(const char *where,const PureProjectorWeightResu
            <<" green_diagonal_residual="<<r.green_diagonal_residual;
     return out.str();
 }
+inline PureProjectorOptions phononCenterGreenOptions(bool fast) {
+    PureProjectorOptions options;
+    options.accelerated_linear_algebra=fast;
+    options.prefer_lu_green_solve=fast;
+    options.reuse_rebuild_workspace=fast;
+    return options;
+}
 inline PathWeight evaluatePath(const PhononPath &path,const GaussianTrialState &trial,
                               const std::vector<PureProjectorSlice> &factors,int block,
                               bool singularValuesOnly=false,
@@ -345,7 +354,8 @@ inline PathWeight evaluatePath(const PhononPath &path,const GaussianTrialState &
                               PureProjectorSignedPrefixCache *updatedPrefixCache=nullptr,
                               int requestedResumeIndex=-1,
                               PureProjectorLUCayleyCache *cayleyCache=nullptr,
-                              bool computeGreen=true) {    if (block<=0 || factors.size()!=std::size_t(2*path.intervals())) throw std::invalid_argument("invalid path factors/block");    // Legacy weight order is the conjugate matter overlap for Hermitian
+                              bool computeGreen=true,
+                              bool centerGreenFast=false) {    if (block<=0 || factors.size()!=std::size_t(2*path.intervals())) throw std::invalid_argument("invalid path factors/block");    // Legacy weight order is the conjugate matter overlap for Hermitian
     // half-steps listed in physical action order. Reverse only the order for
     // this call (NOT scalar eta phases); independent complex Fock test fixes
     // the orientation. Keep the live factor list in chronological action order.
@@ -376,7 +386,7 @@ inline PathWeight evaluatePath(const PhononPath &path,const GaussianTrialState &
         w.magnitude_valid=w.phase_valid=true; w.green_valid=false;
         return w;
     }
-    const auto center=profilePath("center_green",[&] {return pureProjectorEndpointRebuild(trial,factors,path.intervals(),block,PureProjectorOptions{});});
+    const auto center=profilePath("center_green",[&] {return pureProjectorEndpointRebuild(trial,factors,path.intervals(),block,phononCenterGreenOptions(centerGreenFast));});
     if (!center.ok()) {
         std::ostringstream out; out<<std::setprecision(17)<<"phonon center Green: "<<center.message
             <<" rank="<<center.overlap_rank<<" rcond="<<center.overlap_rcond
@@ -500,7 +510,7 @@ public:
         if(!options_.defer_phase_measurement) {
             const auto center=profilePath("center_green",[&] {
                 return pureProjectorEndpointRebuild(trial_,state_->factors,
-                    state_->path.intervals(),block_,PureProjectorOptions{});
+                    state_->path.intervals(),block_,phononCenterGreenOptions(options_.center_green_fast));
             });
             if(!center.ok()) {
                 std::ostringstream out;
@@ -527,7 +537,7 @@ public:
             auto weight=evaluatePath(state_->path,trial_,factors,block_,
                 options_.singular_values_only,&prepared.weightOrder,true,preparedTrial(),&prepared.cayley,
                 &weightWorkspace_,nullptr,nullptr,-1,nullptr,
-                options_.compute_measurement_green);
+                options_.compute_measurement_green,options_.center_green_fast);
             state_=std::make_shared<const Snapshot>(makeSnapshot(
                 state_->path,std::move(factors),std::move(weight),
                 std::move(prepared.weightOrder)));
@@ -537,7 +547,7 @@ public:
             auto weight=evaluatePath(state_->path,trial_,state_->factors,block_,
                 options_.singular_values_only,&state_->weight_order,true,preparedTrial(),nullptr,
                 &weightWorkspace_,nullptr,nullptr,-1,nullptr,
-                options_.compute_measurement_green);
+                options_.compute_measurement_green,options_.center_green_fast);
             state_=std::make_shared<const Snapshot>(makeSnapshot(
                 state_->path,state_->factors,std::move(weight),state_->weight_order));
         }
@@ -574,7 +584,7 @@ public:
                 ?std::make_shared<PureProjectorSignedPrefixCache>():nullptr;
             auto weight=evaluatePath(path,trial_,factors,block_,options_.singular_values_only,
                                      &prepared.weightOrder,true,preparedTrial(),&prepared.cayley,
-                                     &weightWorkspace_,nullptr,prefixCache.get(),-1,nullptr,computeGreen);
+                                     &weightWorkspace_,nullptr,prefixCache.get(),-1,nullptr,computeGreen,options_.center_green_fast);
             return profilePath("snapshot_path_copy",[&] {
                 return makeSnapshot(path,std::move(factors),std::move(weight),
                                     std::move(prepared.weightOrder),false,
@@ -584,7 +594,7 @@ public:
             return pathFactors(path,trial_.Phi.rows(),generator_);});
         auto weightOrder=reverseFactors(factors);
         auto weight=evaluatePath(path,trial_,factors,block_,options_.singular_values_only,
-                                 &weightOrder,true,preparedTrial(),nullptr,&weightWorkspace_,nullptr,nullptr,-1,nullptr,computeGreen);
+                                 &weightOrder,true,preparedTrial(),nullptr,&weightWorkspace_,nullptr,nullptr,-1,nullptr,computeGreen,options_.center_green_fast);
         return profilePath("snapshot_path_copy",[&] {
             return makeSnapshot(path,std::move(factors),std::move(weight),std::move(weightOrder));});
     }
@@ -686,7 +696,7 @@ public:
                                      &weightOrder,true,preparedTrial(),nullptr,&weightWorkspace_,
                                      canResume?old.signed_prefix_cache.get():nullptr,
                                      prefixCache.get(),canResume?changedWeightIndex:-1,
-                                     cayleyCache.get());
+                                     cayleyCache.get(),true,options_.center_green_fast);
             auto next=std::make_shared<const Snapshot>(makeSnapshot(
                 std::move(path),std::move(factors),std::move(weight),
                 std::move(weightOrder),true,std::move(prefixCache),
@@ -700,7 +710,7 @@ public:
         auto weight=options_.defer_phase_measurement
             ? evaluatePathMagnitude(path,trial_,factors,block_,&weightOrder,&weightWorkspace_,true)
             : evaluatePath(path,trial_,factors,block_,options_.singular_values_only,
-                           &weightOrder,true,preparedTrial(),nullptr,&weightWorkspace_);
+                           &weightOrder,true,preparedTrial(),nullptr,&weightWorkspace_,nullptr,nullptr,-1,nullptr,true,options_.center_green_fast);
         auto next=std::make_shared<const Snapshot>(makeSnapshot(
             std::move(path),std::move(factors),std::move(weight),
             std::move(weightOrder),false));
@@ -814,7 +824,7 @@ private:
     PathWeight evaluateOwned(const PhononPath &path,const std::vector<PureProjectorSlice> &factors) const {
         if(!options_.merge_node_half_steps || a2Disabled())
             return evaluatePath(path,trial_,factors,block_,options_.singular_values_only,nullptr,true,
-                                preparedTrial(),nullptr,&weightWorkspace_);        // Only this class's own canonical exp(-h K(X_j)/2), eta=1 factors
+                                preparedTrial(),nullptr,&weightWorkspace_,nullptr,nullptr,-1,nullptr,true,options_.center_green_fast);        // Only this class's own canonical exp(-h K(X_j)/2), eta=1 factors
         // reach here. No generic-factor or approximate-matrix matching.
         // Scalar phases in arbitrary factors still use evaluatePath reference.
         auto nodes=profilePath("merge_owned_node_factors",[&] {
@@ -834,7 +844,7 @@ private:
             }            return result;
         });
         return evaluatePath(path,trial_,factors,block_,options_.singular_values_only,&nodes,true,
-                            preparedTrial(),nullptr,&weightWorkspace_);
+                            preparedTrial(),nullptr,&weightWorkspace_,nullptr,nullptr,-1,nullptr,true,options_.center_green_fast);
     }    void checkProposal(const Proposal &proposal) const {
         if (!proposal.next_ || proposal.base_!=state_) throw std::logic_error("foreign, stale or consumed phonon proposal");
     }

@@ -179,6 +179,11 @@ add_density_target(kitaev_ssh_green_precision_benchmark kitaev_ssh/green_precisi
 option(BUILD_TESTING "Build numerical regression tests" ON)
 if(BUILD_TESTING)
   enable_testing()
+  add_density_target(kitaev_ssh_center_green_validate kitaev_ssh/center_green_validate.cpp)
+  add_test(NAME kitaev_ssh_center_green COMMAND kitaev_ssh_center_green_validate)
+  set_tests_properties(kitaev_ssh_center_green PROPERTIES
+    LABELS "pfqmc_correctness"
+    ENVIRONMENT "OMP_NUM_THREADS=1;MKL_NUM_THREADS=1;OPENBLAS_NUM_THREADS=1;MKL_DYNAMIC=FALSE")
   foreach(_pfqmc_check free_phonon fock cache)
     add_density_target(kitaev_ssh_pfqmc_${_pfqmc_check}_validate
       kitaev_ssh/pfqmc_${_pfqmc_check}_validate.cpp)

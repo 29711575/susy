@@ -88,7 +88,7 @@ void transactions(PhononWeightOptions options,PhononProposal mode) {
         demand(beforeMeasure.configuration_hash==injected.configurationHash(),"measurement moved path");
     }
 }
-void cliCase(const std::filesystem::path &dir,const std::string &name,const std::string &operation,bool persistent,bool deferred=false) {
+void cliCase(const std::filesystem::path &dir,const std::string &name,const std::string &operation,bool persistent,bool deferred=false,bool centerFast=false) {
     int fired=0;
     testNumericalFailure=[&](const char *op,bool reference){
         if(operation!=op)return;
@@ -99,7 +99,7 @@ void cliCase(const std::filesystem::path &dir,const std::string &name,const std:
     };
     std::vector<std::string> args={"numerical_failure_validate","--Lx","3","--Ly","2","--shear","1",
         "--intervals","2","--warmup","0","--sweeps","2","--measure-every","1","--block-samples","1",
-        "--seed","19311","--defer-phase",deferred?"1":"0","--output",(dir/name).string()};
+        "--seed","19311","--defer-phase",deferred?"1":"0","--center-green-fast",centerFast?"1":"0","--output",(dir/name).string()};
     std::vector<char*> argv;for(auto &arg:args)argv.push_back(arg.data());
     const int code=coupled_mc_test_main(int(argv.size()),argv.data());testNumericalFailure={};
     demand(code==(persistent&&operation!="initialization"?1:0),"CLI exit code "+name);
@@ -112,6 +112,8 @@ int main(int argc,char **argv) {
         transactions({true,true,false,true},PhononProposal::LocalConditional);
         transactions({true,true,true,false},PhononProposal::LocalConditional);
         transactions({true,true,false,false},PhononProposal::BondRefresh);
+        transactions({true,true,true,true,true,true,true},PhononProposal::LocalConditional);
+        transactions({true,true,true,true,true,true,true},PhononProposal::BondRefresh);
         if(argc==2) {
             const std::filesystem::path dir=argv[1];std::filesystem::create_directories(dir);
             cliCase(dir,"recover","local",false);
@@ -120,6 +122,8 @@ int main(int argc,char **argv) {
             cliCase(dir,"measure_abort","measurement",true,true);
             cliCase(dir,"initial_recover","initialization",false);
             cliCase(dir,"initial_redraw","initialization",true);
+            cliCase(dir,"center_measure_recover","measurement",false,true,true);
+            cliCase(dir,"center_measure_abort","measurement",true,true,true);
         }
         std::cout<<"PASS numerical failure injection: recovery, abort, counters, RNG, transactions, deferred measurement\n";
         return 0;

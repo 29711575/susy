@@ -1,0 +1,1 @@
+Historical validation executed on 2026-10-10. These files are copied records, not tests rerun during the 2026-10-13 export. Machine-specific paths in the original report describe that historical workspace. Current export checks are recorded separately in evidence/source-update-20261013/.

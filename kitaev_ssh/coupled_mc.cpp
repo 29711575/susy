@@ -276,7 +276,7 @@ int main(int argc,char **argv) {
             "warmup","sweeps","measure-every","block-samples","qr-block","output","vbs","vbs-susceptibility","vbs-amplitude","vbs-amplitude-response","vbs-mode","vbs-q-file",
             "proposal","measure-energy","trial-dx","trial-dy","trial-dz","weight-engine","defer-phase","prefix-cache","cayley-cache","fermions","warmup-observable-every","acceptance-every","q-mode-every","q-mode-n1","q-mode-n2","q-mode-beta","q-diagnostic-every",
             "vbs-field-h","vbs-field-n1","vbs-field-n2","vbs-field-phase",
-            "bond-beta","bond-guide","bond-guide-x","bond-guide-y","bond-guide-z","q-mode-pool","q-mode-bonds"};
+            "bond-beta","bond-guide","bond-guide-x","bond-guide-y","bond-guide-z","q-mode-pool","q-mode-bonds","center-green-fast"};
         for(int i=1;i<argc;++i) {
             const std::string key=argv[i];
             if(key=="--help") {
@@ -309,6 +309,7 @@ int main(int argc,char **argv) {
                     <<"--defer-phase 1: magnitude-only updates, full Pfaffian phase/Green computed only at measurement (default 1; use 0 for eager mode).\n"
                     <<"--cayley-cache 1: reuse successful LU Cayley results for unchanged eager local merged factors (default 1).\n"
                     <<"--prefix-cache 1: eager local proposals resume signed propagation from a validated prefix checkpoint (default 1).\n"
+                    <<"--center-green-fast 1: LAPACK endpoint thin QR and values-only SVD/LU center Green with unchanged strict gates (default 0).\n"
                     <<"--trial-dx 0 --trial-dy 0 --trial-dz 0: equal bra/ket endpoint shifts, uniform by bond direction; not static X or a Hamiltonian shift.\n"
                     <<"Numerical policy: same candidate, one uncached reference retry, then abort; never silently reject.\n"
                     <<"Writes PREFIX_blocks.csv, PREFIX_results.json and representative PREFIX_numerical.jsonl (refuses overwrite).\n";
@@ -427,6 +428,8 @@ int main(int argc,char **argv) {
         if(deferPhase>1) throw std::invalid_argument("--defer-phase must be 0 or 1");
         const int prefixCache=integer("prefix-cache",1);
         const int cayleyCache=integer("cayley-cache",1);
+        const int centerGreenFast=integer("center-green-fast",0);
+        if(centerGreenFast>1)throw std::invalid_argument("--center-green-fast must be 0 or 1");
         if(cayleyCache>1)throw std::invalid_argument("--cayley-cache must be 0 or 1");
         if(prefixCache>1) throw std::invalid_argument("--prefix-cache must be 0 or 1");
         if(deferPhase)
@@ -436,7 +439,7 @@ int main(int argc,char **argv) {
             engine=="node-merge" || engine=="combined",
             deferPhase==1,
             prefixCache==1,cayleyCache==1,
-            fermionsEnabled!=0 || measureEnergy!=0};
+            fermionsEnabled!=0 || measureEnergy!=0,centerGreenFast==1};
         const int qrBlock=integer("qr-block",4);
         if(outputPathExists(prefix+"_blocks.csv") || outputPathExists(prefix+"_results.json") ||
            outputPathExists(prefix+"_acceptance.csv") ||
@@ -642,6 +645,9 @@ int main(int argc,char **argv) {
             <<",\"qr_block\":"<<integer("qr-block",4)
             <<",\"weight_engine\":\""<<engine<<"\""
             <<",\"defer_phase\":"<<deferPhase
+            <<",\"center_green_fast\":"<<centerGreenFast
+            <<",\"center_green_qr_fast_calls\":"<<pure_projector_endpoint_detail::endpointAcceleratedQrCalls
+            <<",\"center_green_qr_reference_calls\":"<<pure_projector_endpoint_detail::endpointReferenceQrCalls
             <<",\"cayley_cache\":"<<cayleyCache
             <<",\"cayley_lu_calls\":"<<cayleyLUSolveCount
             <<",\"cayley_cache_hits\":"<<cayleyCacheHitCount

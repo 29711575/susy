@@ -60,6 +60,10 @@ struct ScaledThinQr {
     bool ok() const { return status == PureProjectorStatus::success; }
 };
 
+// Diagnostics only; no counter participates in a numerical decision.
+inline std::uint64_t endpointAcceleratedQrCalls=0;
+inline std::uint64_t endpointReferenceQrCalls=0;
+
 inline ScaledThinQr scaledThinQr(const MatType &subspace,
                                  const PureProjectorOptions &options) {
     ScaledThinQr result;
@@ -68,16 +72,39 @@ inline ScaledThinQr scaledThinQr(const MatType &subspace,
         result.status = PureProjectorStatus::nonfinite_input;
         return result;
     }
-    Eigen::HouseholderQR<MatType> qr(subspace);
-    result.q = qr.householderQ() * MatType::Identity(subspace.rows(),subspace.cols());
-    const MatType packed = qr.matrixQR();
-    for (int i=0;i<subspace.cols();++i) {
-        const double magnitude=std::abs(packed(i,i));
-        if (!std::isfinite(magnitude) || magnitude <= options.rank_tolerance) {
-            result.status = PureProjectorStatus::subspace_rank_deficient;
+    const auto recordScale=[&](const MatType &packed) {
+        for (int i=0;i<subspace.cols();++i) {
+            const double magnitude=std::abs(packed(i,i));
+            if (!std::isfinite(magnitude) || magnitude <= options.rank_tolerance) {
+                result.status = PureProjectorStatus::subspace_rank_deficient;
+                return false;
+            }
+            result.log_abs_determinant += std::log(magnitude);
+        }
+        return true;
+    };
+    if(options.accelerated_linear_algebra && subspace.cols()>=32) {
+        // Same unpivoted thin QR and diagonal-magnitude contract as reference.
+        // Save the scales before zungqr overwrites R. No singular mode is removed.
+        ++endpointAcceleratedQrCalls;
+        result.q=subspace;
+        const lapack_int m=subspace.rows(),n=subspace.cols();
+        cVecType tau(n);
+        const lapack_int info=LAPACKE_zgeqrf(LAPACK_COL_MAJOR,m,n,result.q.data(),m,tau.data());
+        if(info!=0 || !pureProjectorMatrixFinite(result.q) || !recordScale(result.q)) {
+            if(result.status==PureProjectorStatus::invalid_dimension)
+                result.status=PureProjectorStatus::solve_residual_exceeded;
             return result;
         }
-        result.log_abs_determinant += std::log(magnitude);
+        if(LAPACKE_zungqr(LAPACK_COL_MAJOR,m,n,n,result.q.data(),m,tau.data())!=0) {
+            result.status=PureProjectorStatus::solve_residual_exceeded;
+            return result;
+        }
+    } else {
+        ++endpointReferenceQrCalls;
+        Eigen::HouseholderQR<MatType> qr(subspace);
+        result.q = qr.householderQ() * MatType::Identity(subspace.rows(),subspace.cols());
+        if(!recordScale(qr.matrixQR()))return result;
     }
     const double orth=(result.q.adjoint()*result.q-
         MatType::Identity(subspace.cols(),subspace.cols())).norm()/

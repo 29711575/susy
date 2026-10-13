@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-13",
+  "source_files_byte_identical_to_current_quick1010": 279,
+  "unchanged_historical_data_and_reproduction_files": 66,
+  "build_targets": [
+    "kitaev_ssh_center_green_validate",
+    "kitaev_ssh_mc",
+    "kitaev_ssh_numerical_failure_validate"
+  ],
+  "center_green_deterministic_check": "passed",
+  "numerical_failure_injection_and_cli_check": "passed",
+  "production_and_static_cli_help": "passed",
+  "new_production_qmc_submitted": false,
+  "old_github_commit": "27f37df0e1d13bf35fbc03b99e14f7c5ec634742",
+  "old_github_tag": "quick1010-20261010-before-center-green",
+  "limitations": "Focused export checks; historical larger-size acceptance is recorded separately. No certification of equilibrium, mixing or effective-sample speed."
+}
