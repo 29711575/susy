@@ -1,3 +1,11 @@
+# 2026-10-13 当前更新：核心数值默认
+
+production-v1 已统一 combined/deferred/prefix/Cayley/center-fast；普通脚本可以省略逐项数值开关。--numerics reference 及旧显式对照有效。guided、q 池与物理参数没有被硬编码。
+
+12次固定seed短程CLI运行、8组原始块/路径/计数一致性对照和故障注入检查通过；证据见 evidence/numerics-policy-20261013/。现有任务及历史测量不改写；不认证平衡或统计效率。
+
+下文保留原 2026-10-10 状态记录。
+
 # quick1010 当前状态：2026-10-10
 
 ## 当前更正 note：零场模长及 Binder 峰探针已实现

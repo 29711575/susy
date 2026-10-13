@@ -1,3 +1,5 @@
+当前数值配置补充（2026-10-13）：核心 production-v1 默认启用已验收数值优化，普通计算脚本省略逐项开关；--numerics reference 可作诊断。guided/q池和历史测量保持原记录，见 ADR-022 及 evidence/numerics-policy-20261013/。
+
 # 给学长的交接报告：quick1010 与尚未出现清晰峰的 VBS 极化率
 
 版本说明：本文保留 2026-10-10 的测量交接记录；当前源码已于 2026-10-13 补充中心 Green 加速和严格静态工具，见 [更新说明](docs/updates/20261013-source-update.md)。历史数据未重新生成。

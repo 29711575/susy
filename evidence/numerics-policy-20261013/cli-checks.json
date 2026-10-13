@@ -1,0 +1,56 @@
+{
+  "comparisons": [
+    {
+      "case": "legacy_bond",
+      "variant": "new",
+      "raw_blocks_byte_identical": true,
+      "profile": "production-v1"
+    },
+    {
+      "case": "legacy_bond",
+      "variant": "explicit",
+      "raw_blocks_byte_identical": true,
+      "profile": "compatibility-overrides"
+    },
+    {
+      "case": "legacy_bond",
+      "variant": "named",
+      "raw_blocks_byte_identical": true,
+      "profile": "production-v1"
+    },
+    {
+      "case": "legacy_bond",
+      "variant": "center0 override",
+      "raw_blocks_byte_identical": true
+    },
+    {
+      "case": "guided_q",
+      "variant": "new",
+      "raw_blocks_byte_identical": true,
+      "profile": "production-v1"
+    },
+    {
+      "case": "guided_q",
+      "variant": "explicit",
+      "raw_blocks_byte_identical": true,
+      "profile": "compatibility-overrides"
+    },
+    {
+      "case": "local_reference",
+      "variant": "new",
+      "raw_blocks_byte_identical": true,
+      "profile": "reference-v1"
+    },
+    {
+      "case": "local_reference",
+      "variant": "explicit",
+      "raw_blocks_byte_identical": true,
+      "profile": "compatibility-overrides"
+    }
+  ],
+  "successful_cli_runs": 12,
+  "invalid_profile_rejected": true,
+  "old_binary_sha256": "968f59bafcc122c6e0a81d521f798307a968c8b9eaa86b77a2884d2437ad7c41",
+  "new_binary_sha256": "5cb86c67e8bdaa57d2bcd11904a6357830fa1f5c5f03e9042cb2e631ef331a8b",
+  "scope": "Short deterministic fixed-seed compatibility checks; no production submission or sampling-efficiency certification."
+}

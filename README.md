@@ -5,6 +5,9 @@
 
 2026-10-13 源码更新：增加显式 `--center-green-fast 1` 中心 Green 重建加速及严格静态全键响应工具。guided 整键和固定 q 池实现沿用上一版。旧版完整保存在标签 [`quick1010-20261010-before-center-green`](https://github.com/29711575/susy/tree/quick1010-20261010-before-center-green)；详见 [更新与验证说明](docs/updates/20261013-source-update.md)。下列测量仍是 2026-10-10 的历史快照，各自冻结版本保持原记录。
 
+
+数值配置已进一步统一到核心 `production-v1`：普通脚本无需再写 `--weight-engine`、`--defer-phase`、`--prefix-cache`、`--cayley-cache` 或 `--center-green-fast`。参考诊断用 `--numerics reference`；旧逐项参数仍支持显式覆盖。guided、q 池与物理/观测参数保持独立。见 [ADR-022](docs/decisions/ADR-022-core-numerics-policy.md)。此次重构前版本保留在标签 [`quick1010-20261013-before-numerics-policy`](https://github.com/29711575/susy/tree/quick1010-20261013-before-numerics-policy)。
+
 **先读 [交接报告](HANDOFF_REPORT_CN.md)**。目前极化率曲线没有已确认的临界峰；尚未确认生产链热化、遍历或投影收敛。这里提供的数据来自较早冻结的生产版本，不能当作当前 quick1010 新更新算法的长链效果。
 
 ## 代码入口
@@ -57,6 +60,6 @@ python3 measurements/connected_decomposition/analyze.py
 python3 measurements/connected_decomposition/seed_check.py
 ```
 
-最新普通生产设置显式使用 `bond-guided/bare/beta1`、集体q、combined/defer-phase/prefix/Cayley；CLI历史默认与生产偏好不同，见 [AGENTS.md](AGENTS.md)。本次更新加入已验证的数值加速实现；Hamiltonian、trial、采样提议与观测定义保持原实现，既有 HPC 任务保留各自冻结版本。普通新生产显式增加 `--center-green-fast 1`，有意对照写 0。
+最新普通生产设置显式使用 `bond-guided/bare/beta1`、集体q、combined/defer-phase/prefix/Cayley；CLI历史默认与生产偏好不同，见 [AGENTS.md](AGENTS.md)。本次更新加入已验证的数值加速实现；Hamiltonian、trial、采样提议与观测定义保持原实现，既有 HPC 任务保留各自冻结版本。普通新生产的核心默认已启用中心 Green 加速；有意对照仍可显式写 `--center-green-fast 0`。
 
 [源码来源清单](SOURCE_MANIFEST.json)、[本次导出验证](evidence/export-validation/README.md)、[历史验证](evidence/recorded-validation/) 分别记录不同证据。`docs/provenance/` 保存原本机文档；其中历史路径不是本仓库的相对路径，不能把历史测试记录误认为本次重跑。

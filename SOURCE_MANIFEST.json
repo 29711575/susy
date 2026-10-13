@@ -1,7 +1,7 @@
 {
   "exported_beijing": "2026-10-13T15:15:15.273704+08:00",
   "source_workspace": "/home/asus/newsusy/quick1010",
-  "prior_github_head": "27f37df0e1d13bf35fbc03b99e14f7c5ec634742",
+  "prior_github_head": "32564cb210a52f5597375aaec0128d2cf005706e",
   "source_files": [
     {
       "path": "inc/pure_projector_stack.h",
@@ -581,7 +581,7 @@
     },
     {
       "path": "kitaev_ssh/coupled_mc.cpp",
-      "sha256": "f674e9a34a0430c316b3693eb24bd7bcbccfba41cf6e25d8046c6a7d86b85b4c"
+      "sha256": "717ec90dfc641e82ec7a61dfa995116818bbb2bf5e2e8b095a7e3938e9659b5d"
     },
     {
       "path": "kitaev_ssh/phase_tau_scan_plan.json",
@@ -1149,7 +1149,7 @@
     },
     {
       "path": "docs/STATUS.md",
-      "sha256": "9fe4ee0ba333ae83108f99b3146124a7df8971d976b674c04265735eec90ff46"
+      "sha256": "fba8fae7474e53ac7ceab797f9766b5a937fbf302fc22ee2acd3f976b12e8c64"
     },
     {
       "path": "docs/OBSERVABLES.md",
@@ -1189,7 +1189,7 @@
     },
     {
       "path": "docs/CODE_MAP.md",
-      "sha256": "e7502fe961c32216649b83de6fa4e04fcf0125436777544502ff751bd78594e1"
+      "sha256": "818e383fb7865c2b7ff2c20214c6cc839dd02224627989de1fcd32216f666f74"
     },
     {
       "path": "docs/evidence/USER_UPDATES_20260923.md",
@@ -1325,7 +1325,7 @@
     },
     {
       "path": "docs/decisions/ADR-021-center-green-acceleration.md",
-      "sha256": "deedaddd59a21749d817c3a17caca4c06cd370a70b4dada9a222dbc10263e560"
+      "sha256": "6c2586a4ea99d36676e77ff188c05fa2793dd3e9cb098a090a98e84f2ef3d0a6"
     },
     {
       "path": "kitaev_ssh/center_green_validate.cpp",
@@ -1334,9 +1334,17 @@
     {
       "path": "kitaev_ssh/static_limit_response.py",
       "sha256": "d2e89be0e659b3383a67b383ab207894d91478a9c4d3bb91bf27a8b38a4f0c2a"
+    },
+    {
+      "path": "kitaev_ssh/numerical_policy.h",
+      "sha256": "287210a0ce263ab46c99744e3d106cd995ebdbb87cff4334ccdbe511fcfc8332"
+    },
+    {
+      "path": "docs/decisions/ADR-022-core-numerics-policy.md",
+      "sha256": "c48be7b478021cf0727fc84ca58f880b929772f6d1f4f9efbd7ebc00e08fce48"
     }
   ],
-  "core_files": 333,
+  "core_files": 335,
   "physics_code_changed": false,
   "excluded": [
     "local audit directories",
@@ -1345,9 +1353,15 @@
   ],
   "measurements_source": "Existing frozen snapshots collected on 2026-10-10; no new HPC jobs submitted; production records preserve their earlier source versions",
   "preserved_old_tag": "quick1010-20261010-before-center-green",
-  "frozen_production_source_archive_sha256": "1a37f776e24445ed7a86422e6fd827fcd3e538539d66a0467d72b2495865d003",
   "physical_model_or_sampling_changed": false,
   "numerical_implementation_changed": true,
   "historical_manifest": "docs/provenance/SOURCE_MANIFEST.20261010.json",
-  "export_validation": "evidence/source-update-20261013/summary.json"
+  "export_validation": "evidence/numerics-policy-20261013/README.md",
+  "preserved_prior_tag": "quick1010-20261013-before-numerics-policy",
+  "core_numerics_policy": "production-v1",
+  "legacy_numerical_overrides_supported": true,
+  "center_green_fast_omitted_default": 1,
+  "historical_center_green_production_source_archive_sha256": "1a37f776e24445ed7a86422e6fd827fcd3e538539d66a0467d72b2495865d003",
+  "current_local_verified_source_archive_sha256": "40e79323d41240b95ad2f3c42aaee4fe8c4a337ddfd95b72bd7d5d08d3d879b9",
+  "source_archive_scope": "Frozen current quick1010 source and local metadata; existing HPC tasks retain historical archives."
 }

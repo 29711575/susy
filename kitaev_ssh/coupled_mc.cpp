@@ -1,4 +1,5 @@
 #include "phonon_mc.h"
+#include "numerical_policy.h"
 #include "vbs_observables.h"
 #include "vbs_susceptibility.h"
 #include "vbs_amplitude.h"
@@ -276,7 +277,7 @@ int main(int argc,char **argv) {
             "warmup","sweeps","measure-every","block-samples","qr-block","output","vbs","vbs-susceptibility","vbs-amplitude","vbs-amplitude-response","vbs-mode","vbs-q-file",
             "proposal","measure-energy","trial-dx","trial-dy","trial-dz","weight-engine","defer-phase","prefix-cache","cayley-cache","fermions","warmup-observable-every","acceptance-every","q-mode-every","q-mode-n1","q-mode-n2","q-mode-beta","q-diagnostic-every",
             "vbs-field-h","vbs-field-n1","vbs-field-n2","vbs-field-phase",
-            "bond-beta","bond-guide","bond-guide-x","bond-guide-y","bond-guide-z","q-mode-pool","q-mode-bonds","center-green-fast"};
+            "bond-beta","bond-guide","bond-guide-x","bond-guide-y","bond-guide-z","q-mode-pool","q-mode-bonds","center-green-fast","numerics"};
         for(int i=1;i<argc;++i) {
             const std::string key=argv[i];
             if(key=="--help") {
@@ -305,11 +306,9 @@ int main(int argc,char **argv) {
                     <<"--proposal local (default), bond-refresh (legacy), or bond-guided (fixed-reference pCN).\n"
                     <<"--bond-beta beta (default 1); --bond-guide bare|zero (default bare); --bond-guide-x/y/z f overrides. Proposal-only forces, NOT external fields or changed trial states.\n"
                     <<"--q-mode-bonds z|xyz|... (default z); --q-mode-pool file: fixed integer n1 n2 pairs, one uniformly chosen per q update; no Gamma or conjugate duplicates. With a pool, q diagnostics use its first entry.\n"
-                    <<"--weight-engine combined (default), reference, svd-values, or node-merge; Green always uses original half-steps.\n"
-                    <<"--defer-phase 1: magnitude-only updates, full Pfaffian phase/Green computed only at measurement (default 1; use 0 for eager mode).\n"
-                    <<"--cayley-cache 1: reuse successful LU Cayley results for unchanged eager local merged factors (default 1).\n"
-                    <<"--prefix-cache 1: eager local proposals resume signed propagation from a validated prefix checkpoint (default 1).\n"
-                    <<"--center-green-fast 1: LAPACK endpoint thin QR and values-only SVD/LU center Green with unchanged strict gates (default 0).\n"
+                    <<"Numerics are built in: combined weight, deferred signed phase, applicable prefix/Cayley caches and fast center Green, with unchanged strict gates.\n"
+                    <<"--numerics reference: diagnostic unmerged/eager configuration with caches and fast center Green off (default production).\n"
+                    <<"Legacy per-feature numerical options remain accepted for diagnostic/compatibility overrides; ordinary production scripts need none.\n"
                     <<"--trial-dx 0 --trial-dy 0 --trial-dz 0: equal bra/ket endpoint shifts, uniform by bond direction; not static X or a Hamiltonian shift.\n"
                     <<"Numerical policy: same candidate, one uncached reference retry, then abort; never silently reject.\n"
                     <<"Writes PREFIX_blocks.csv, PREFIX_results.json and representative PREFIX_numerical.jsonl (refuses overwrite).\n";
@@ -421,14 +420,22 @@ int main(int argc,char **argv) {
         const double shifts[3]={real("trial-dx",0),real("trial-dy",0),real("trial-dz",0)};
         std::vector<double> bondShifts(model.lattice().bondCount());
         for(const auto &b:model.lattice().bonds()) bondShifts[b.index]=shifts[static_cast<int>(b.type)];
-        const auto engine=args.count("weight-engine")?args.at("weight-engine"):"combined";
+        const std::string numericsRequested=args.count("numerics")?args.at("numerics"):"production";
+        if(numericsRequested!="production" && numericsRequested!="reference")
+            throw std::invalid_argument("--numerics must be production or reference");
+        const auto &policy=numericsRequested=="production"?productionNumerics:referenceNumerics;
+        bool numericalOverrides=false;
+        for(const std::string name:{"weight-engine","defer-phase","prefix-cache","cayley-cache","center-green-fast"})
+            numericalOverrides|=args.count(name)!=0;
+        const std::string numericsProfile=numericalOverrides?"compatibility-overrides":policy.name;
+        const std::string engine=args.count("weight-engine")?args.at("weight-engine"):policy.weight_engine;
         if(engine!="reference" && engine!="svd-values" && engine!="node-merge" && engine!="combined")
             throw std::invalid_argument("unknown --weight-engine");
-        const int deferPhase=integer("defer-phase",1);
+        const int deferPhase=integer("defer-phase",policy.defer_phase);
         if(deferPhase>1) throw std::invalid_argument("--defer-phase must be 0 or 1");
-        const int prefixCache=integer("prefix-cache",1);
-        const int cayleyCache=integer("cayley-cache",1);
-        const int centerGreenFast=integer("center-green-fast",0);
+        const int prefixCache=integer("prefix-cache",policy.prefix_cache);
+        const int cayleyCache=integer("cayley-cache",policy.cayley_cache);
+        const int centerGreenFast=integer("center-green-fast",policy.center_green_fast);
         if(centerGreenFast>1)throw std::invalid_argument("--center-green-fast must be 0 or 1");
         if(cayleyCache>1)throw std::invalid_argument("--cayley-cache must be 0 or 1");
         if(prefixCache>1) throw std::invalid_argument("--prefix-cache must be 0 or 1");
@@ -643,6 +650,8 @@ int main(int argc,char **argv) {
             <<",\"dt\":"<<state.state().path.dt()<<",\"tau\":"<<state.state().path.totalTau()<<",\"acceptance_every\":"<<acceptanceEvery<<",\"warmup_sweeps\":"<<schedule.warmup
             <<",\"measurement_sweeps\":"<<schedule.measurement_sweeps<<",\"measure_every\":"<<schedule.stride<<",\"block_samples\":"<<schedule.block_samples
             <<",\"qr_block\":"<<integer("qr-block",4)
+            <<",\"numerics_requested\":\""<<numericsRequested<<"\""
+            <<",\"numerics_profile\":\""<<numericsProfile<<"\""
             <<",\"weight_engine\":\""<<engine<<"\""
             <<",\"defer_phase\":"<<deferPhase
             <<",\"center_green_fast\":"<<centerGreenFast

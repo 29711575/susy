@@ -68,3 +68,5 @@ UDT引擎。当前SSH生产入口不调用该引擎，实际投影QR/Green检查
 现有精确小支撑低秩内核仍不适用，不用数值秩阈值删模式，也不替换当前
 非对易矩阵指数的离散方式。当前不新增生产开关，现有guided/q保持。
 见原工作区 audit/1011/local-green-feasibility/REPORT.txt（历史记录，未随本次导出）。
+
+2026-10-13 CLI 默认更新：普通生产现从 numerical_policy.h 使用 production-v1，省略 center-green-fast 的默认改为1；脚本无需逐项传入数值优化开关。旧显式0及 --numerics reference 仍可诊断。见 ADR-022；此前验证记录保留原日期和范围。

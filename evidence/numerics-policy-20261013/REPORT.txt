@@ -1,0 +1,11 @@
+数值开关收敛到核心默认（2026-10-13）
+
+普通生产 CLI 默认使用 numerical_policy.h 的 production-v1：combined/deferred/prefix/Cayley/center-fast。脚本可以省略五个数值选项；旧选项仅用于兼容及诊断覆盖，显式设置优先。新增 --numerics reference 诊断配置。
+仅改变 CLI 数值配置组织，以及未指定 center-fast 时的默认0→1；严格数值门槛、uncached 恢复、数学测试API默认、Hamiltonian、trial、采样提议和观测定义均保留。
+guided、q池、频率/幅度/方向、物理参数、warmup和测量选项继续显式配置。生产并没有被硬编码成唯一采样内核。
+
+本轮验证：两个目标新构建退出0；12次固定seed短程运行，8组原始blocks逐字节一致，最终声子路径、move_counts和关键实际设置一致。覆盖 L6 普通整键、L6 guided/单q 和小型剪切晶格 local/reference，并验证center-fast=0兼容覆盖。默认与显式 production 都通过。无效 --numerics 被拒绝，不产生blocks。
+故障注入覆盖原配置、新center配置、一次恢复、持续失败中止及事务/RNG，退出0且PASS。
+这是配置/兼容性验收，不是新增物理算法性能基准，不认证长链平衡，也不声称绝对正确。
+
+旧HPC任务和历史审计脚本未修改；本轮未提交新生产任务。GitHub同步记录另存 publication.json。
