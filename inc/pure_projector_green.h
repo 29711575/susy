@@ -5,6 +5,7 @@
 #include "types.h"
 #include "pure_projector_svd.h"
 #include "pure_projector_factor.h"
+#include "pure_projector_canonical.h"
 #include <vector>
 
 #include <algorithm>
@@ -86,6 +87,15 @@ struct PureProjectorGreenResult {
     int solve_refinement_steps = 0;
     bool extended_precision_solve = false;
     double green_residual = std::numeric_limits<double>::infinity();
+    double initial_green_residual = std::numeric_limits<double>::infinity();
+    double green_residual_double = std::numeric_limits<double>::infinity();
+    bool long_double_green_residual = false;
+    bool canonical_frame_maintenance_attempted = false;
+    bool canonical_frame_maintenance = false;
+    double canonical_correction_right = 0.0,canonical_correction_left = 0.0;
+    double canonical_isotropy_right = 0.0,canonical_isotropy_left = 0.0;
+    int canonical_overlap_rank = 0;
+    double canonical_overlap_rcond = 0.0;
     // Set only by the local oblique-Green recovery; the old diagnostic keeps
     // its dimension-normalized meaning for strict/reference callers.
     double green_relative_residual = std::numeric_limits<double>::infinity();
@@ -93,6 +103,14 @@ struct PureProjectorGreenResult {
     double green_diagonal_residual = std::numeric_limits<double>::infinity();
     bool ok() const { return status == PureProjectorStatus::success; }
 };
+
+struct PureProjectorGreenPrecisionStats {
+    std::uint64_t long_double_residual_checks=0,long_double_residual_passes=0;
+    std::uint64_t canonical_ld_rebuild_attempts=0,canonical_ld_rebuild_assemblies=0;
+    std::uint64_t canonical_ld_rebuild_certified=0;
+    double maximum_canonical_relative_correction=0.0;
+};
+inline thread_local PureProjectorGreenPrecisionStats pureProjectorGreenPrecisionStats;
 
 inline bool pureProjectorMatrixFinite(const PureFactorMatrix &matrix) { return matrix.allFinite(); }
 
@@ -117,7 +135,8 @@ inline double pureProjectorSolveTolerance(
 
 inline ThinQrResult thinQrSubspace(
     const MatType &subspace,
-    const PureProjectorOptions &options = PureProjectorOptions()) {
+    const PureProjectorOptions &options = PureProjectorOptions(),
+    bool canonical = false) {
     ThinQrResult result;
     if (subspace.rows() <= 0 || subspace.cols() <= 0 ||
         subspace.rows() < subspace.cols()) return result;
@@ -152,6 +171,14 @@ inline ThinQrResult thinQrSubspace(
     }
     result.q = qr.householderQ() *
         MatType::Identity(subspace.rows(), subspace.cols());
+    }
+    if(canonical) {
+        DataType correctionDet;
+        if(!pureProjectorCanonicalMicrocorrect(result.q,correctionDet,
+                options.solve_residual_tolerance,options.accelerated_linear_algebra)) {
+            result.status=PureProjectorStatus::solve_residual_exceeded;
+            return result;
+        }
     }
     result.orthonormal_residual =
         (result.q.adjoint() * result.q -
@@ -209,21 +236,64 @@ inline PureProjectorGreenResult pureProjectorGreen(
     result.initial_solve_residual = result.solve_residual;
     using ExtendedComplex=std::complex<long double>;
     using ExtendedMatrix=Eigen::Matrix<ExtendedComplex,Eigen::Dynamic,Eigen::Dynamic>;
+    const double independentFrameTolerance=std::min(options.solve_residual_tolerance,
+        pureProjectorCanonicalCorrectionBound(phiRight.rows()));
+    const bool canonicalFrames=
+        pureProjectorCanonicalFrameTrusted(phiRight,independentFrameTolerance)&&
+        pureProjectorCanonicalFrameTrusted(phiLeft,independentFrameTolerance);
+    bool canonicalMaintenanceFailed=false;
+    PureProjectorStatus extendedFailureStatus=PureProjectorStatus::solve_residual_exceeded;
     auto extendedSolve=[&]() {
         if(std::numeric_limits<long double>::digits<=std::numeric_limits<double>::digits)return false;
-        const ExtendedMatrix right=phiRight.cast<ExtendedComplex>();
-        const ExtendedMatrix leftAdj=phiLeft.cast<ExtendedComplex>().adjoint();
-        // Form the actual overlap of the supplied subspaces at the precision
-        // used for the solve. A double-rounded overlap can otherwise create
-        // an inconsistent oblique projector even after accurate refinement.
+        ExtendedMatrix right=phiRight.cast<ExtendedComplex>();
+        ExtendedMatrix left=phiLeft.cast<ExtendedComplex>();
+        if(canonicalFrames) {
+            result.canonical_frame_maintenance_attempted=true;
+            ++pureProjectorGreenPrecisionStats.canonical_ld_rebuild_attempts;
+            if(!pureProjectorCanonicalMicrocorrectExtended(right,result.canonical_correction_right,
+                    result.canonical_isotropy_right,options.solve_residual_tolerance)||
+               !pureProjectorCanonicalMicrocorrectExtended(left,result.canonical_correction_left,
+                    result.canonical_isotropy_left,options.solve_residual_tolerance)) {
+                canonicalMaintenanceFailed=true;return false;
+            }
+            pureProjectorGreenPrecisionStats.maximum_canonical_relative_correction=std::max(
+                pureProjectorGreenPrecisionStats.maximum_canonical_relative_correction,
+                std::max(result.canonical_correction_right,result.canonical_correction_left));
+        }
+        const ExtendedMatrix leftAdj=left.adjoint();
+        // Form the overlap at the precision of the solve. Generic subspaces
+        // remain unchanged; independently certified canonical frames receive
+        // only the bounded roundoff maintenance recorded above.
         const ExtendedMatrix matrix=leftAdj*right;
+        if(canonicalFrames) {
+            const MatType correctedOverlap=matrix.cast<DataType>();
+            PureGreenSvd correctedSvd(correctedOverlap,options.accelerated_linear_algebra,false);
+            correctedSvd.setThreshold(options.rank_tolerance);
+            result.canonical_overlap_rank=correctedSvd.rank();
+            if(result.canonical_overlap_rank!=matrix.rows()) {
+                canonicalMaintenanceFailed=true;
+                extendedFailureStatus=PureProjectorStatus::overlap_rank_deficient;return false;
+            }
+            const auto &values=correctedSvd.singularValues();
+            result.canonical_overlap_rcond=values(0)>0.?values(values.size()-1)/values(0):0.;
+            if(!std::isfinite(result.canonical_overlap_rcond)||
+               result.canonical_overlap_rcond<options.minimum_overlap_rcond) {
+                canonicalMaintenanceFailed=true;
+                extendedFailureStatus=PureProjectorStatus::overlap_ill_conditioned;return false;
+            }
+            result.overlap_rcond=std::min(result.overlap_rcond,result.canonical_overlap_rcond);
+        }
+        const double extendedSolveTolerance=std::min(solveTolerance,
+            pureProjectorSolveTolerance(options,result.overlap_rcond));
         Eigen::PartialPivLU<ExtendedMatrix> lu(matrix);
         const ExtendedMatrix solution=lu.solve(leftAdj);
         const long double residual=(matrix*solution-leftAdj).norm()/std::max(1.L,leftAdj.norm());
-        if(!solution.allFinite()||!std::isfinite(residual)||residual>solveTolerance)return false;
+        if(!solution.allFinite()||!std::isfinite(residual)||residual>extendedSolveTolerance)return false;
         const ExtendedMatrix green=ExtendedMatrix::Identity(phiRight.rows(),phiRight.rows())-2.L*right*solution;
         if(!green.allFinite())return false;
         result.green=green.cast<DataType>();result.solve_residual=double(residual);
+        result.canonical_frame_maintenance=canonicalFrames;
+        if(canonicalFrames)++pureProjectorGreenPrecisionStats.canonical_ld_rebuild_assemblies;
         result.solve_refinement_steps=5;result.extended_precision_solve=true;
         return true;
     };
@@ -232,7 +302,8 @@ inline PureProjectorGreenResult pureProjectorGreen(
     // precision refinement only after the original solve fails its gate.
     // Rank/rcond still come from the original SVD. Double candidates retain
     // the original residual check and scale; the final extended solve below
-    // retains its precision through certification and Green assembly.
+    // retains its precision through certification and Green assembly, with
+    // independently bounded canonical-frame maintenance when eligible.
     bool extendedGreenReady=false;
     if(pureProjectorMatrixFinite(solved)&&std::isfinite(result.solve_residual)&&
        result.solve_residual>solveTolerance) {
@@ -265,7 +336,8 @@ inline PureProjectorGreenResult pureProjectorGreen(
     }
     if (!pureProjectorMatrixFinite(solved) || !std::isfinite(result.solve_residual) ||
         result.solve_residual > solveTolerance) {
-        result.status = PureProjectorStatus::solve_residual_exceeded;
+        result.status = canonicalMaintenanceFailed?extendedFailureStatus:
+            PureProjectorStatus::solve_residual_exceeded;
         return result;
     }
     if(!extendedGreenReady)
@@ -273,12 +345,7 @@ inline PureProjectorGreenResult pureProjectorGreen(
                        2.0 * phiRight * solved;
     const double greenScale=std::max(1.0,std::sqrt(double(result.green.rows())));
     bool greenFinite=false;
-    auto certifyGreen=[&]() {
-        greenFinite=pureProjectorMatrixFinite(result.green);
-        if(!greenFinite)return false;
-        result.green_residual=(result.green*result.green-
-            MatType::Identity(result.green.rows(),result.green.cols())).norm()/greenScale;
-        if(!std::isfinite(result.green_residual))return false;
+    auto residualTrusted=[&]() {
         if(result.green_residual<=options.green_residual_tolerance)return true;
         if(!options.allow_oblique_green)return false;
         const double normScale=std::max(greenScale,result.green.norm());
@@ -287,26 +354,58 @@ inline PureProjectorGreenResult pureProjectorGreen(
         return std::isfinite(result.green_relative_residual)&&
             result.green_relative_residual<=options.green_residual_tolerance;
     };
+    auto certifyGreen=[&]() {
+        greenFinite=pureProjectorMatrixFinite(result.green);
+        if(!greenFinite)return false;
+        result.green_residual=(result.green*result.green-
+            MatType::Identity(result.green.rows(),result.green.cols())).norm()/greenScale;
+        result.green_residual_double=result.green_residual;
+        if(!std::isfinite(result.initial_green_residual))result.initial_green_residual=result.green_residual;
+        result.long_double_green_residual=false;
+        if(!std::isfinite(result.green_residual))return false;
+        if(residualTrusted())return true;
+        if(std::numeric_limits<long double>::digits>std::numeric_limits<double>::digits) {
+            ++pureProjectorGreenPrecisionStats.long_double_residual_checks;
+            result.green_residual=pureProjectorStoredGreenResidualExtended(result.green);
+            result.long_double_green_residual=true;
+            if(!std::isfinite(result.green_residual))return false;
+            const bool trusted=residualTrusted();
+            if(trusted)++pureProjectorGreenPrecisionStats.long_double_residual_passes;
+            return trusted;
+        }
+        return false;
+    };
+    auto certifyStructure=[&]() {
+        result.green_skew_residual=(result.green+result.green.transpose()).norm()/greenScale;
+        result.green_diagonal_residual=result.green.diagonal().norm()/greenScale;
+        return std::isfinite(result.green_skew_residual)&&std::isfinite(result.green_diagonal_residual)&&
+            result.green_skew_residual<=options.green_residual_tolerance&&
+            result.green_diagonal_residual<=options.green_residual_tolerance;
+    };
     bool greenTrusted=certifyGreen();
-    if(!greenTrusted&&greenFinite&&std::isfinite(result.green_residual)&&
-       !result.extended_precision_solve&&extendedSolve())
-        greenTrusted=certifyGreen();
-    if (!greenTrusted) {
-        result.status = PureProjectorStatus::green_residual_exceeded;
-        return result;
+    bool structureTrusted=greenFinite&&certifyStructure();
+    const bool canonicalStructureRecovery=canonicalFrames&&!structureTrusted;
+    if((!greenTrusted||canonicalStructureRecovery)&&greenFinite&&
+       std::isfinite(result.green_residual)&&!result.extended_precision_solve) {
+        if(extendedSolve()) {
+            greenTrusted=certifyGreen();structureTrusted=greenFinite&&certifyStructure();
+        } else if(canonicalMaintenanceFailed||result.canonical_frame_maintenance_attempted) {
+            result.status=canonicalMaintenanceFailed?extendedFailureStatus:
+                PureProjectorStatus::solve_residual_exceeded;return result;
+        }
     }
-    result.green_skew_residual =
-        (result.green + result.green.transpose()).norm() / greenScale;
-    result.green_diagonal_residual =
-        result.green.diagonal().norm() / greenScale;
-    if (!std::isfinite(result.green_skew_residual) ||
-        !std::isfinite(result.green_diagonal_residual) ||
-        (options.fail_on_green_structure &&
-         (result.green_skew_residual > options.green_residual_tolerance ||
-          result.green_diagonal_residual > options.green_residual_tolerance))) {
-        result.status = PureProjectorStatus::green_structure_exceeded;
-        return result;
+    if(canonicalMaintenanceFailed) {
+        result.status=extendedFailureStatus;return result;
     }
+    if(!greenTrusted) {
+        result.status=PureProjectorStatus::green_residual_exceeded;return result;
+    }
+    if(!std::isfinite(result.green_skew_residual)||!std::isfinite(result.green_diagonal_residual)||
+       (options.fail_on_green_structure&&!structureTrusted)) {
+        result.status=PureProjectorStatus::green_structure_exceeded;return result;
+    }
+    if(result.canonical_frame_maintenance)
+        ++pureProjectorGreenPrecisionStats.canonical_ld_rebuild_certified;
     result.status = PureProjectorStatus::success;
     return result;
 }
@@ -314,19 +413,20 @@ inline PureProjectorGreenResult pureProjectorGreen(
 inline PureProjectorGreenResult pureProjectorGreenThinQr(
     const MatType &phiRight, const MatType &phiLeft,
     const PureProjectorOptions &options = PureProjectorOptions()) {
-    const ThinQrResult rightQr = thinQrSubspace(phiRight, options);
+    const ThinQrResult rightQr = thinQrSubspace(phiRight, options, true);
     if (!rightQr.ok()) {
         PureProjectorGreenResult result;
         result.status = rightQr.status;
         return result;
     }
-    const ThinQrResult leftQr = thinQrSubspace(phiLeft, options);
+    const ThinQrResult leftQr = thinQrSubspace(phiLeft, options, true);
     if (!leftQr.ok()) {
         PureProjectorGreenResult result;
         result.status = leftQr.status;
         return result;
     }
-    return pureProjectorGreen(rightQr.q, leftQr.q, options);
+    PureProjectorOptions gaussianOptions=options;gaussianOptions.fail_on_green_structure=true;
+    return pureProjectorGreen(rightQr.q, leftQr.q, gaussianOptions);
 }
 
 // A1: the LEFT basis is the immutable trial state, identical for every slice
@@ -346,7 +446,7 @@ struct PreparedGreenTrial {
 inline PreparedGreenTrial prepareGreenTrial(
         const GaussianTrialState &trial, const PureProjectorOptions &options) {
     PreparedGreenTrial prepared;
-    const ThinQrResult leftQr = thinQrSubspace(trial.Phi, options);
+    const ThinQrResult leftQr = thinQrSubspace(trial.Phi, options, true);
     if (!leftQr.ok()) { prepared.status = leftQr.status; return prepared; }
     prepared.qLeft = leftQr.q;
     prepared.status = PureProjectorStatus::success;
@@ -374,11 +474,14 @@ inline PureProjectorGreenResult pureProjectorGreenPreparedRight(
         (qRight.adjoint() * qRight -
          MatType::Identity(qRight.cols(), qRight.cols())).norm() /
         std::max(1.0, std::sqrt(double(qRight.cols())));
-    if (!std::isfinite(orth) || orth > options.solve_residual_tolerance) {
+    if (!std::isfinite(orth) || orth > options.solve_residual_tolerance ||
+        !pureProjectorCanonicalFrameTrusted(qRight,options.solve_residual_tolerance) ||
+        !pureProjectorCanonicalFrameTrusted(prepared.qLeft,options.solve_residual_tolerance)) {
         return pureProjectorGreenThinQr(qRight, trial.Phi, options);
     }
+    PureProjectorOptions gaussianOptions=options;gaussianOptions.fail_on_green_structure=true;
     const PureProjectorGreenResult preparedResult =
-        pureProjectorGreen(qRight, prepared.qLeft, options);
+        pureProjectorGreen(qRight, prepared.qLeft, gaussianOptions);
     if (preparedResult.ok()) return preparedResult;
 
     // The prepared QR is mathematically equivalent to re-orthogonalizing the

@@ -1,0 +1,66 @@
+[
+  {
+    "name": "python-regression",
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "scripts/tests",
+      "-p",
+      "test_qmc_tools.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "log": "python-regression.log"
+  },
+  {
+    "name": "qmc-help",
+    "command": [
+      "python3",
+      "scripts/qmc.py",
+      "--help"
+    ],
+    "exit_code": 0,
+    "log": "qmc-help.log"
+  },
+  {
+    "name": "native-build",
+    "command": [
+      "bash",
+      "/home/asus/newsusy/quick1010/audit/1026/github-sync/frozen-source/scripts/build_nodeps.sh",
+      "/home/asus/newsusy/quick1010/audit/1026/github-sync/native",
+      "kitaev_ssh_mc",
+      "kitaev_ssh_total_energy_validate",
+      "kitaev_ssh_physical_trial_validate"
+    ],
+    "exit_code": 0,
+    "log": "native-build.log"
+  },
+  {
+    "name": "cli-help",
+    "command": [
+      "/home/asus/newsusy/quick1010/audit/1026/github-sync/native/kitaev_ssh_mc",
+      "--help"
+    ],
+    "exit_code": 0,
+    "log": "cli-help.log"
+  },
+  {
+    "name": "total-energy-deterministic",
+    "command": [
+      "/home/asus/newsusy/quick1010/audit/1026/github-sync/native/kitaev_ssh_total_energy_validate"
+    ],
+    "exit_code": 0,
+    "log": "total-energy-deterministic.log"
+  },
+  {
+    "name": "physical-trial-deterministic",
+    "command": [
+      "/home/asus/newsusy/quick1010/audit/1026/github-sync/native/kitaev_ssh_physical_trial_validate"
+    ],
+    "exit_code": 0,
+    "log": "physical-trial-deterministic.log"
+  }
+]

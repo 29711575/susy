@@ -2,6 +2,7 @@
 #define PURE_PROJECTOR_REAL_H
 #include "gaussian_trial_state.h"
 #include "pure_projector_factor.h"
+#include "pure_projector_canonical.h"
 #include <cstdlib>
 #include <limits>
 #include <vector>
@@ -69,14 +70,45 @@ public:
         }
         entry.valid=true;++conversions;return &entry.value;
     }
-    bool orthogonalize(double &detR) {
+    bool orthogonalize(double &detR,double orthTolerance) {
         const int m=next_q.rows(),n=next_q.cols();
         if(!next_q.allFinite()||!queryWorkspace(m,n))return false;
-        if(LAPACKE_dgeqrf_work(LAPACK_COL_MAJOR,m,n,next_q.data(),m,tau_.data(),
-                              qr_work_.data(),qr_work_.size())!=0)return false;
-        detR=1.;for(int i=0;i<n;++i)detR*=next_q(i,i);
-        return LAPACKE_dorgqr_work(LAPACK_COL_MAJOR,m,n,n,next_q.data(),m,tau_.data(),
-                                  q_work_.data(),q_work_.size())==0&&next_q.allFinite();
+        const auto rawQr=[&](double &scale) {
+            if(LAPACKE_dgeqrf_work(LAPACK_COL_MAJOR,m,n,next_q.data(),m,tau_.data(),
+                                  qr_work_.data(),qr_work_.size())!=0)return false;
+            scale=1.;for(int i=0;i<n;++i)scale*=next_q(i,i);
+            return LAPACKE_dorgqr_work(LAPACK_COL_MAJOR,m,n,n,next_q.data(),m,tau_.data(),
+                                      q_work_.data(),q_work_.size())==0&&next_q.allFinite();
+        };
+        if(!rawQr(detR))return false;
+        auto &stats=pureCanonicalCorrectionStats;++stats.real_calls;
+        const auto fail=[&](){++stats.failures;return false;};
+        if(m!=2*n)return fail();
+        const double normalization=std::sqrt(double(n));
+        const double orth=(next_q.transpose()*next_q-Eigen::MatrixXd::Identity(n,n)).norm()/normalization;
+        if(!std::isfinite(orth)||orth>orthTolerance)return fail();
+        // Q_complex=D Q_real, D=diag(I,iI). Hence Q_complex^T Q_complex
+        // is Q_real^T J Q_real, J=diag(I,-I), and D^dag conj(D)=J.
+        Eigen::MatrixXd metricQ=next_q;metricQ.bottomRows(n)*=-1.;
+        const Eigen::MatrixXd isotropy=next_q.transpose()*metricQ;
+        const Eigen::MatrixXd delta=(-.5*metricQ*isotropy).eval();
+        const double relative=delta.norm()/next_q.norm(),before=isotropy.norm()/normalization;
+        if(std::isfinite(relative))stats.maximum_relative_correction=std::max(stats.maximum_relative_correction,relative);
+        if(std::isfinite(before))stats.maximum_input_isotropy=std::max(stats.maximum_input_isotropy,before);
+        if(!isotropy.allFinite()||!delta.allFinite()||!std::isfinite(relative)||
+           relative>pureProjectorCanonicalCorrectionBound(m))return fail();
+        next_q+=delta;
+        double correctionDet;
+        if(!rawQr(correctionDet))return fail();
+        detR*=correctionDet;
+        metricQ=next_q;metricQ.bottomRows(n)*=-1.;
+        const double after=(next_q.transpose()*metricQ).norm()/normalization;
+        const double afterOrth=(next_q.transpose()*next_q-Eigen::MatrixXd::Identity(n,n)).norm()/normalization;
+        if(std::isfinite(after))stats.maximum_output_isotropy=std::max(stats.maximum_output_isotropy,after);
+        if(std::isfinite(afterOrth))stats.maximum_output_orthonormality=std::max(stats.maximum_output_orthonormality,afterOrth);
+        if(!std::isfinite(after)||!std::isfinite(afterOrth)||!std::isfinite(detR)||
+           after>pureProjectorCanonicalCorrectionBound(m)||afterOrth>orthTolerance)return fail();
+        return true;
     }
     bool overlapValues() {
         const int n=overlap.rows();svd_input_=overlap;double dummy=0.;

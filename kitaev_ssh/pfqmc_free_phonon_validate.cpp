@@ -2,6 +2,7 @@
 // estimator checks. The zero-shift trial is the free oscillator ground state.
 #include "phonon_mc.h"
 #include "vbs_susceptibility.h"
+#include "vbs_amplitude.h"
 #include <Eigen/Cholesky>
 #include <iostream>
 #include <iomanip>
@@ -104,6 +105,62 @@ void report(const std::string &label,const std::vector<std::vector<Complex>> &bl
         check(label+"/"+name,reference,estimate[j],errors[j],6*errors[j]+2e-10);
     }
 }
+// Deterministic benchmark: no random reference draws and no production action
+// or conditional is used to construct the independent Mehler precision.
+void deterministic() {
+ for(int L:{2,4})for(double w:{.3,.8})for(int M:{10,20}) {
+  const double m=100./9,dt=2./M;
+  PhononPath p(3*L*L,M,dt,{m,w},std::vector<double>(3*L*L,0.));
+  const auto C=covariance(M,dt,m,w);
+  const auto Q=C.ldlt().solve(Eigen::MatrixXd::Identity(M+1,M+1)).eval();
+  Eigen::VectorXd x(M+1);std::vector<double> xs(M+1);
+  for(int j=0;j<=M;++j)xs[j]=x[j]=.17*std::sin(.71*j)+.03*j;
+  auto probe=p.withBondCoordinates(0,xs);
+  std::string label="det/L"+std::to_string(L)+"/w"+std::to_string(w)+"/M"+std::to_string(M);
+  std::cout<<"CASE "<<label<<" m="<<m<<" omega="<<w<<" dt="<<dt<<" tau=2 trial=0 g=0 field=0 shear=0 J=1,1,.5\n";
+  check(label+"/action",.5*x.dot(Q*x),probe.action(),0,2e-11);
+  double covErr=0,condErr=0,ratioErr=0,weightErr=0,chi=0;
+  for(int j=0;j<=M;++j) {
+   const auto c=freeConditional(probe,j,0);
+   condErr=std::max({condErr,std::abs(c.mean-(x[j]-(Q*x)[j]/Q(j,j))),std::abs(c.variance-1/Q(j,j))});
+   ratioErr=std::max(ratioErr,std::abs(probe.localLogRatio(j,0,x[j]+.23)+.23*(Q*x)[j]+.5*.23*.23*Q(j,j)));
+   const double a=(j==0||j==M?1:2)*std::tanh(w*dt/2)/w;
+   weightErr=std::max({weightErr,std::abs(a-p.sourceNodeWeight(j)),std::abs(a-VBSSusceptibility::nodeWeight(p,j))});
+   chi+=a*C(M/2,j);
+   for(int k=0;k<=M;++k)covErr=std::max(covErr,std::abs(C(j,k)-std::exp(-w*dt*std::abs(j-k))/(2*m*w)));
+  }
+  check(label+"/all_covariances",0,covErr,0,2e-12);
+  check(label+"/endpoint_internal_conditionals",0,condErr,0,2e-11);
+  check(label+"/local_log_ratio",0,ratioErr,0,2e-11);
+  check(label+"/Mehler_source_weights",0,weightErr,0,2e-13);
+  check(label+"/finite_tau_chi",-std::expm1(-w)/(m*w*w),chi,0,2e-12);
+  HoneycombLattice l(L,L);VBSObservables v(l);VBSSusceptibility response(v);VBSAmplitude amp(v);
+  for(int b=0;b<p.bonds();++b) {
+   for(int j=0;j<=M;++j)xs[j]=.3*std::sin(.43*b+.19*j)+.2*std::cos(.7*b-.11*j);
+   p=p.withBondCoordinates(b,xs);
+  }
+  const auto sr=v.measure(p.node(M/2)),cr=response.measure(p),ar=amp.measure(p);
+  double fourierErr=0,ampErr=0,realErr=0;
+  for(int n1=0;n1<L;++n1)for(int n2=0;n2<L;++n2) {
+   const int q=n1*L+n2,nc=L*L;std::array<Complex,3>d{},integ{};
+   for(int rx=0;rx<L;++rx)for(int ry=0;ry<L;++ry)for(int mu=0;mu<3;++mu) {
+    const int b=3*(rx*L+ry)+mu;
+    const auto e=std::polar(1.,-2*pi*(double(n1*rx+n2*ry)/L))/double(nc);
+    d[mu]+=e*p.coordinate(M/2,b);
+    for(int j=0;j<=M;++j)integ[mu]+=e*p.coordinate(j,b)*(j==0||j==M?1.:2.)*std::tanh(w*dt/2)/w;
+   }
+   for(int mu=0;mu<3;++mu) {
+    fourierErr=std::max({fourierErr,std::abs(cr[24*q+mu]-d[mu]),std::abs(cr[24*q+3+mu]-integ[mu]),std::abs(cr[24*q+6+mu]-std::conj(integ[mu]))});
+    ampErr=std::max({ampErr,std::abs(ar[9*q+3+mu]-std::norm(d[mu])),std::abs(ar[9*q+6+mu]-std::pow(std::norm(d[mu]),2))});
+    for(int nu=0;nu<3;++nu)fourierErr=std::max({fourierErr,std::abs(sr[9*q+3*mu+nu]-double(nc)*d[mu]*std::conj(d[nu])),std::abs(cr[24*q+9+3*mu+nu]-double(nc)*d[mu]*std::conj(integ[nu]))});
+   }
+   realErr=std::max({realErr,std::abs(cr[24*q+22]-double(nc)*d[2].real()*integ[2].real()),std::abs(cr[24*q+23]-double(nc)*d[2].imag()*integ[2].imag())});
+  }
+  check(label+"/all_channels_direct_DFT_S_and_response",0,fourierErr,0,2e-11);
+  check(label+"/true_configuration_A2_A4",0,ampErr,0,3e-13);
+  check(label+"/literal_cos_sin_mapping",0,realErr,0,2e-14);
+ }
+}
 void run(int L,double omega_ph,int Ntau,double dtau,bool mc,PhononProposal mode=PhononProposal::LocalConditional) {
     const double mass=1.7,tau=Ntau*dtau,tau_mid=tau/2,k=mass*omega_ph*omega_ph;
     HoneycombLattice lattice(L,L);PhononPath path(lattice.bondCount(),Ntau,dtau,{mass,omega_ph});
@@ -189,6 +246,7 @@ int main(int argc,char **argv) {
         std::cout<<std::setprecision(12);
         // --direct-only avoids the actual sampler; default also exercises both
         // production proposals with the L=2 Kitaev Hamiltonian at g=0.
+        if(argc==2&&std::string(argv[1])=="--deterministic") {deterministic();std::cout<<(failures?"FAIL":"PASS")<<" deterministic failures="<<failures<<"\n";return failures?1:0;}
         const bool directOnly=argc==2&&std::string(argv[1])=="--direct-only";
         if(argc==3&&std::string(argv[1])=="--mc-case") {
             const std::string argument=argv[2];std::size_t used=0;

@@ -1,0 +1,149 @@
+{
+  "status": "verified_total_energy_estimators_and_retained_signal_checkpoint_resume",
+  "date_Asia_Shanghai": "2026-10-23",
+  "baseline": "quick1010",
+  "source_archive": "audit/1023/total-energy-estimator/source.tar.gz",
+  "source_archive_sha256": "56760ba2890fbf3a44ff86e691d52e0850367373fa268951f8dff0e88a26a6c2",
+  "source_file_count": 239,
+  "default_matter_trial": "physical",
+  "explicit_control": "unrestricted",
+  "physical_policy": "ADR-023",
+  "validation_report": "audit/1023/total-energy-estimator/REPORT_CN.md",
+  "validation_manifest": "audit/1023/total-energy-estimator/MANIFEST.json",
+  "local_native_binary": "audit/1023/total-energy-estimator/frozen-native/kitaev_ssh_mc",
+  "local_native_binary_sha256": "f4aaf360fd2bb2358a8f834882ada1e7ffae9c13f8a0fbcfb870803b59b83ac9",
+  "local_launcher": null,
+  "HPC_runtime": {
+    "port": 20022,
+    "queue": "workq",
+    "build_queue": null,
+    "requested_build_queue": "testq",
+    "superseded_queued_build": "90070.mgt",
+    "superseded_queued_build_cancel_confirmed": true,
+    "remote_root": "/home/sunxr/quick1010-total-energy-20261023-20022-login-r1",
+    "build_job": null,
+    "build_method": "login host mgt, nice 19, single compiler/math thread",
+    "build_exit": 0,
+    "cli_path": "runtime/kitaev_ssh_mc",
+    "cli_sha256": "8b997dff4571c9dc84dc2affab53d7d07948f717f906137549308dc17d3a865a",
+    "compiler": "GCC8.3.0",
+    "MKL": "2021.2.0",
+    "validation_scope": "necessary target-runtime compilation, source/binary/library hashes and ldd/help; no MC",
+    "provenance": "audit/1023/total-energy-estimator/target-validation.json"
+  },
+  "existing_jobs_changed": false,
+  "predecessor": "audit/1023/signal-checkpoint/source.tar.gz",
+  "numerical_guard_policy": [
+    "ADR-025",
+    "ADR-026"
+  ],
+  "known_limitations": [
+    "Saved-path and deterministic correctness checks do not certify equilibration, mixing, convergence, criticality or SUSY",
+    "Historical actual L9 saved path uses unrestricted trial; ordinary physical default remains physical",
+    "C fast endpoint relies on same-elements long-double residual certificate, preserving 1e-10 gate",
+    "More ill-conditioned paths or genuine intermediate overlap zeros may still fail the original rank/rcond gates; no globally singularity-free propagation or correctness at arbitrary projection length is claimed",
+    "Failed numerical recovery must not be treated as an ordinary physical Monte Carlo rejection",
+    "Older running binaries cannot gain signal support retroactively",
+    "Same executable/runtime required; interacting trajectories across cache reconstruction not generally bitwise guaranteed",
+    "SIGKILL/node loss cannot checkpoint; PBS TERM grace may be shorter than one sweep",
+    "Resumed raw blocks include ancestor; do not add ancestor blocks again; main timings/diagnostic streams cover new process only",
+    "Target verification is build and file checks only; no target QMC chain run for this feature",
+    "No new MC chains: total-energy acceptance uses deterministic/saved-input reference checks; target verification covers build, hashes, ldd and help only",
+    "Finite-dt total energy averages the two adjacent phonon-link midpoint insertions; legacy majorana_energy stays at the central matter cut; do not mix their components",
+    "Finite-dt mixed energy insertions do not claim a variational upper bound",
+    "Per-configuration phonon kinetic estimator can be negative and noisy at small dt; no clipping is applied",
+    "Older blocks cannot reconstruct missing kinetic/total-energy measurements; existing jobs retain their source and measurement schema",
+    "Two additional certified Green reconstructions cost measurement time; production performance has not been profiled for this feature"
+  ],
+  "phase_certificate_scope": "原矩阵预算 F；对一般有微小非反对称舍入的情形，skew 目标相位误差保守界为 2F。内部半余量判据保证 2F 小于分支角度余量；不是精确物理传播的全局前向误差证明。",
+  "validation_artifacts": {
+    "local": "audit/1023/total-energy-estimator/local-validation.json",
+    "target": "audit/1023/total-energy-estimator/target-validation.json",
+    "transition_and_numerical_headers": "audit/1023/total-energy-estimator/source-physics-review.json",
+    "saved_L9": "audit/1023/total-energy-estimator/frozen-native/saved-L9-validation.json",
+    "offline": "audit/1023/total-energy-estimator/offline-validation.json",
+    "legacy": "audit/1023/total-energy-estimator/legacy-validation.json",
+    "python": "audit/1023/total-energy-estimator/python-validation.log"
+  },
+  "counter_semantics": "process-lifetime counters include initialization and recovery attempts; not acceptance rate, thermalization, or production-sweep-only metrics",
+  "predecessor_manifest": "audit/1023/total-energy-estimator/before/PRODUCTION_SOURCE.json",
+  "predecessor_source_archive_sha256": "9b00f5df1918b3bf6f2dba5cc1695db39b368f900945b989631cb6a60ba98d80",
+  "inherited_numerical_validation_artifacts": {
+    "independent_MP": [
+      "audit/1021/qmc-numerics-round2/oracle/mp-comparison-L6.json",
+      "audit/1021/qmc-numerics-round2/oracle/mp-comparison-L9.json"
+    ],
+    "Fock": "audit/1021/qmc-numerics-round2/integration/stage2-fock.log",
+    "complete_MH": "audit/1021/qmc-numerics-round2/integration/stage2-interacting.log",
+    "cache_and_boundary_hooks": [
+      "audit/1021/qmc-numerics-round2/integration/stage2-hooks-L6.log",
+      "audit/1021/qmc-numerics-round2/integration/stage2-hooks-L9.log"
+    ],
+    "target_runtime": "audit/1021/qmc-numerics-round2/target-build/SUMMARY.json",
+    "mathematical_review": "audit/1021/qmc-numerics-round2/augmented/MATH_REVIEW.txt"
+  },
+  "inherited_numerical_validation_boundaries": {
+    "target_report": "audit/1021/qmc-numerics-round2/target-build/REPORT.md",
+    "mathematical_review": "audit/1021/qmc-numerics-round2/augmented/MATH_REVIEW.txt",
+    "independent_reference": "audit/1021/qmc-numerics-round2/oracle/MP_REPORT_CN.md",
+    "independent_L9_status": "all_planned_tasks_complete/all_exit_zero/all_strict_gates_pass verified true in oracle/mp-comparison-L9.json"
+  },
+  "predecessor_workspace_compatibility_binary": {
+    "path": "audit/1021/qmc-numerics-round2/target-build/active-workspace-compat/kitaev_ssh_mc",
+    "sha256": "a6eaf14f60d20481dfe65abb3b32de28b4480811557952e196fd71bd44ee5a19",
+    "scope": "native staged active CLI with repaired headers; build and --help only; no QMC",
+    "preserved_features": [
+      "Gamma",
+      "extra q-pool",
+      "initial-path",
+      "mixing-diagnostics"
+    ],
+    "source_sha256": "34e797d088d7c09fa3efce5f08f58cbc490d1990790a0d754472551da5c72961"
+  },
+  "retained_workspace_features": [
+    "opt-in Gamma",
+    "extra q pool",
+    "initial-path",
+    "mixing diagnostics"
+  ],
+  "checkpoint_policy": "ADR-027; complete sweep boundary; SIGUSR1 save/continue; SIGUSR2 or SIGTERM save/stop75; fresh output on resume; original executable required",
+  "inherited_checkpoint_validation_artifacts": {
+    "local": "audit/1023/signal-checkpoint/local-validation.json",
+    "edge": "audit/1023/signal-checkpoint/edge-validation.json",
+    "helper": "audit/1023/signal-checkpoint/helper-validation.json",
+    "boundary": "audit/1023/signal-checkpoint/boundary-validation.json",
+    "target": "audit/1023/signal-checkpoint/target-validation.json",
+    "transition_and_numerical_headers": "audit/1023/signal-checkpoint/source-physics-review.json"
+  },
+  "total_energy_policy": {
+    "ADR": "ADR-029",
+    "schema": "phonon-link-total-energy-v1",
+    "CLI": "--measure-total-energy 0|1; omitted follows measure-energy",
+    "production_default": "--measure-total-energy 0",
+    "columns": [
+      "energy_bare_matter",
+      "energy_matter_phonon",
+      "energy_phonon_kinetic",
+      "energy_phonon_potential",
+      "energy_external_source",
+      "energy_total"
+    ],
+    "normalization": "extensive; includes zero-point energy and external -F*X",
+    "location": "equal average at tau/2-dt/2 and tau/2+dt/2; canonical cuts M-1 and M+1",
+    "rng_consumed": false,
+    "measurement_failure_counts_as_proposal": false,
+    "finite_dt_variational_bound_claimed": false,
+    "workspace_CLI": "--measure-total-energy 0|1; omitted defaults to 0",
+    "default_policy_note": "User changed future-submission default to off on 2026-10-23. Recorded verified frozen source/binary is unchanged and its omitted CLI default still follows measure-energy; ALWAYS explicitly pass --measure-total-energy 0 when using it for a new job."
+  },
+  "default_measurement_options": "--fermions 1 --vbs 1 --vbs-mode all --vbs-susceptibility 1 --vbs-amplitude 1 --vbs-amplitude-response 1 --measure-energy 1 --measure-total-energy 0",
+  "workspace_source_delta": {
+    "status": "default-only edit; not a new verified frozen build",
+    "files": [
+      "kitaev_ssh/coupled_mc.cpp",
+      "AGENTS.md"
+    ],
+    "behavior": "Active CLI total-energy default 0; existing verified frozen CLI used with explicit 0 is already compatible",
+    "audit": "audit/1023/total-energy-default-off/REPORT_CN.md"
+  }
+}

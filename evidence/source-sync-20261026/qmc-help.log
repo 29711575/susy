@@ -1,0 +1,9 @@
+usage: qmc.py [-h] {analyze,diagnose,registry} ...
+
+One entry point for offline final analysis, diagnostics, and PBS inventory.
+
+positional arguments:
+  {analyze,diagnose,registry}
+
+options:
+  -h, --help            show this help message and exit

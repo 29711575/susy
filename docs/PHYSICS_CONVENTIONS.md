@@ -31,6 +31,19 @@ $$
 
 每条物理键只存一次，方向 A→B；反向规范边带相应负号。当前生产记录主要是零通量、Wilson=(+1,+1)。四扇区几何验证不等于生产扇区扫描，也不等于局域约束和物理自旋投影已完成。[P1, 式(2)；H, §1.2；C0, CONVENTIONS §5]
 
+2026-10-19：对正号自旋 Hamiltonian，标准 `tau=i b c`、`D=bxyz c=+1`
+对应 `u_code=-u_phys`。令 `Nc=Lx*Ly`，代码 Fock parity 的物理条件为
+`P_code=(-1)^[Lx+Ly+s*(Lx-s)+Nc]*product(u_code)`。
+生产 CLI 默认 `--matter-trial physical`，只在初始化时选择相容的自由
+Gaussian trial；必要时占据一个最低能准粒子，保持固定 gauge/Wilson。
+L6/s0/++/J=(1,1,.5) 从 -1 修正为 +1；同设置 L9 的 -1 原样保留。
+简并最低模式用确定 Bloch 动量选择，以保留均匀参考的平移对称。
+奇偶相容仅保证该固定规范态的物理投影非零；不是显式全自旋投影，
+也不保证相互作用基态重叠或全局最低 Wilson。历史冻结任务不变。
+`--matter-trial unrestricted` 仅作明确控制；数学 `freeGroundState` 工具及
+历史静态优化的 trial 奇偶含义未被悄悄改写。见
+[ADR-023](decisions/ADR-023-physical-matter-trial.md)。
+
 ## PHY-02 Majorana 因子与代码生成元
 
 $$
@@ -54,7 +67,7 @@ $$
 
 因此比较 X 序参量与论文重标度序参量时要转换；比较 R 与 2R 时必须使用同一种定义。`g(τ)` 线性不等于 `λ(τ)` 线性。
 
-最近实际运行是 J=(1,1,0.5)、g=0.3、m=ω=k=1。C0 的 CLI 默认 mass=1.7、omega-ph=0.8；运行参数不能从默认值猜测。ω/J=1 不满足 P2 §C 的小频率条件 ω≪J。[H, §1.3、§4；R-SAMPLING；C0, coupled_mc.cpp]
+历史 R-SAMPLING 运行是 J=(1,1,0.5)、g=0.3、m=ω=k=1。历史 C0 的 CLI 默认 mass=1.7、omega-ph=0.8；当前 quick1010 QMC CLI 默认 mass=4、omega-ph=0.5，旧 static_vbs_response.py 仍沿用历史默认。运行参数必须核对实际 manifest，不能从默认值猜测。现有 L9 omega0.3 生产明确使用 mass=100/9、k=1、g=sqrt(lambda)。ω/J=1 不满足 P2 §C 的小频率条件 ω≪J。[H, §1.3、§4；R-SAMPLING；coupled_mc.cpp；audit/1010/static-qmc-discrepancy-20261010/REPORT.txt]
 
 ## PHY-04 晶格、Fourier 与度规
 

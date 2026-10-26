@@ -2,8 +2,10 @@
 #define KITAEV_SSH_PHONON_MC_H
 
 #include "phonon_projector.h"
+#include "total_energy.h"
 #include "phase_statistics.h"
 #include "phonon_q_mode.h"
+#include "phonon_gamma.h"
 #include "phonon_guided_proposal.h"
 #include <chrono>
 #include <numeric>
@@ -67,8 +69,12 @@ class PhononSampler {
 public:
     PhononSampler(CoupledPhononPath &state,std::mt19937_64 rng,PhononProposal mode=PhononProposal::LocalConditional,
                   NumericalObserver observer={},QModeOptions qMode={},GuidedBondOptions guide={},
-                  std::vector<QModeOptions> qPool={})
-        : state_(state),rng_(std::move(rng)),mode_(mode),observer_(std::move(observer)),qMode_(std::move(qMode)),qPool_(std::move(qPool)) {
+                  std::vector<QModeOptions> qPool={},GammaOptions gamma={},std::vector<QModeOptions> extraPool={})
+        : state_(state),rng_(std::move(rng)),mode_(mode),observer_(std::move(observer)),qMode_(std::move(qMode)),qPool_(std::move(qPool)),gamma_(std::move(gamma)) {
+        primarySize_=qPool_.size();
+        qPool_.insert(qPool_.end(),extraPool.begin(),extraPool.end());
+        if(!extraPool.empty() && !primarySize_)throw std::invalid_argument("extra pool requires primary pool");
+        if(gamma_.every<0 || gamma_.beta<=0 || gamma_.beta>1 || !std::isfinite(gamma_.beta) || (gamma_.every && gamma_.modes.size()!=3))throw std::invalid_argument("invalid Gamma options");
         if(mode!=PhononProposal::LocalConditional && mode!=PhononProposal::BondRefresh && mode!=PhononProposal::GuidedBond)
             throw std::invalid_argument("unknown phonon proposal mode");
         if(qMode_.every<0 || !std::isfinite(qMode_.beta) || qMode_.beta<=0 || qMode_.beta>1 ||
@@ -97,6 +103,7 @@ public:
             }
         }
         qPoolCounts_.resize(qPool_.size());
+        qMeasuredCounts_.resize(qPool_.size());qMeasuredSeconds_.resize(qPool_.size());
         const long long size=static_cast<long long>(mode==PhononProposal::LocalConditional?path.nodes():1)*path.bonds();
         if(size>std::numeric_limits<int>::max()) throw std::invalid_argument("too many coordinates per sweep");
         order_.resize(size); std::iota(order_.begin(),order_.end(),0);
@@ -168,7 +175,7 @@ public:
     MoveResult attemptQMode(const QModeAmplitudes &amplitudes,double u) {
         return attemptQMode(qMode_,amplitudes,u);
     }
-    MoveResult attemptQMode(const QModeOptions &mode,const QModeAmplitudes &amplitudes,double u) {
+    MoveResult attemptQMode(const QModeOptions &mode,const QModeAmplitudes &amplitudes,double u,bool isGamma=false,int channel=0) {
         if(!(u>0 && u<1) || mode.basis.empty())throw std::invalid_argument("invalid q-mode attempt");
         const auto before=counts_;
         try {
@@ -180,16 +187,18 @@ public:
                 return certified([&](bool reference){return state_.proposeQModePath(candidate,reference);},
                     NumericalEvent{stage_,"q-mode","","",false,counts_.proposed+1,-1,-1,u,values});
             });
-            const double ratio=proposal.candidate().weight.log_abs_matter-old.weight.log_abs_matter;
+            const double matterRatio=proposal.candidate().weight.log_abs_matter-old.weight.log_abs_matter;
             const double general=proposal.logAbsRatio()+qModeTransitionLogDensity(old.path,amplitudes,from,mode.beta)
                 -qModeTransitionLogDensity(old.path,from,amplitudes,mode.beta);
+            const double ratio=isGamma?general:matterRatio;
             if(!std::isfinite(ratio)||!std::isfinite(general))throw std::runtime_error("nonfinite q-mode acceptance ratio");
             const bool accept=std::log(u)<std::min(0.,ratio);
             if(accept)state_.accept(proposal);else state_.reject(proposal);
             ++counts_.proposed;counts_.accepted+=accept;counts_.metropolis_rejected+=!accept;
-            addQCounts(counts_-before);
+            if(isGamma){addCounts(gammaCounts_[channel],counts_-before);if(stage_=="measurement")addCounts(gammaMeasured_[channel],counts_-before);}
+            else addQCounts(counts_-before);
             return {ratio,general,accept};
-        }catch(...) {addQCounts(counts_-before);throw;}
+        }catch(...) {if(isGamma)addCounts(gammaCounts_[channel],counts_-before);else addQCounts(counts_-before);throw;}
     }
     void sweep() {
         // Random permutation, covering each endpoint and the shared center once.
@@ -219,22 +228,42 @@ public:
         if(qMode_.every>0 && ++qSweep_%qMode_.every==0) {
             // Fixed, state-independent uniform mixture: no adaptive peak feedback.
             std::size_t index=0;
-            if(qPool_.size()>1)index=std::uniform_int_distribution<std::size_t>(0,qPool_.size()-1)(rng_);
-            const auto &mode=qPool_.empty()?qMode_:qPool_[index];
-            const auto &p=state_.state().path;
-            auto a=qModeAmplitudes(p,mode);
-            const double rho=std::sqrt((1-mode.beta)*(1+mode.beta));
-            const double sigma=std::sqrt(1/(2*p.alpha())),noise=sigma*std::sqrt(p.noiseFactor());
-            for(auto &row:a) {
-                double xi=sigma*normal_(rng_);row[0]=rho*row[0]+mode.beta*xi;
-                for(int j=1;j<p.nodes();++j){xi=p.decay()*xi+noise*normal_(rng_);row[j]=rho*row[j]+mode.beta*xi;}
-            }
-            const auto before=counts_;
-            try {attemptQMode(mode,a,(double(rng_()>>12)+.5)*0x1p-52);}
-            catch(...) {if(!qPool_.empty())addCounts(qPoolCounts_[index],counts_-before);throw;}
-            if(!qPool_.empty())addCounts(qPoolCounts_[index],counts_-before);
+            if(primarySize_>1)index=std::uniform_int_distribution<std::size_t>(0,primarySize_-1)(rng_);
+            auto update=[&](std::size_t k) {
+                const auto &mode=qPool_.empty()?qMode_:qPool_[k];
+                const auto before=counts_;const auto begin=std::chrono::steady_clock::now();
+                auto a=drawProjectedPCN(state_.state().path,mode,rng_,normal_);
+                try {attemptQMode(mode,a,(double(rng_()>>12)+.5)*0x1p-52);}
+                catch(...) {if(!qPool_.empty())addCounts(qPoolCounts_[k],counts_-before);throw;}
+                if(!qPool_.empty()) {
+                    addCounts(qPoolCounts_[k],counts_-before);
+                    if(stage_=="measurement") {
+                        addCounts(qMeasuredCounts_[k],counts_-before);
+                        qMeasuredSeconds_[k]+=std::chrono::duration<double>(std::chrono::steady_clock::now()-begin).count();
+                    }
+                }
+            };
+            update(index);
+            // Extra fixed subspaces are additional attempts, never dilute the primary mixture.
+            for(std::size_t k=primarySize_;k<qPool_.size();++k)update(k);
+        }
+        if(gamma_.every>0 && ++gammaSweep_%gamma_.every==0)for(int mu=0;mu<3;++mu) {
+            const auto begin=std::chrono::steady_clock::now();
+            const auto a=drawProjectedPCN(state_.state().path,gamma_.modes[mu],rng_,normal_);
+            attemptGamma(mu,a,(double(rng_()>>12)+.5)*0x1p-52);
+            if(stage_=="measurement")gammaSeconds_[mu]+=std::chrono::duration<double>(std::chrono::steady_clock::now()-begin).count();
+
         }
     }
+    MoveResult attemptGamma(int mu,const QModeAmplitudes &a,double u) {
+        if(mu<0 || mu>=int(gamma_.modes.size()))throw std::invalid_argument("invalid Gamma channel");
+        return attemptQMode(gamma_.modes[mu],a,u,true,mu);
+    }
+    const std::vector<MoveCounts> &qMeasuredCounts()const{return qMeasuredCounts_;}
+    const std::vector<double> &qMeasuredSeconds()const{return qMeasuredSeconds_;}
+    const std::array<MoveCounts,3> &gammaMeasuredCounts()const{return gammaMeasured_;}
+    const std::array<double,3> &gammaSeconds()const{return gammaSeconds_;}
+    MoveCounts gammaCounts()const{MoveCounts c;for(const auto &m:gammaCounts_)addCounts(c,m);return c;}
     const std::vector<MoveCounts> &qPoolCounts()const{return qPoolCounts_;}
     const MoveCounts &counts() const { return counts_; }
     const MoveCounts &qCounts() const { return qCounts_; }
@@ -246,7 +275,55 @@ public:
         certified([&](bool reference){state_.ensureMeasured(reference);return true;},
             NumericalEvent{stage_,"measurement","","",false,counts_.proposed,-1,-1,0.,{}});
     }
-    void setStage(std::string stage){if(stage!=stage_)qSweep_=0;stage_=std::move(stage);}
+    std::vector<Complex> totalEnergy(const KitaevSSHModel &model) {
+        // Keep operation=measurement so a failed insertion never increments
+        // proposal counts. The same saved configuration gets one fresh retry.
+        return certified([&](bool reference){return totalEnergyObservables(model,state_.state().path,state_.energyLinkGreens(reference));},
+            NumericalEvent{stage_,"measurement","","",false,counts_.proposed,state_.state().path.center(),-1,0.,{}});
+    }
+    void setStage(std::string stage){if(stage!=stage_){qSweep_=0;gammaSweep_=0;}stage_=std::move(stage);}
+    const std::string &stage()const{return stage_;}
+    // Only call at a completed sweep boundary, after the measurement callback.
+    // Reconstructible projector caches are deliberately not persisted.
+    void saveCheckpoint(std::ostream &out) const {
+        out<<std::setprecision(17)<<"SAMPLER 1\n"<<int(mode_)<<' '<<std::quoted(stage_)<<' '<<qSweep_<<' '<<gammaSweep_<<'\n'
+           <<rng_<<'\n'<<normal_<<'\n'<<order_.size()<<'\n';
+        for(int i:order_)out<<i<<' ';out<<'\n';
+        auto write=[&](const MoveCounts &c){writeCounts(out,c);};
+        write(counts_);write(qCounts_);
+        out<<qPoolCounts_.size()<<'\n';for(const auto &c:qPoolCounts_)write(c);
+        for(const auto &c:qMeasuredCounts_)write(c);
+        for(double t:qMeasuredSeconds_)out<<t<<' ';out<<'\n';
+        for(const auto &c:gammaCounts_)write(c);for(const auto &c:gammaMeasured_)write(c);
+        for(double t:gammaSeconds_)out<<t<<' ';out<<'\n';
+        if(!out)throw std::runtime_error("sampler checkpoint write failed");
+    }
+    void loadCheckpoint(std::istream &in) {
+        std::string tag,stage;int version,mode;std::size_t n;
+        checkpointRequire(bool(in>>tag>>version>>mode>>std::quoted(stage)>>qSweep_>>gammaSweep_) && tag=="SAMPLER" && version==1 && mode==int(mode_) &&
+            (stage=="warmup"||stage=="measurement"),"sampler identity mismatch");
+        checkpointRequire(bool(in>>rng_>>normal_>>n) && n==order_.size(),"invalid RNG or sweep order");
+        std::vector<int> order(n);for(int &i:order)checkpointRequire(bool(in>>i),"truncated sweep order");
+        auto sorted=order;std::sort(sorted.begin(),sorted.end());
+        for(std::size_t i=0;i<n;++i)checkpointRequire(sorted[i]==int(i),"sweep order is not a permutation");
+        counts_=readCounts(in);qCounts_=readCounts(in);
+        checkpointRequire(bool(in>>n) && n==qPoolCounts_.size(),"q pool count mismatch");
+        for(auto &c:qPoolCounts_)c=readCounts(in);for(auto &c:qMeasuredCounts_)c=readCounts(in);
+        auto readTime=[&](double &t){checkpointRequire(bool(in>>t) && std::isfinite(t) && t>=0,"invalid timing");};
+        for(double &t:qMeasuredSeconds_)readTime(t);
+        for(auto &c:gammaCounts_)c=readCounts(in);for(auto &c:gammaMeasured_)c=readCounts(in);
+        for(double &t:gammaSeconds_)readTime(t);
+        checkpointEnd(in);order_=std::move(order);stage_=std::move(stage);
+    }
+    static void writeCounts(std::ostream &out,const MoveCounts &c) {
+        out<<c.proposed<<' '<<c.accepted<<' '<<c.untrusted_rejected<<' '<<c.first_failures<<' '
+           <<c.reference_recovered<<' '<<c.reference_failed<<' '<<c.metropolis_rejected<<'\n';
+    }
+    static MoveCounts readCounts(std::istream &in) {
+        MoveCounts c;
+        checkpointRequire(bool(in>>c.proposed>>c.accepted>>c.untrusted_rejected>>c.first_failures>>c.reference_recovered>>c.reference_failed>>c.metropolis_rejected) &&
+            c.accepted<=c.proposed && c.metropolis_rejected<=c.proposed && c.untrusted_rejected<=c.proposed,"invalid move counts");return c;
+    }
 private:
     template<class F> auto certified(F evaluate,NumericalEvent event)->decltype(evaluate(false)) {
         try { return evaluate(false); }
@@ -281,6 +358,13 @@ private:
     std::unique_ptr<GuidedBondProposal> guide_;
     std::vector<QModeOptions> qPool_;
     std::vector<MoveCounts> qPoolCounts_;
+    GammaOptions gamma_;
+    std::size_t primarySize_=0;
+    std::uint64_t gammaSweep_=0;
+    std::array<MoveCounts,3> gammaCounts_{},gammaMeasured_{};
+    std::array<double,3> gammaSeconds_{};
+    std::vector<MoveCounts> qMeasuredCounts_;
+    std::vector<double> qMeasuredSeconds_;
     std::uint64_t qSweep_=0;
     MoveCounts qCounts_;
     std::string stage_="unspecified";
@@ -307,30 +391,41 @@ struct SamplingTimings {
     double statistics_add_seconds=0.;
     double block_callback_seconds=0.;
 };
+struct SamplingProgress {
+    int warmup_done=0,measurement_done=0;
+    MoveCounts warm_counts;
+};
 template<class Measure,class OnBlock>
 MoveCounts sample(PhononSampler &sampler,const SamplingSchedule &schedule,PhaseStatistics &statistics,
                   Measure measure,OnBlock onBlock,SamplingTimings *timings=nullptr,
                   const std::function<void(int,const CoupledPhononPath::Snapshot&)> &onWarmup={},
-                  const std::function<void(const char*,int,const MoveCounts&)> &onSweep={}) {
+                  const std::function<void(const char*,int,const MoveCounts&)> &onSweep={},
+                  SamplingProgress *savedProgress=nullptr) {
     schedule.validate();
     if(statistics.blockSamples()!=schedule.block_samples)
         throw std::invalid_argument("schedule/statistics block sizes disagree");
-    sampler.setStage("warmup");
+    SamplingProgress localProgress;auto &progress=savedProgress?*savedProgress:localProgress;
+    checkpointRequire(progress.warmup_done>=0 && progress.warmup_done<=schedule.warmup && progress.measurement_done>=0 &&
+        progress.measurement_done<=schedule.measurement_sweeps && (progress.measurement_done==0 || progress.warmup_done==schedule.warmup),"invalid sampling progress");
+    if(progress.warmup_done<schedule.warmup)sampler.setStage("warmup");
     const auto warmupBegin=std::chrono::steady_clock::now();
-    for(int i=0;i<schedule.warmup;++i) {
+    for(int i=progress.warmup_done;i<schedule.warmup;++i) {
         sampler.sweep();
         if(onWarmup) {
             sampler.ensureMeasured();
             onWarmup(i+1,sampler.state());
         }
+        progress.warmup_done=i+1;
+        if(progress.warmup_done==schedule.warmup)progress.warm_counts=sampler.counts();
         if(onSweep) onSweep("warmup",i+1,sampler.counts());
     }
     if(timings) timings->warmup_seconds=
         std::chrono::duration<double>(std::chrono::steady_clock::now()-warmupBegin).count();
-    const auto warm=sampler.counts();
+    if(progress.measurement_done==0)progress.warm_counts=sampler.counts();
+    const auto warm=progress.warm_counts;
     sampler.setStage("measurement");
     const auto measurementBegin=std::chrono::steady_clock::now();
-    for(int i=0;i<schedule.measurement_sweeps;++i) {
+    for(int i=progress.measurement_done;i<schedule.measurement_sweeps;++i) {
         sampler.sweep();
         if((i+1)%schedule.stride==0) {
             const auto materializationBegin=std::chrono::steady_clock::now();
@@ -353,6 +448,7 @@ MoveCounts sample(PhononSampler &sampler,const SamplingSchedule &schedule,PhaseS
                     std::chrono::duration<double>(std::chrono::steady_clock::now()-blockBegin).count();
             }
         }
+        progress.measurement_done=i+1;
         if(onSweep) onSweep("measurement",i+1,sampler.counts()-warm);
     }
     if(timings) timings->measurement_seconds=

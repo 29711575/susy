@@ -433,8 +433,8 @@ private:
 
     bool stabilizeCurrent() {
         green_valid_=false;
-        const ThinQrResult right = thinQrSubspace(phi_right_, options_);
-        const ThinQrResult left = thinQrSubspace(phi_left_, options_);
+        const ThinQrResult right = thinQrSubspace(phi_right_, options_, true);
+        const ThinQrResult left = thinQrSubspace(phi_left_, options_, true);
         if (!right.ok() || !left.ok()) {
             status_ = PureStackStatus::subspace_failure;
             return false;
@@ -470,7 +470,7 @@ private:
             else right = local_updates_?pureFactorApply(factorView(slices_[index].matrix),right):
                 slices_[index].matrix*right;
             if (((index+1)%block_size_)==0) {
-                ThinQrResult qr=thinQrSubspace(right,options_);
+                ThinQrResult qr=thinQrSubspace(right, options_, true);
                 if(!qr.ok()){return false;}
                 if(reuse)right.swap(qr.q);else right=qr.q;
                 rightChecked=true;
@@ -491,7 +491,7 @@ private:
                 slices_[index].matrix.adjoint()*left;
             ++propagated;
             if ((propagated%block_size_)==0) {
-                ThinQrResult qr=thinQrSubspace(left,options_);
+                ThinQrResult qr=thinQrSubspace(left, options_, true);
                 if(!qr.ok()){return false;}
                 if(reuse)left.swap(qr.q);else left=qr.q;
                 leftChecked=true;
@@ -508,16 +508,17 @@ private:
         MatType rightQ,leftQ;
         const MatType *r=&right,*l=&left;
         if(!rightChecked){
-            auto qr=thinQrSubspace(right,options_);
+            auto qr=thinQrSubspace(right, options_, true);
             if(!qr.ok()){PureProjectorGreenResult result;result.status=qr.status;return result;}
             rightQ=std::move(qr.q);r=&rightQ;
         }
         if(!leftChecked){
-            auto qr=thinQrSubspace(left,options_);
+            auto qr=thinQrSubspace(left, options_, true);
             if(!qr.ok()){PureProjectorGreenResult result;result.status=qr.status;return result;}
             leftQ=std::move(qr.q);l=&leftQ;
         }
-        return pureProjectorGreen(*r,*l,options_);
+        PureProjectorOptions gaussianOptions=options_;gaussianOptions.fail_on_green_structure=true;
+        return pureProjectorGreen(*r,*l,gaussianOptions);
     }
 
     bool rebuildAtCut(int target) {
@@ -563,7 +564,7 @@ private:
         std::size_t next=0;
         for(int cut=0;cut<=length();++cut){
             if(next<cuts.size()&&cut==cuts[next]){
-                ThinQrResult qr=thinQrSubspace(right,options_);
+                ThinQrResult qr=thinQrSubspace(right, options_, true);
                 if(!qr.ok()){status_=PureStackStatus::subspace_failure;return;}
                 right=qr.q;++next;
             }
@@ -574,7 +575,7 @@ private:
         int previous=int(cuts.size())-1;
         for(int cut=length();cut>=0;--cut){
             if(previous>=0&&cut==cuts[previous]){
-                ThinQrResult ql=thinQrSubspace(left,options_);
+                ThinQrResult ql=thinQrSubspace(left, options_, true);
                 if(!ql.ok()){status_=PureStackStatus::subspace_failure;return;}
                 left=ql.q;--previous;
             }

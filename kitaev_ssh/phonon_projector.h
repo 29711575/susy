@@ -14,6 +14,7 @@
 #include <sstream>
 #include <type_traits>
 #include <utility>
+#include <array>
 namespace kitaev_ssh {
 #ifdef KITAEV_SSH_TEST_FAILURE_INJECTION
 // Test binaries only; no environment switch or injection API in production.
@@ -552,6 +553,35 @@ public:
                 state_->path,state_->factors,std::move(weight),state_->weight_order));
         }
         return *state_;
+    }
+    // Pure measurement: no proposal/RNG/state mutation. These odd factor cuts
+    // lie inside the two phonon links neighboring the central matter cut.
+    std::array<MatType,2> energyLinkGreens(bool reference=false) {
+        testFailure("energy-measurement",reference);
+        if(!state_->weight.phase_valid)throw std::logic_error("energy requires measured signed state");
+        std::unique_ptr<Snapshot> rebuilt;
+        const Snapshot *s=state_.get();
+        if(reference) {
+            rebuilt=std::make_unique<Snapshot>(uncachedReference(state_->path,true,true));s=rebuilt.get();
+            if(std::abs(s->weight.log_abs_matter-state_->weight.log_abs_matter)>1e-9*std::max(1.,std::abs(state_->weight.log_abs_matter)) ||
+               std::abs(s->weight.matter_phase-state_->weight.matter_phase)>1e-9)
+                throw std::runtime_error("energy uncached signed state mismatch");
+        }
+        if(s->factors.size()!=std::size_t(2*s->path.intervals()))
+            throw std::logic_error("energy requires canonical measured factors");
+        std::array<MatType,2> result;
+        for(int side=0;side<2;++side) {
+            const int cut=s->path.intervals()+(side==0?-1:1);
+            const auto endpoint=profilePath("energy_link_green",[&] {
+                return pureProjectorEndpointRebuild(trial_,s->factors,cut,block_,
+                    phononCenterGreenOptions(!reference&&options_.center_green_fast));
+            });
+            if(!endpoint.ok())throw std::runtime_error("energy link Green cut="+std::to_string(cut)+": "+endpoint.message);
+            if(std::abs(endpoint.log_abs_weight-s->weight.log_abs_matter)>1e-9*std::max(1.,std::abs(s->weight.log_abs_matter)))
+                throw std::runtime_error("energy link overlap magnitude mismatch");
+            result[side]=endpoint.green.adjoint().eval();
+        }
+        return result;
     }
     bool deferredPhase() const { return options_.defer_phase_measurement; }
     Snapshot fullReference(const PhononPath &path,bool wantPrefixCache=true,bool computeGreen=true) const {

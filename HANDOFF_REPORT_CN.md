@@ -1,3 +1,5 @@
+2026-10-26：当前源码已同步 physical trial、数值修复、Γ、检查点和能量/分析工具；见 [更新说明](docs/updates/20261026-source-sync.md)。下文是历史测量交接，不能用新源码解释为旧数据已修复或重算。
+
 当前数值配置补充（2026-10-13）：核心 production-v1 默认启用已验收数值优化，普通计算脚本省略逐项开关；--numerics reference 可作诊断。guided/q池和历史测量保持原记录，见 ADR-022 及 evidence/numerics-policy-20261013/。
 
 # 给学长的交接报告：quick1010 与尚未出现清晰峰的 VBS 极化率

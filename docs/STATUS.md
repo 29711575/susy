@@ -1,3 +1,7 @@
+# 2026-10-26 当前源码同步
+
+主线行为和范围见 [更新说明](updates/20261026-source-sync.md)，实际验证见 [导出记录](../evidence/source-sync-20261026/README.md)。physical trial 默认启用；总能量与 Γ 更新默认关闭。历史测量和作业保留各自冻结版本，以下旧状态保留为来源记录。
+
 # 2026-10-13 当前更新：核心数值默认
 
 production-v1 已统一 combined/deferred/prefix/Cayley/center-fast；普通脚本可以省略逐项数值开关。--numerics reference 及旧显式对照有效。guided、q 池与物理参数没有被硬编码。

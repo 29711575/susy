@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "source_files": 341,
+  "local_native_binary_hashes": [
+    {
+      "name": "kitaev_ssh_mc",
+      "sha256": "23ce4139d108cb8fd590682989a46da06ca64488a37809643bf5b5b82857a115"
+    },
+    {
+      "name": "kitaev_ssh_physical_trial_validate",
+      "sha256": "55762c35d0e698f4f0f6cd25e8d8c53ff0d247e3fbe5d0a81c5fdd61dcedf7bc"
+    },
+    {
+      "name": "kitaev_ssh_total_energy_validate",
+      "sha256": "14c153d4394200a7061bfec37dc819c6ef8e3056c405236f2f7da1f68aa11e52"
+    }
+  ],
+  "python_regression": {
+    "discovered": 19,
+    "passed": 15,
+    "skipped": 4,
+    "skipped_reason": "Historical local audit reference fixtures are not part of this repository"
+  },
+  "python_and_shell_syntax": "PASS",
+  "numerical_scope": "Fresh native build, CLI help, deterministic total-energy and physical-trial validators only",
+  "no_new_mc_chains": true,
+  "no_hpc_operations": true,
+  "frozen_local_source_archive_sha256": "beb1129f9cb4248b03cf88dc312a6d0cd920f9d852e3251eb261fb491de5470c"
+}

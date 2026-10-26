@@ -1,14 +1,18 @@
 #include "phonon_mc.h"
 #include "numerical_policy.h"
+#include "physical_matter_trial.h"
 #include "vbs_observables.h"
 #include "vbs_susceptibility.h"
 #include "vbs_amplitude.h"
 #include "vbs_field.h"
 #include "vbs_candidates.h"
 #include "fermion_observables.h"
+#include "bond_diagnostics.h"
+#include "total_energy.h"
 #include <chrono>
 #include <ctime>
 #include "output_path.h"
+#include "mc_checkpoint.h"
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -82,6 +86,51 @@ struct RunNumerics {
     }
 };
 void number(std::ostream &out,double x) { if(std::isfinite(x)) out<<x; else out<<"null"; }
+
+// Process totals include initialization and numerical retries. These counters
+// describe arithmetic recovery, not Monte Carlo equilibration or acceptance.
+void writeRoundoffDiagnostics(std::ostream &out) {
+    const auto &q=pureCanonicalCorrectionStats;
+    out<<",\"canonical_frame_roundoff\":{\"scope\":\"process_lifetime\""
+       <<",\"complex_qr_calls\":"<<q.complex_calls<<",\"real_qr_calls\":"<<q.real_calls
+       <<",\"extended_frame_calls\":"<<q.extended_calls<<",\"failures\":"<<q.failures;
+    for(const auto &item:std::vector<std::pair<const char*,double>>{
+        {"maximum_relative_correction",q.maximum_relative_correction},
+        {"maximum_input_isotropy",q.maximum_input_isotropy},
+        {"maximum_output_isotropy",q.maximum_output_isotropy},
+        {"maximum_output_orthonormality",q.maximum_output_orthonormality}}) {
+        out<<",\""<<item.first<<"\":";number(out,item.second);
+    }
+    const auto &g=pureProjectorGreenPrecisionStats;
+    out<<"},\"green_precision_recovery\":{\"scope\":\"process_lifetime\""
+       <<",\"stored_matrix_ld_checks\":"<<g.long_double_residual_checks
+       <<",\"stored_matrix_ld_passes\":"<<g.long_double_residual_passes
+       <<",\"canonical_ld_rebuild_attempts\":"<<g.canonical_ld_rebuild_attempts
+       <<",\"canonical_ld_rebuild_assemblies\":"<<g.canonical_ld_rebuild_assemblies
+       <<",\"canonical_ld_rebuild_certified\":"<<g.canonical_ld_rebuild_certified
+       <<",\"maximum_relative_frame_correction\":";
+    number(out,g.maximum_canonical_relative_correction);
+    const auto &p=pure_projector_augmented_pf::statistics;
+    out<<"},\"augmented_phase_recovery\":{\"scope\":\"process_lifetime\""
+       <<",\"attempts\":"<<p.attempts<<",\"accepted\":"<<p.accepted
+       <<",\"failed\":"<<p.failed<<",\"raw_b_identity_failures\":"<<p.raw_b_identity_failures
+       <<",\"unbounded_phase\":"<<p.unbounded_phase;
+    for(const auto &item:std::vector<std::pair<const char*,double>>{
+        {"maximum_phase_bound_radians",p.max_phase_bound},
+        {"maximum_bound_to_branch_margin",p.max_branch_fraction},
+        {"maximum_raw_b_log_error",p.max_raw_b_log_error},
+        {"maximum_raw_b_phase_error",p.max_raw_b_phase_error},
+        {"maximum_same_c_log_error",p.max_same_c_log_error},
+        {"maximum_same_c_phase_error",p.max_same_c_phase_error},
+        {"maximum_relative_frame_correction",p.max_relative_frame_correction},
+        {"maximum_augmented_condition_estimate",p.max_k_condition},
+        {"maximum_overlap_condition_estimate",p.max_m_condition},
+        {"maximum_cayley_factor_difference",p.max_cayley_factor_difference},
+        {"seconds",p.total_seconds}}) {
+        out<<",\""<<item.first<<"\":";number(out,item.second);
+    }
+    out<<'}';
+}
 void estimate(std::ostream &out,const ComplexEstimate &e,bool defined=true) {
     out<<"{\"value\":["; if(defined) out<<e.value.real()<<','<<e.value.imag(); else out<<"null,null";
     out<<"],\"stderr_real\":"; number(out,e.error_real); out<<",\"stderr_imag\":"; number(out,e.error_imag);
@@ -277,14 +326,17 @@ int main(int argc,char **argv) {
             "warmup","sweeps","measure-every","block-samples","qr-block","output","vbs","vbs-susceptibility","vbs-amplitude","vbs-amplitude-response","vbs-mode","vbs-q-file",
             "proposal","measure-energy","trial-dx","trial-dy","trial-dz","weight-engine","defer-phase","prefix-cache","cayley-cache","fermions","warmup-observable-every","acceptance-every","q-mode-every","q-mode-n1","q-mode-n2","q-mode-beta","q-diagnostic-every",
             "vbs-field-h","vbs-field-n1","vbs-field-n2","vbs-field-phase",
-            "bond-beta","bond-guide","bond-guide-x","bond-guide-y","bond-guide-z","q-mode-pool","q-mode-bonds","center-green-fast","numerics"};
+            "bond-beta","bond-guide","bond-guide-x","bond-guide-y","bond-guide-z","q-mode-pool","q-mode-bonds","center-green-fast","numerics","phonon-diagnostics","bond-diagnostics","validation-series","path-series-bond","matter-trial","gamma-every","gamma-beta","q-mode-extra-pool","initial-path","mixing-diagnostics","checkpoint-file","checkpoint-every","resume","measure-total-energy"};
         for(int i=1;i<argc;++i) {
             const std::string key=argv[i];
             if(key=="--help") {
                 std::cout<<"Static coupled |W| MC with complex phase reweighting; fixed-gauge matter sector.\n"
+                    <<"--matter-trial physical|unrestricted (default physical): fixed free trial in the geometry/gauge-compatible matter parity; unrestricted is a legacy control.\n"
                     <<"--Lx 2 --Ly 2 --shear 0 --Jx 1 --Jy 1 --Jz 0.5 --intervals 4 --dt 0.2\n"
                     <<"--mass 4 --omega-ph 0.5 --g 0.3 --seed 42 --warmup 100 --sweeps 400\n"
                     <<"--measure-every 2 --block-samples 10 --qr-block 4 --vbs 1 --output PREFIX\n"
+                    <<"--bond-diagnostics 0|1 appends center K_b=i*c_A*c_B and X_b*K_b per physical bond and direction; no gauge factor in K_b (default 1; 0 disables).\n"
+                    <<"--phonon-diagnostics 1 appends node X/X2, center-node same/neighbor-bond correlations and matter log-weight to raw phase blocks (default 0).\n"
                     <<"--vbs-susceptibility 1 saves finite-projection static response moments (requires --vbs 1 --vbs-mode all).\n"
                     <<"--vbs-amplitude 1 saves A=|D|, A2 and per-configuration A4 for all allowed q and bonds; requires --vbs 1 --vbs-mode all.\n"
                     <<"--vbs-amplitude-response 1 additionally saves IA=sum_j t_j |D(node_j)| and A(center)*IA, with trapezoidal weights; requires --vbs-amplitude 1. No physical source is applied.\n"
@@ -298,12 +350,14 @@ int main(int argc,char **argv) {
                     <<"blank lines and '#' comments are allowed. Off-grid points are reported, never snapped\n"
                     <<"to fabricated integer indices. --shear is an integer tilted torus, not a U(1) twist.\n"
                     <<"--fermions 1 adds all cell-displacement AA/AB/BA/BB bare and directed gauge-string Majorana correlations (default 0).\n"
-                    <<"--measure-energy 0 omits the Majorana-energy observable and its center-Green rebuild; use only when energy/fermion observables are not needed.\n"
+                    <<"--measure-energy 0 omits Majorana energy; center Green is still required when --fermions 1 or --bond-diagnostics 1 is enabled.\n"
                     <<"--acceptance-every N flushes stage-cumulative acceptance to PREFIX_acceptance.csv every N completed sweeps (0 disables).\n"
+                    <<"--gamma-every N --gamma-beta beta: optional separate xyz real Gamma path updates (default off). --q-mode-extra-pool file preserves primary cadence. --initial-path file loads matching coordinates only. --mixing-diagnostics 1 writes all-q raw traces and formal counts.\n"
                     <<"--q-mode-every N --q-mode-n1 n1 --q-mode-n2 n2 --q-mode-beta beta: optional nonzero allowed z-bond spatial pCN mode (default interval 0, beta 1).\n"
                     <<"--q-diagnostic-every N writes raw measurement diagnostics to PREFIX_q_diagnostic.csv; N must be a multiple of measure-every (default 0).\n"
                     <<"--warmup-observable-every N records raw per-configuration all-q-max every N warmup sweeps (diagnostic only).\n"
                     <<"--proposal local (default), bond-refresh (legacy), or bond-guided (fixed-reference pCN).\n"
+                    <<"--validation-series 1 writes compact unweighted values plus common phase each measurement; --path-series-bond b appends its full time path. Default off.\n"
                     <<"--bond-beta beta (default 1); --bond-guide bare|zero (default bare); --bond-guide-x/y/z f overrides. Proposal-only forces, NOT external fields or changed trial states.\n"
                     <<"--q-mode-bonds z|xyz|... (default z); --q-mode-pool file: fixed integer n1 n2 pairs, one uniformly chosen per q update; no Gamma or conjugate duplicates. With a pool, q diagnostics use its first entry.\n"
                     <<"Numerics are built in: combined weight, deferred signed phase, applicable prefix/Cayley caches and fast center Green, with unchanged strict gates.\n"
@@ -312,13 +366,34 @@ int main(int argc,char **argv) {
                     <<"--trial-dx 0 --trial-dy 0 --trial-dz 0: equal bra/ket endpoint shifts, uniform by bond direction; not static X or a Hamiltonian shift.\n"
                     <<"Numerical policy: same candidate, one uncached reference retry, then abort; never silently reject.\n"
                     <<"Writes PREFIX_blocks.csv, PREFIX_results.json and representative PREFIX_numerical.jsonl (refuses overwrite).\n";
+                std::cout<<"SIGUSR1 saves and continues; SIGUSR2/SIGTERM save and stop (exit75), at a completed sweep boundary.\n"
+                    <<"--checkpoint-file FILE.dat (default PREFIX_checkpoint.dat); --checkpoint-every N (default0, signals only).\n"
+                    <<"--measure-total-energy 0|1 (default 0): six extensive energy components at symmetric adjacent phonon-link midpoints; legacy majorana_energy stays at the center node.\n"
+                    <<"--resume FILE --output NEW_PREFIX restores path, RNG/distribution, sweep progress and raw statistics. Original options are inherited and locked; --sweeps sets the TOTAL target.\n"
+                    <<"Resume requires the identical executable/runtime; caches rebuild with strict numerical gates. Bitwise interacting trajectories across cache rebuilds are not guaranteed.\n";
                 return 0;
             }
             if(key.rfind("--",0)!=0 || !allowed.count(key.substr(2)) || args.count(key.substr(2)) || i+1>=argc)
                 throw std::invalid_argument("unknown/repeated/incomplete argument: "+key);
             args[key.substr(2)]=argv[++i];
         }
+        std::unique_ptr<MCCheckpoint> resumed;
+        if(args.count("resume")) {
+            resumed=std::make_unique<MCCheckpoint>(MCCheckpoint::load(args.at("resume")));
+            checkpointRequire(resumed->executable==checkpointExecutableIdentity(),"resume executable differs from saved binary");
+            checkpointMergeArguments(args,*resumed);
+        }
         if(args.count("output")) prefix=args.at("output");
+        const std::string checkpointFile=args.count("checkpoint-file")?args.at("checkpoint-file"):prefix+"_checkpoint.dat";
+        // All ordinary output streams end in .csv/.json/.jsonl/.path. Reserve
+        // .dat so a mistaken --checkpoint-file cannot overwrite any of them.
+        checkpointRequire(checkpointFile.size()>=4 && checkpointFile.compare(checkpointFile.size()-4,4,".dat")==0,"checkpoint file must end in .dat (separate from ordinary outputs)");
+        std::map<std::string,std::string> checkpointInputs;
+        auto inputText=[&](const std::string &key) {
+            const auto found=resumed?resumed->inputs.find(key):checkpointInputs.end();
+            auto text=resumed && found!=resumed->inputs.end()?found->second:checkpointReadFile(args.at(key));
+            checkpointInputs[key]=text;return text;
+        };
         auto real=[&](const std::string &key,double fallback) {
             if(!args.count(key)) return fallback;
             std::size_t end; const double v=std::stod(args.at(key),&end);
@@ -336,6 +411,19 @@ int main(int argc,char **argv) {
         }
         const SamplingSchedule schedule{integer("warmup",100),integer("sweeps",400),integer("measure-every",2),integer("block-samples",10)};
         schedule.validate();
+        const int checkpointEvery=integer("checkpoint-every",0);
+        SamplingProgress samplingProgress=resumed?resumed->progress:SamplingProgress{};
+        checkpointRequire(samplingProgress.warmup_done>=0 && samplingProgress.warmup_done<=schedule.warmup &&
+            samplingProgress.measurement_done>=0 && samplingProgress.measurement_done<=schedule.measurement_sweeps &&
+            (samplingProgress.measurement_done==0 || samplingProgress.warmup_done==schedule.warmup),"saved progress outside requested schedule");
+        const int validationSeries=integer("validation-series",0);
+        if(validationSeries>1)throw std::invalid_argument("--validation-series must be 0 or 1");
+        const bool pathSeries=args.count("path-series-bond")!=0;
+        const int pathSeriesBond=integer("path-series-bond",0);
+        const int bondDiagnosticsEnabled=integer("bond-diagnostics",1);
+        if(bondDiagnosticsEnabled>1)throw std::invalid_argument("--bond-diagnostics must be 0 or 1");
+        const int phononDiagnostics=integer("phonon-diagnostics",0);
+        if(phononDiagnostics>1)throw std::invalid_argument("--phonon-diagnostics must be 0 or 1");
         const int vbsEnabled=integer("vbs",0);
         if(vbsEnabled>1)throw std::invalid_argument("--vbs must be 0 or 1");
         const int susceptibilityEnabled=integer("vbs-susceptibility",0);
@@ -353,6 +441,8 @@ int main(int argc,char **argv) {
         if(fermionsEnabled>1)throw std::invalid_argument("--fermions must be 0 or 1");
         const int measureEnergy=integer("measure-energy",1);
         if(measureEnergy>1)throw std::invalid_argument("--measure-energy must be 0 or 1");
+        const int measureTotalEnergy=integer("measure-total-energy",0);
+        if(measureTotalEnergy>1)throw std::invalid_argument("--measure-total-energy must be 0 or 1");
         const int acceptanceEvery=integer("acceptance-every",0);
         const int qDiagnosticEvery=integer("q-diagnostic-every",0);
         const int warmupObservableEvery=integer("warmup-observable-every",0);
@@ -368,14 +458,27 @@ int main(int argc,char **argv) {
         Couplings j=p2Couplings(real("g",.3)); j.Jx=real("Jx",1.); j.Jy=real("Jy",1.); j.Jz=real("Jz",.5);
         const int lx=integer("Lx",2),ly=integer("Ly",2),shear=integer("shear",0);
         const KitaevSSHModel model(HoneycombLattice(lx,ly,shear),j);
+        const auto trialSelection=selectFreeMatterTrial(model,args.count("matter-trial")?args.at("matter-trial"):"physical");
+        if(pathSeries && pathSeriesBond>=model.lattice().bondCount())throw std::invalid_argument("--path-series-bond outside bond table");
         const std::string qBonds=args.count("q-mode-bonds")?args.at("q-mode-bonds"):"z";
         std::vector<QModeOptions> qPool;
         if(args.count("q-mode-pool")) {
             if(args.count("q-mode-n1")||args.count("q-mode-n2"))throw std::invalid_argument("pool and single q-mode indices are mutually exclusive");
-            std::ifstream in(args.at("q-mode-pool"));if(!in)throw std::invalid_argument("cannot open q mode pool");
+            std::istringstream in(inputText("q-mode-pool"));
             qPool=readQModePool(in,model.lattice(),integer("q-mode-every",0),real("q-mode-beta",1.),qBonds);
         }
         const auto qOptions=qPool.empty()?makeQModeOptions(model.lattice(),integer("q-mode-n1",0),integer("q-mode-n2",0),integer("q-mode-every",0),real("q-mode-beta",1.),qBonds):qPool.front();
+        const auto gammaOptions=makeGammaOptions(model.lattice(),integer("gamma-every",0),real("gamma-beta",.5));
+        const int mixingDiagnostics=integer("mixing-diagnostics",0);
+        if(mixingDiagnostics>1)throw std::invalid_argument("mixing-diagnostics must be 0 or 1");
+        std::vector<QModeOptions> extraPool;
+        if(args.count("q-mode-extra-pool")) {
+            if(qPool.empty())throw std::invalid_argument("extra pool requires primary pool");
+            std::istringstream extra(inputText("q-mode-extra-pool"));
+            extraPool=readQModePool(extra,model.lattice(),qOptions.every,qOptions.beta,qBonds);
+            std::stringstream all;all<<inputText("q-mode-pool")<<'\n'<<inputText("q-mode-extra-pool");
+            readQModePool(all,model.lattice(),qOptions.every,qOptions.beta,qBonds); // cross-pool duplicate gate
+        }
         GuidedBondOptions guide;
         std::string guideSource="disabled";
         std::array<double,3> guideByType{};
@@ -446,38 +549,65 @@ int main(int argc,char **argv) {
             engine=="node-merge" || engine=="combined",
             deferPhase==1,
             prefixCache==1,cayleyCache==1,
-            fermionsEnabled!=0 || measureEnergy!=0,centerGreenFast==1};
+            fermionsEnabled!=0 || measureEnergy!=0 || bondDiagnosticsEnabled!=0,centerGreenFast==1};
         const int qrBlock=integer("qr-block",4);
+        if(outputPathExists(prefix+"_checkpoint.control.json") || outputPathExists(prefix+"_checkpoint.receipt.json") ||
+           outputPathExists(checkpointFile))throw std::invalid_argument("checkpoint output exists; choose fresh output and checkpoint paths");
         if(outputPathExists(prefix+"_blocks.csv") || outputPathExists(prefix+"_results.json") ||
            outputPathExists(prefix+"_acceptance.csv") ||
            (qOutputEnabled && outputPathExists(prefix+"_q_acceptance.csv")) ||
-           (qDiagnosticEvery>0 && outputPathExists(prefix+"_q_diagnostic.csv")) || outputPathExists(prefix+"_numerical.jsonl") || outputPathExists(prefix+"_results.json.tmp"))
+           (qDiagnosticEvery>0 && outputPathExists(prefix+"_q_diagnostic.csv")) || outputPathExists(prefix+"_numerical.jsonl") || outputPathExists(prefix+"_results.json.tmp") || outputPathExists(prefix+"_matter_trial.json"))
             throw std::invalid_argument("output exists; choose another --output prefix");
+        {
+            std::ofstream trialRecord(prefix+"_matter_trial.json");
+            trialRecord<<std::setprecision(17);writeMatterTrialSelection(trialRecord,trialSelection);trialRecord<<'\n';
+            if(!trialRecord)throw std::runtime_error("cannot write matter trial identity");
+        }
         numerics.status(prefix,"running");numerics.owns_output=true;
         std::cerr<<"Numerical failure policy: "<<numericalFailurePolicy<<'\n';
         // Initial-state search is separate from an MC transition. Retry the
         // same initial draw first; only initialization may draw another path.
         std::unique_ptr<CoupledPhononPath> ownedState;
+        CheckpointSignals checkpointSignals;
         long long untrustedInitial=0; const int maxInitialAttempts=100000;
         for(int initAttempt=0; initAttempt<=maxInitialAttempts; ++initAttempt) {
-            auto initial=PhononPath(model.lattice().bondCount(),integer("intervals",4),real("dt",.2),phonon,bondShifts,fieldEnabled?field.forces():std::vector<double>{}).freeSample(rng);
+            auto initial=PhononPath(model.lattice().bondCount(),integer("intervals",4),real("dt",.2),phonon,bondShifts,fieldEnabled?field.forces():std::vector<double>{});
+            if(resumed) {
+                std::istringstream in(resumed->path);auto loaded=PhononPath::load(in);checkpointEnd(in);
+                if(loaded.bonds()!=initial.bonds() || loaded.intervals()!=initial.intervals() || loaded.dt()!=initial.dt() ||
+                   loaded.parameters().mass!=phonon.mass || loaded.parameters().omega!=phonon.omega ||
+                   loaded.trialShifts()!=initial.trialShifts() || loaded.forces()!=initial.forces())
+                    throw std::invalid_argument("checkpoint path physical/trial metadata mismatch");
+                initial=std::move(loaded);
+            } else initial=initial.freeSample(rng);
+            if(args.count("initial-path") && !resumed) {
+                std::ifstream f(args.at("initial-path"));if(!f)throw std::invalid_argument("cannot open initial path");
+                const auto loaded=PhononPath::load(f);f>>std::ws;if(!f.eof())throw std::invalid_argument("trailing initial-path data");
+                if(loaded.bonds()!=initial.bonds() || loaded.intervals()!=initial.intervals() || loaded.dt()!=initial.dt() ||
+                   loaded.parameters().mass!=phonon.mass || loaded.parameters().omega!=phonon.omega ||
+                   loaded.trialShifts()!=initial.trialShifts() || loaded.forces()!=initial.forces())
+                    throw std::invalid_argument("initial path physical/trial metadata mismatch");
+                initial=loaded;
+            }
             NumericalEvent event{"initialization","initial-state","","",false,std::uint64_t(initAttempt+1)};
             try {
                 ownedState=std::make_unique<CoupledPhononPath>(
-                    initial,freeGroundState(model),honeycombGenerator(model),qrBlock,weightOptions);
+                    initial,trialSelection.trial,honeycombGenerator(model),qrBlock,weightOptions);
             } catch(const std::runtime_error &e) {event.first_error=e.what();}
             if(ownedState)break;
             try {
                 ownedState=std::make_unique<CoupledPhononPath>(
-                    initial,freeGroundState(model),honeycombGenerator(model),qrBlock,weightOptions,true);
+                    initial,trialSelection.trial,honeycombGenerator(model),qrBlock,weightOptions,true);
             } catch(const std::exception &e) {event.reference_error=e.what();}
             event.recovered=bool(ownedState);numerics.record(prefix,event,initial);
             if(ownedState)break;
+            if(args.count("initial-path") || resumed)throw std::runtime_error("supplied initial/checkpoint path failed certification; no redraw permitted");
             ++untrustedInitial;
             if(initAttempt==maxInitialAttempts)
                 throw std::runtime_error("initial trusted state unavailable: "+event.reference_error);
         }
         CoupledPhononPath &state=*ownedState;
+        if(args.count("initial-path") || resumed){std::ofstream f(prefix+"_initial.path");state.state().path.save(f);}
         // VBS measurement selection. --vbs is the master switch; measurement mode
         // never feeds back into the sampler (no RNG draws, no weight changes).
         const auto vbsModeNameStr=args.count("vbs-mode")?args.at("vbs-mode"):"all";
@@ -490,7 +620,7 @@ int main(int argc,char **argv) {
         if(vbsEnabled && (vbsMode==VBSMode::Selected || vbsMode==VBSMode::Both)) {
             if(!args.count("vbs-q-file"))
                 throw std::invalid_argument("--vbs-mode selected|both requires --vbs-q-file");
-            vbsQ=readVBSQFile(args.at("vbs-q-file"),model.lattice());
+            std::istringstream in(inputText("vbs-q-file"));vbsQ=parseVBSQPoints(in,model.lattice());
         }
         if(susceptibilityEnabled && vbsMode!=VBSMode::All)
             throw std::invalid_argument("--vbs-susceptibility requires --vbs-mode all");
@@ -508,14 +638,49 @@ int main(int argc,char **argv) {
         if(fieldEnabled) {const auto extra=field.names();names.insert(names.end(),extra.begin(),extra.end());}
         const auto amplitudeOffset=names.size();
         if(amplitudeEnabled) {const auto extra=VBSAmplitude(vbs,amplitudeResponse).names();names.insert(names.end(),extra.begin(),extra.end());}
+        if(phononDiagnostics) {
+            for(int j=0;j<state.state().path.nodes();++j)
+                for(const auto *stem:{"PhDiagX", "PhDiagX2", "PhDiagCenterC", "PhDiagOtherBondC"})
+                    names.push_back(std::string(stem)+"_j"+std::to_string(j));
+            names.push_back("PhDiagLogMatter");
+        }
+        if(bondDiagnosticsEnabled) {const auto extra=bondDiagnosticNames(model);names.insert(names.end(),extra.begin(),extra.end());}
+        const auto totalEnergyOffset=names.size();
+        if(measureTotalEnergy) {const auto extra=totalEnergyNames();names.insert(names.end(),extra.begin(),extra.end());}
+        // Optional raw per-measurement stream. No RNG, state, or estimator changes.
+        // Values are UNWEIGHTED; the adjacent common complex phase must be applied.
+        std::ofstream validationOutput;
+        std::vector<std::size_t> validationColumns;
+        if(validationSeries || pathSeries) {
+            validationOutput.open(prefix+"_validation_series.csv");
+            if(!validationOutput)throw std::runtime_error("cannot open validation series");
+            validationOutput<<"sweep,phase_real,phase_imag"<<std::setprecision(17);
+            const std::vector<std::string> selected={"X_x","X_y","X_z","X2_x","X2_y","X2_z","majorana_energy",
+                "BondK_b2","BondXK_b2","BondK_x","BondK_y","BondK_z","BondXK_x","BondXK_y","BondXK_z",
+                "S_q0_zz","S_q3_zz","AmpA2_q0_z","AmpA4_q0_z","AmpA2_q3_z","AmpA4_q3_z"};
+            if(validationSeries)for(const auto &name:selected) {
+                const auto it=std::find(names.begin(),names.end(),name);
+                if(it!=names.end()) {validationColumns.push_back(std::distance(names.begin(),it));validationOutput<<','<<name<<"_real,"<<name<<"_imag";}
+            }
+            if(pathSeries)for(int j=0;j<=integer("intervals",4);++j)validationOutput<<",PathX_j"<<j;
+            validationOutput<<'\n';
+        }
         PhononSampler sampler(state,rng,proposalMode,
-            [&](const NumericalEvent &e,const PhononPath &p){numerics.record(prefix,e,p);},qOptions,guide,qPool);
+            [&](const NumericalEvent &e,const PhononPath &p){numerics.record(prefix,e,p);},qOptions,guide,qPool,gammaOptions,extraPool);
         PhaseStatistics statistics(names,schedule.block_samples);
-        double blockFileOutputSeconds=0.;
+        if(resumed) {
+            std::istringstream samplerIn(resumed->sampler),statsIn(resumed->statistics);
+            sampler.loadCheckpoint(samplerIn);statistics.loadCheckpoint(statsIn);
+            checkpointRequire((samplingProgress.measurement_done==0 || sampler.stage()=="measurement") &&
+                (samplingProgress.warmup_done==schedule.warmup || sampler.stage()=="warmup"),"sampler stage/progress mismatch");
+            checkpointRequire(statistics.samplesIncludingPending()==std::uint64_t(samplingProgress.measurement_done/schedule.stride),"progress/statistics count mismatch");
+        }
+        double blockFileOutputSeconds=0.,totalEnergySeconds=0.;std::uint64_t totalEnergyMeasurements=0;
         const auto blockHeaderBegin=std::chrono::steady_clock::now();
         std::ofstream blocks(prefix+"_blocks.csv");
         if(!blocks) throw std::runtime_error("cannot open block output");
         blocks<<std::setprecision(17); statistics.writeHeader(blocks);
+        if(resumed)statistics.writeAllBlocks(blocks);
         blocks.flush();
         if(!blocks) throw std::runtime_error("block header write failed");
         std::ofstream acceptanceOutput;
@@ -539,8 +704,18 @@ int main(int argc,char **argv) {
             if(measureEnergy) qDiagnosticOutput<<",majorana_energy_real,majorana_energy_imag";
             qDiagnosticOutput<<",X_z_real,X_z_imag,proposed,accepted,q_proposed,q_accepted\n"<<std::setprecision(17);
         }
-        MoveCounts qWarm,totalWarm;
-        int observationIndex=0;
+        std::ofstream mixingOutput,modeOutput;
+        if(mixingDiagnostics) {
+            mixingOutput.open(prefix+"_mixing.csv");modeOutput.open(prefix+"_mode_counts.csv");
+            if(!mixingOutput||!modeOutput)throw std::runtime_error("cannot open mixing diagnostics");
+            mixingOutput<<std::setprecision(17)<<"sweep,phase_real,phase_imag,cpu_seconds,wall_seconds,X_x,X_y,X_z";
+            for(int n1=0;n1<lx;++n1)for(int n2=0;n2<ly;++n2)for(char mu:std::string("xyz"))
+                mixingOutput<<",D_"<<n1<<'_'<<n2<<'_'<<mu<<"_re,D_"<<n1<<'_'<<n2<<'_'<<mu<<"_im,M2_"<<n1<<'_'<<n2<<'_'<<mu;
+            mixingOutput<<'\n';
+            modeOutput<<std::setprecision(17)<<"stage,sweep,kernel,n1,n2,bonds,rank,proposed,accepted,metropolis_rejected,first_failures,reference_recovered,reference_failed,seconds\n";
+        }
+        MoveCounts qWarm,totalWarm,gammaWarm;
+        int observationIndex=samplingProgress.measurement_done/schedule.stride;
         std::ofstream warmupObservables;
         if(warmupObservableEvery>0) {
             warmupObservables.open(prefix+"_warmup.csv");
@@ -551,6 +726,48 @@ int main(int argc,char **argv) {
             std::chrono::steady_clock::now()-blockHeaderBegin).count();
         const auto samplingBegin=std::chrono::steady_clock::now();
         SamplingTimings samplingTimings;
+        std::uint64_t checkpointGeneration=resumed?resumed->generation:0;
+        if(resumed) {
+            std::istringstream in(resumed->runner);
+            qWarm=PhononSampler::readCounts(in);totalWarm=PhononSampler::readCounts(in);gammaWarm=PhononSampler::readCounts(in);
+            std::size_t n;checkpointRequire(bool(in>>untrustedInitial>>n) && untrustedInitial>=0 && n<=3,"invalid runner counters");
+            for(std::size_t i=0;i<n;++i) {
+                std::string stage;checkpointRequire(bool(in>>std::quoted(stage)) && (stage=="initialization"||stage=="warmup"||stage=="measurement"),"invalid numerical stage");
+                const auto inherited=PhononSampler::readCounts(in);auto &current=numerics.stages[stage];
+                // Do not hide a numerical recovery during checkpoint-path reconstruction.
+                current.first_failures+=inherited.first_failures;current.reference_recovered+=inherited.reference_recovered;current.reference_failed+=inherited.reference_failed;
+            }
+            checkpointEnd(in);
+        }
+        const auto executableIdentity=checkpointExecutableIdentity();
+        char checkpointHost[256]{};
+        if(gethostname(checkpointHost,sizeof(checkpointHost)-1)!=0)throw std::runtime_error("checkpoint hostname lookup failed");
+        const auto processStat=checkpointReadFile("/proc/self/stat");
+        std::istringstream statFields(processStat.substr(processStat.rfind(')')+2));
+        std::string startTicks,statWord;for(int field=3;field<=22;++field){statFields>>statWord;if(field==22)startTicks=statWord;}
+        auto receipt=[&](bool stopped) {
+            std::ostringstream out;out<<"{\"pid\":"<<getpid()<<",\"hostname\":";jsonString(out,checkpointHost);
+            out<<",\"process_start_ticks\":";jsonString(out,startTicks);
+            out<<",\"pbs_jobid\":";jsonString(out,std::getenv("PBS_JOBID")?std::getenv("PBS_JOBID"):"");
+            out<<",\"checkpoint_file\":";jsonString(out,checkpointFile);
+            out<<",\"generation\":"<<checkpointGeneration<<",\"warmup_done\":"<<samplingProgress.warmup_done
+               <<",\"measurement_done\":"<<samplingProgress.measurement_done<<",\"stopped\":"<<(stopped?"true":"false")
+               <<",\"exit_code_if_stopped\":75}\n";return out.str();
+        };
+        checkpointAtomicWrite(prefix+"_checkpoint.control.json",receipt(false));
+        auto saveCheckpoint=[&](bool stop) {
+            for(auto *stream:{&blocks,&validationOutput,&acceptanceOutput,&qAcceptanceOutput,&qDiagnosticOutput,&mixingOutput,&modeOutput,&warmupObservables})
+                if(stream->is_open()){stream->flush();if(!*stream)throw std::runtime_error("flush before checkpoint failed");}
+            MCCheckpoint c;c.executable=executableIdentity;c.origin=prefix;c.args=args;c.inputs=checkpointInputs;c.progress=samplingProgress;c.generation=++checkpointGeneration;
+            std::ostringstream pathOut,samplerOut,statsOut,runner;
+            state.state().path.save(pathOut);sampler.saveCheckpoint(samplerOut);statistics.saveCheckpoint(statsOut);
+            PhononSampler::writeCounts(runner,qWarm);PhononSampler::writeCounts(runner,totalWarm);PhononSampler::writeCounts(runner,gammaWarm);
+            runner<<untrustedInitial<<' '<<numerics.stages.size()<<'\n';
+            for(const auto &p:numerics.stages){runner<<std::quoted(p.first)<<' ';PhononSampler::writeCounts(runner,p.second);}
+            c.path=pathOut.str();c.sampler=samplerOut.str();c.statistics=statsOut.str();c.runner=runner.str();c.save(checkpointFile);
+            checkpointAtomicWrite(prefix+"_checkpoint.receipt.json",receipt(stop));
+            std::cerr<<"CHECKPOINT_SAVED generation="<<checkpointGeneration<<" warmup="<<samplingProgress.warmup_done<<" measurement="<<samplingProgress.measurement_done<<" file="<<checkpointFile<<" stop="<<stop<<'\n';
+        };
         const auto warm=sample(sampler,schedule,statistics,[&](const auto &s){
             auto values=basicObservables(model,s,measureEnergy!=0);
             const int sweep=++observationIndex*schedule.stride;
@@ -567,6 +784,18 @@ int main(int argc,char **argv) {
                 qDiagnosticOutput.flush();
                 if(!qDiagnosticOutput) throw std::runtime_error("q diagnostic output write failed");
             }
+            if(mixingDiagnostics) {
+                mixingOutput<<sweep<<','<<s.weight.matter_phase.real()<<','<<s.weight.matter_phase.imag()<<','
+                    <<double(std::clock()-cpuStart)/CLOCKS_PER_SEC<<','<<std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count();
+                for(int mu=0;mu<3;++mu)mixingOutput<<','<<values[mu].real();
+                for(int n1=0;n1<lx;++n1)for(int n2=0;n2<ly;++n2) {
+                    std::array<Complex,3> d{};
+                    const double u=double(n1)/lx,v=double(n2)/ly-double(shear)*n1/(double(lx)*ly);
+                    for(const auto &b:model.lattice().bonds())d[int(b.type)]+=s.path.coordinate(s.path.center(),b.index)*std::exp(Complex(0,-2*pi*(u*b.cell.x+v*b.cell.y)))/double(model.lattice().cells());
+                    for(const auto &z:d)mixingOutput<<','<<z.real()<<','<<z.imag()<<','<<std::norm(z);
+                }
+                mixingOutput<<'\n';mixingOutput.flush();if(!mixingOutput)throw std::runtime_error("mixing stream write failed");
+            }
             if(fermionsEnabled) {const auto extra=fermions.measure(s.weight.center_green);values.insert(values.end(),extra.begin(),extra.end());}
             if(vbsEnabled) {
                 const auto extra=vbs.measure(s.path.node(s.path.center()));
@@ -575,6 +804,34 @@ int main(int argc,char **argv) {
             if(susceptibilityEnabled) {const auto extra=VBSSusceptibility(vbs).measure(s.path);values.insert(values.end(),extra.begin(),extra.end());}
             if(fieldEnabled) {const auto extra=field.measure(s.path);values.insert(values.end(),extra.begin(),extra.end());}
             if(amplitudeEnabled) {const auto extra=VBSAmplitude(vbs,amplitudeResponse).measure(s.path);values.insert(values.end(),extra.begin(),extra.end());}
+            if(phononDiagnostics) {
+                const auto &p=s.path;
+                for(int j=0;j<p.nodes();++j) {
+                    double x=0,x2=0,c=0,other=0;
+                    for(int b=0;b<p.bonds();++b) {
+                        const double y=p.coordinate(j,b)/p.bonds();
+                        x+=y;x2+=y*p.coordinate(j,b);
+                        c+=y*p.coordinate(p.center(),b);
+                        other+=y*p.coordinate(p.center(),(b+1)%p.bonds());
+                    }
+                    values.insert(values.end(),{x,x2,c,other});
+                }
+                values.push_back(s.weight.log_abs_matter);
+            }
+            if(bondDiagnosticsEnabled) {const auto extra=bondDiagnostics(model,s);values.insert(values.end(),extra.begin(),extra.end());}
+            if(measureTotalEnergy) {
+                const auto energyBegin=std::chrono::steady_clock::now();
+                const auto extra=sampler.totalEnergy(model);values.insert(values.end(),extra.begin(),extra.end());
+                totalEnergySeconds+=std::chrono::duration<double>(std::chrono::steady_clock::now()-energyBegin).count();
+                ++totalEnergyMeasurements;
+            }
+            if(validationOutput.is_open()) {
+                validationOutput<<sweep<<','<<s.weight.matter_phase.real()<<','<<s.weight.matter_phase.imag();
+                for(const auto index:validationColumns)validationOutput<<','<<values.at(index).real()<<','<<values.at(index).imag();
+                if(pathSeries)for(int j=0;j<s.path.nodes();++j)validationOutput<<','<<s.path.coordinate(j,pathSeriesBond);
+                validationOutput<<'\n';
+                if(!validationOutput)throw std::runtime_error("validation series write failed");
+            }
             return values;
         },
             [&](const auto &stats){
@@ -585,8 +842,16 @@ int main(int argc,char **argv) {
             },&samplingTimings,{},[&](const char *stage,int sweep,const MoveCounts &counts) {
                 const bool inWarmup=std::string(stage)=="warmup";
                 const int endSweep=inWarmup?schedule.warmup:schedule.measurement_sweeps;
+                if(mixingDiagnostics && !inWarmup && (sweep%100==0 || sweep==endSweep)) {
+                    auto write=[&](const char *kernel,const QModeOptions &q,const MoveCounts &c,double seconds) {
+                        modeOutput<<"measurement,"<<sweep<<','<<kernel<<','<<q.n1<<','<<q.n2<<','<<q.bond_types<<','<<q.basis.size()<<','<<c.proposed<<','<<c.accepted<<','<<c.metropolis_rejected<<','<<c.first_failures<<','<<c.reference_recovered<<','<<c.reference_failed<<','<<seconds<<'\n';
+                    };
+                    for(std::size_t k=0;k<qPool.size()+extraPool.size();++k)write(k<qPool.size()?"primary":"extra",k<qPool.size()?qPool[k]:extraPool[k-qPool.size()],sampler.qMeasuredCounts()[k],sampler.qMeasuredSeconds()[k]);
+                    if(gammaOptions.every)for(int mu=0;mu<3;++mu)write("gamma",gammaOptions.modes[mu],sampler.gammaMeasuredCounts()[mu],sampler.gammaSeconds()[mu]);
+                    modeOutput.flush();if(!modeOutput)throw std::runtime_error("mode counts write failed");
+                }
                 if(inWarmup) {
-                    qWarm=sampler.qCounts();totalWarm=sampler.counts();
+                    qWarm=sampler.qCounts();totalWarm=sampler.counts();gammaWarm=sampler.gammaCounts();
                     // This is a raw path diagnostic, with no phase reweighting
                     // or Green observable. It must not materialize either.
                     if(warmupObservableEvery>0 && sweep%warmupObservableEvery==0) {
@@ -599,7 +864,8 @@ int main(int argc,char **argv) {
                 const int qEvery=acceptanceEvery>0?acceptanceEvery:(qDiagnosticEvery>0?qDiagnosticEvery:qOptions.every);
                 if(qOutputEnabled && (sweep%qEvery==0 || sweep==endSweep)) {
                     const auto q=inWarmup?sampler.qCounts():sampler.qCounts()-qWarm;
-                    const auto base=counts-q;
+                    const auto gamma=inWarmup?sampler.gammaCounts():sampler.gammaCounts()-gammaWarm;
+                    const auto base=counts-q-gamma;
                     qAcceptanceOutput<<stage<<','<<sweep;
                     for(const auto &c:{base,q}) qAcceptanceOutput<<','<<c.proposed<<','<<c.accepted<<','<<c.metropolis_rejected<<','<<c.untrusted_rejected<<','<<c.first_failures<<','<<c.reference_recovered<<','<<c.reference_failed;
                     qAcceptanceOutput<<'\n';qAcceptanceOutput.flush();
@@ -614,7 +880,10 @@ int main(int argc,char **argv) {
                     acceptanceOutput.flush();
                     if(!acceptanceOutput) throw std::runtime_error("acceptance output write failed");
                 }
-            });
+                const auto request=checkpointSignals.consume();
+                if(request.first || (checkpointEvery>0 && sweep%checkpointEvery==0))saveCheckpoint(request.second);
+                if(request.second)throw CheckpointStopped{};
+            },&samplingProgress);
         if(warmupObservables) warmupObservables.close();
         const double initializationSeconds=std::chrono::duration<double>(samplingBegin-start).count();
         const double samplingWallSeconds=std::chrono::duration<double>(std::chrono::steady_clock::now()-samplingBegin).count();
@@ -639,8 +908,16 @@ int main(int argc,char **argv) {
             <<",\"Lx\":"<<model.lattice().Lx()<<",\"Ly\":"<<model.lattice().Ly()<<",\"Jx\":"<<j.Jx<<",\"Jy\":"<<j.Jy<<",\"Jz\":"<<j.Jz
             <<",\"g\":"<<j.g<<",\"mass\":"<<phonon.mass<<",\"omega_ph\":"<<phonon.omega<<",\"k\":"<<phonon.spring()<<",\"lambda\":"<<lambda
             <<",\"phonon_trial\":\"equal_shifted_vacuum_endpoints\",\"trial_shift\":["<<shifts[0]<<','<<shifts[1]<<','<<shifts[2]<<']'
-            <<",\"matter_trial\":\"free_ground_state_static_X_zero\""
-            <<",\"spatial_boundary\":\"pbc\",\"pbc_geometry\":\""<<(shear==0?"axis_aligned":"sheared")<<"\""
+            <<",\"matter_trial\":\""<<(trialSelection.policy=="physical"?"physical_parity_free_state_static_X_zero":"unrestricted_free_ground_state_static_X_zero")<<"\",\"matter_trial_sector\":";
+        writeMatterTrialSelection(json,trialSelection);
+        if(resumed) {
+            json<<",\"resume\":{\"checkpoint\":";jsonString(json,args.at("resume"));
+            json<<",\"ancestor_output_prefix\":";jsonString(json,resumed->origin);
+            json<<",\"inherited_samples\":"<<resumed->progress.measurement_done/schedule.stride
+                <<",\"raw_blocks_include_ancestor\":true,\"diagnostic_streams_only_this_segment\":true,\"bitwise_interacting_replay_guaranteed\":false,\"effective_options\":{";
+            bool comma=false;for(const auto &p:args){if(comma)json<<',';comma=true;jsonString(json,p.first);json<<':';jsonString(json,p.second);}json<<"}}";
+        }
+        json<<",\"spatial_boundary\":\"pbc\",\"pbc_geometry\":\""<<(shear==0?"axis_aligned":"sheared")<<"\""
             <<",\"shear\":"<<shear<<",\"geometry_id\":\""<<model.lattice().geometryId()<<"\""
             <<",\"torus_matrix\":[["<<lx<<','<<shear<<"],[0,"<<ly<<"]]"
             <<",\"period_vectors_cartesian\":[["<<model.lattice().periodVector(0).x<<','<<model.lattice().periodVector(0).y
@@ -649,6 +926,8 @@ int main(int argc,char **argv) {
             <<",\"wilson_loops\":[1,1],\"time_contour\":\"open\",\"intervals\":"<<state.state().path.intervals()
             <<",\"dt\":"<<state.state().path.dt()<<",\"tau\":"<<state.state().path.totalTau()<<",\"acceptance_every\":"<<acceptanceEvery<<",\"warmup_sweeps\":"<<schedule.warmup
             <<",\"measurement_sweeps\":"<<schedule.measurement_sweeps<<",\"measure_every\":"<<schedule.stride<<",\"block_samples\":"<<schedule.block_samples
+            <<",\"bond_diagnostics\":"<<bondDiagnosticsEnabled
+            <<",\"phonon_diagnostics\":"<<phononDiagnostics
             <<",\"qr_block\":"<<integer("qr-block",4)
             <<",\"numerics_requested\":\""<<numericsRequested<<"\""
             <<",\"numerics_profile\":\""<<numericsProfile<<"\""
@@ -656,8 +935,11 @@ int main(int argc,char **argv) {
             <<",\"defer_phase\":"<<deferPhase
             <<",\"center_green_fast\":"<<centerGreenFast
             <<",\"center_green_qr_fast_calls\":"<<pure_projector_endpoint_detail::endpointAcceleratedQrCalls
-            <<",\"center_green_qr_reference_calls\":"<<pure_projector_endpoint_detail::endpointReferenceQrCalls
-            <<",\"cayley_cache\":"<<cayleyCache
+            <<",\"center_green_qr_reference_calls\":"<<pure_projector_endpoint_detail::endpointReferenceQrCalls;
+        json<<",\"gauge_u\":[";
+        for(std::size_t b=0;b<model.gauge().size();++b){if(b)json<<',';json<<model.gauge()[b];}json<<']';
+        writeRoundoffDiagnostics(json);
+        json<<",\"cayley_cache\":"<<cayleyCache
             <<",\"cayley_lu_calls\":"<<cayleyLUSolveCount
             <<",\"cayley_cache_hits\":"<<cayleyCacheHitCount
             <<",\"cayley_cache_fallbacks\":"<<cayleyCacheFallbackCount
@@ -665,6 +947,8 @@ int main(int argc,char **argv) {
             <<",\"prefix_resumes\":"<<signedPrefixResumeCount
             <<",\"signed_factor_steps\":"<<signedPropagationSliceCount
             <<",\"prefix_cache\":"<<prefixCache
+            <<",\"validation_series\":"<<validationSeries
+            <<",\"path_series_bond\":"<<(pathSeries?pathSeriesBond:-1)
             <<",\"proposal\":\""<<(proposalMode==PhononProposal::LocalConditional?"free_local_conditional_gaussian":(proposalMode==PhononProposal::BondRefresh?"free_whole_bond_refresh":"fixed_guided_bond_pcn"))
             <<"\",\"sweep\":\""<<(proposalMode==PhononProposal::LocalConditional?"random_permutation_all_coordinates":"random_permutation_all_bond_paths")
             <<"\",\"proposal_tuning\":false"
@@ -692,6 +976,8 @@ int main(int argc,char **argv) {
             <<",\"beta\":"<<guide.beta<<",\"reference\":\""<<guideSource<<"\",\"force_by_type\":["
             <<guideByType[0]<<','<<guideByType[1]<<','<<guideByType[2]
             <<"],\"physical_source_changed\":false,\"trial_changed\":false,\"adaptation\":false}";
+        json<<",\"gamma\":{\"every\":"<<gammaOptions.every<<",\"beta\":"<<gammaOptions.beta<<",\"proposal\":\"real_normalized_open_path_pCN_full_MH\",\"proposed_measurement\":"<<(sampler.gammaCounts()-gammaWarm).proposed<<",\"accepted_measurement\":"<<(sampler.gammaCounts()-gammaWarm).accepted<<"}";
+        json<<",\"extra_q_pool_size\":"<<extraPool.size();
         json<<",\"q_mode_pool\":{\"bond_types\":\""<<qBonds<<"\",\"selection\":\"fixed_uniform\",\"counts_scope\":\"warmup_plus_measurement\",\"entries\":[";
         for(std::size_t k=0;k<qPool.size();++k) {
             if(k)json<<',';const auto &c=sampler.qPoolCounts()[k];
@@ -701,7 +987,7 @@ int main(int argc,char **argv) {
         json<<"]},\"elapsed_seconds\":"<<elapsed<<',';
         json<<"\"q_mode\":{\"every\":"<<qOptions.every<<",\"n1\":"<<qOptions.n1<<",\"n2\":"<<qOptions.n2<<",\"beta\":"<<qOptions.beta<<",\"diagnostic_every\":"<<qDiagnosticEvery<<",\"basis_rank\":"<<qOptions.basis.size()<<",\"diagnostic_observables\":\"raw_unreweighted\",\"diagnostic_counts\":\"measurement_stage_cumulative\"},\"move_counts\":{";
         bool firstCounts=true;
-        for(const auto &entry:std::vector<std::pair<std::string,MoveCounts>>{{"base_warmup",warm-qWarm},{"q_warmup",qWarm},{"base_measurement",production-(sampler.qCounts()-qWarm)},{"q_measurement",sampler.qCounts()-qWarm}}) {
+        for(const auto &entry:std::vector<std::pair<std::string,MoveCounts>>{{"base_warmup",warm-qWarm-gammaWarm},{"q_warmup",qWarm},{"base_measurement",production-(sampler.qCounts()-qWarm)-(sampler.gammaCounts()-gammaWarm)},{"q_measurement",sampler.qCounts()-qWarm},{"gamma_warmup",gammaWarm},{"gamma_measurement",sampler.gammaCounts()-gammaWarm}}) {
             if(!firstCounts)json<<',';firstCounts=false;
             const auto &c=entry.second;jsonString(json,entry.first);
             json<<":{\"proposed\":"<<c.proposed<<",\"accepted\":"<<c.accepted<<",\"metropolis_rejected\":"<<c.metropolis_rejected<<",\"untrusted_rejected\":"<<c.untrusted_rejected<<",\"first_failures\":"<<c.first_failures<<",\"reference_recovered\":"<<c.reference_recovered<<",\"reference_failed\":"<<c.reference_failed<<'}';
@@ -831,9 +1117,9 @@ int main(int argc,char **argv) {
                 if(level++)json<<',';
                 const auto vbsBlockingBegin=std::chrono::steady_clock::now();
                 const auto raw=summarizeBlocks(merged);
-                const auto derived=summarizeDerivedBlocks(merged,[&](const auto &r){if(!susceptibilityEnabled && !amplitudeEnabled)return vbs.derive(r,vbsOffset);
-                    const std::vector<Complex> original(r.begin(),r.begin()+susceptibilityOffset);
-                    return vbs.derive(original,vbsOffset);});
+                const auto derived=summarizeDerivedBlocks(merged,[&](const auto &r){
+                    const std::vector<Complex> original(r.begin()+vbsOffset,r.begin()+susceptibilityOffset);
+                    return vbs.derive(original,0);});
                 vbsBlockingSeconds+=std::chrono::duration<double>(
                     std::chrono::steady_clock::now()-vbsBlockingBegin).count();
                 json<<"{\"blocks\":"<<merged.size()<<",\"block_samples\":"<<merged.front().count
@@ -876,8 +1162,21 @@ int main(int argc,char **argv) {
         json<<",\"fermions_enabled\":"<<bool(fermionsEnabled);
         if(fermionsEnabled) {json<<",\"fermions\":";fermions.writeMetadata(json);}
         json<<",\"measure_energy\":"<<bool(measureEnergy)
-            <<",\"measurement_green_enabled\":"<<bool(fermionsEnabled || measureEnergy)
-            <<",\"total_energy_estimator_available\":false,\"vbs_conclusion\":\"not_assessed\"";
+            <<",\"measurement_green_enabled\":"<<bool(fermionsEnabled || measureEnergy || bondDiagnosticsEnabled)
+            <<",\"measure_total_energy\":"<<bool(measureTotalEnergy)
+            <<",\"total_energy_estimator_available\":"<<bool(measureTotalEnergy)<<",\"vbs_conclusion\":\"not_assessed\"";
+        if(measureTotalEnergy) {
+            json<<",\"total_energy\":{\"schema\":\"phonon-link-total-energy-v1\",\"raw_offset\":"<<totalEnergyOffset
+                <<",\"normalization\":\"extensive; no zero-point subtraction\",\"cuts\":["<<finalPath.intervals()-1<<','<<finalPath.intervals()+1<<']'
+                <<",\"times\":["<<(finalPath.center()-.5)*finalPath.dt()<<','<<(finalPath.center()+.5)*finalPath.dt()<<']'
+                <<",\"combination\":\"equal average of adjacent central phonon-link midpoints\""
+                <<",\"legacy_majorana_energy\":\"unchanged central matter half-step cut; not a component of this link estimator\""
+                <<",\"phonon_estimator\":\"exact forced Mehler bridge first/second moments; kinetic=-d_dt log K_force-potential-source\""
+                <<",\"matter_estimator\":\"certified odd-cut Green; bridge mean for linear coupling\""
+                <<",\"external_source\":\"-sum force_b*X_b, included in energy_total\""
+                <<",\"finite_dt_location_differs_from_node_center\":true,\"variational_bound_claimed\":false"
+                <<",\"rng_consumed\":false,\"timing_scope\":\"this process only\"}";
+        }
         const double jsonPreTimingSeconds=std::chrono::duration<double>(
             std::chrono::steady_clock::now()-jsonBuildBegin).count();
         json<<",\"timing\":{\"initialization_seconds\":"<<initializationSeconds
@@ -886,6 +1185,8 @@ int main(int argc,char **argv) {
             <<",\"measurement_seconds\":"<<samplingTimings.measurement_seconds
             <<",\"measurement_materialization_seconds\":"<<samplingTimings.measurement_materialization_seconds
             <<",\"measurement_callback_seconds\":"<<samplingTimings.measurement_callback_seconds
+            <<",\"total_energy_seconds_included_in_measurement_callback\":"<<totalEnergySeconds
+            <<",\"total_energy_measurements_this_process\":"<<totalEnergyMeasurements
             <<",\"statistics_add_seconds\":"<<samplingTimings.statistics_add_seconds
             <<",\"block_callback_seconds\":"<<samplingTimings.block_callback_seconds
             <<",\"statistics_finalize_seconds\":"<<statisticsFinalizeSeconds
@@ -899,6 +1200,11 @@ int main(int argc,char **argv) {
         const double jsonBuildSeconds=std::chrono::duration<double>(
             std::chrono::steady_clock::now()-jsonBuildBegin).count();
         const auto jsonOutputBegin=std::chrono::steady_clock::now();
+        // Final summaries can take appreciable time. A request received after
+        // the last sweep still saves that last complete state before output.
+        const auto finalRequest=checkpointSignals.consume();
+        if(finalRequest.first)saveCheckpoint(finalRequest.second);
+        if(finalRequest.second)throw CheckpointStopped{};
         writeResult(prefix,jsonText);
         const double jsonOutputSeconds=std::chrono::duration<double>(std::chrono::steady_clock::now()-jsonOutputBegin).count();
         const auto stdoutOutputBegin=std::chrono::steady_clock::now();
@@ -915,6 +1221,10 @@ int main(int argc,char **argv) {
         if(!summary.phase_resolved || summary.too_few_blocks || !summary.jackknife_defined)
             std::cerr<<"STATISTICAL LIMITATION: unresolved phase denominator, insufficient blocks or undefined jackknife.\n";
         return 0;
+    } catch(const CheckpointStopped &) {
+        numerics.status(prefix,"checkpointed","saved at completed sweep boundary; resume with a fresh output prefix");
+        std::cerr<<"Saved checkpoint and stopped cleanly (exit75); this is not a completed production result.\n";
+        return 75;
     } catch(const std::exception &e) {
         if(numerics.owns_output) {
             try { numerics.status(prefix,"aborted",e.what()); }

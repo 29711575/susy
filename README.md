@@ -1,6 +1,14 @@
 # SSH–Kitaev 声子投影 PfQMC：quick1010 源码与极化率交接
 
-本仓库是 2026-10-13 更新的 `quick1010` 整理版，供合作者检查计算方法、采样和测量。源码放在仓库根目录；旧仓库中的 `fast-1002/` 内容已由本版本替换，原提交历史仍可回溯。
+本仓库是 2026-10-26 同步的 `quick1010` 主线源码整理版，供合作者检查计算方法、采样和测量。源码放在仓库根目录；旧仓库中的 `fast-1002/` 内容已由本版本替换，原提交历史仍可回溯。
+
+
+2026-10-26 更新：默认 physical matter trial、长投影 Gaussian/Pfaffian 数值修复、
+可选 Γ 更新、信号检查点/续算、完整能量估计器和离线分析工具已同步。
+**总能量默认关闭，旧 matter energy 保留；Γ 更新默认关闭。**
+见 [本次改动及兼容说明](docs/updates/20261026-source-sync.md) 和
+[实际导出验证](evidence/source-sync-20261026/README.md)。
+历史测量仍对应各自冻结版本；以下 2026-10-13/10-10 说明保留为历史记录。
 
 
 2026-10-13 源码更新：增加显式 `--center-green-fast 1` 中心 Green 重建加速及严格静态全键响应工具。guided 整键和固定 q 池实现沿用上一版。旧版完整保存在标签 [`quick1010-20261010-before-center-green`](https://github.com/29711575/susy/tree/quick1010-20261010-before-center-green)；详见 [更新与验证说明](docs/updates/20261013-source-update.md)。下列测量仍是 2026-10-10 的历史快照，各自冻结版本保持原记录。
@@ -60,6 +68,6 @@ python3 measurements/connected_decomposition/analyze.py
 python3 measurements/connected_decomposition/seed_check.py
 ```
 
-最新普通生产设置显式使用 `bond-guided/bare/beta1`、集体q、combined/defer-phase/prefix/Cayley；CLI历史默认与生产偏好不同，见 [AGENTS.md](AGENTS.md)。本次更新加入已验证的数值加速实现；Hamiltonian、trial、采样提议与观测定义保持原实现，既有 HPC 任务保留各自冻结版本。普通新生产的核心默认已启用中心 Green 加速；有意对照仍可显式写 `--center-green-fast 0`。
+普通生产设置显式使用 `bond-guided/bare/beta1` 和集体q；核心数值默认提供 combined/defer-phase/prefix/Cayley，见 [AGENTS.md](AGENTS.md)。2026-10-13 的更新加入数值加速，当时保持原 trial、采样和观测定义；2026-10-26 同步进一步改变默认物理 trial 并增加可选更新及测量，详见顶部更新说明。既有 HPC 任务保留各自冻结版本。普通新生产的核心默认已启用中心 Green 加速；有意对照仍可显式写 `--center-green-fast 0`。
 
 [源码来源清单](SOURCE_MANIFEST.json)、[本次导出验证](evidence/export-validation/README.md)、[历史验证](evidence/recorded-validation/) 分别记录不同证据。`docs/provenance/` 保存原本机文档；其中历史路径不是本仓库的相对路径，不能把历史测试记录误认为本次重跑。

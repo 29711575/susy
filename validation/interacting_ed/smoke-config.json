@@ -1,0 +1,22 @@
+{
+  "tier": "smoke",
+  "inherits": "full-config.json",
+  "ED_cutoffs": [
+    2,
+    3,
+    4
+  ],
+  "g_values": [
+    0,
+    0.2,
+    0.4
+  ],
+  "tau_values": [
+    2
+  ],
+  "QMC_sweeps_per_seed": 40,
+  "QMC_warmup": 20,
+  "QMC_seeds": "first two full-config seeds +100*case_index+90000; explicit values in generated plan",
+  "purpose": "Execution/interfaces only; cannot substitute for full cutoff/statistical precision acceptance",
+  "QMC_case_grid": "inherits all seven full cases"
+}

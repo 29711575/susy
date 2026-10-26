@@ -8,10 +8,8 @@
 
 namespace kitaev_ssh {
 
-inline GaussianTrialState freeGroundState(const KitaevSSHModel &model) {
-    // The existing factory rejects exact/near-zero modes at 1e-10.
-    // Do not change H, the boundary conditions, or the gauge on failure.
-    auto trial=GaussianTrialState::fromMajoranaHamiltonian(model.frameworkGenerator());
+inline void certifyRealMagnitudeTrial(GaussianTrialState &trial) {
+    trial.real_magnitude_trial.reset();
     // D=diag(I,iI) makes this exact real bipartite Hamiltonian real symmetric.
     // A real basis is a unitary rotation within the occupied subspace; it
     // changes neither |overlap| nor the original trial used for phase/Green.
@@ -33,6 +31,14 @@ inline GaussianTrialState freeGroundState(const KitaevSSHModel &model) {
         representation->source=trial.Phi;representation->basis=std::move(basis);
         trial.real_magnitude_trial=std::move(representation);
     }
+}
+
+// Unrestricted mathematical free vacuum, retained for independent numerical
+// references. Production uses selectFreeMatterTrial's physical parity policy.
+inline GaussianTrialState freeGroundState(const KitaevSSHModel &model) {
+    // Exact/near-zero modes remain an error; never alter H or gauge to split them.
+    auto trial=GaussianTrialState::fromMajoranaHamiltonian(model.frameworkGenerator());
+    certifyRealMagnitudeTrial(trial);
     return trial;
 }
 

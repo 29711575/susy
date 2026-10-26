@@ -5,6 +5,7 @@
 #include "pure_projector_real.h"
 #include "qmc_core_profile.h"
 #include "pure_projector_green.h"
+#include "pure_projector_augmented_pf.h"
 #include "pure_projector_mp.h"
 #include "pure_projector_stack.h"
 #include "pure_projector_local_support.h"
@@ -463,7 +464,12 @@ inline PureProjectorWeightResult pureProjectorStableReferenceWeight(
     const PureProjectorSignedPrefixCache *prefixCache=nullptr,
     PureProjectorSignedPrefixCache *updatedPrefixCache=nullptr,
     int requestedResumeIndex=-1,
-    PureProjectorLUCayleyCache *cayleyCache=nullptr) {    const PureProjectorOptions greenOptions=pureFastGreenOptions(options);
+    PureProjectorLUCayleyCache *cayleyCache=nullptr) {
+    PureProjectorOptions greenOptions=pureFastGreenOptions(options);
+    // Fail closed before a signed Pfaffian consumes a non-skew contraction.
+    // The inherited numerical tolerance is unchanged. This is a guard only,
+    // not a projection/repair of a corrupted Gaussian subspace.
+    greenOptions.fail_on_green_structure=true;
     PureProjectorWeightResult result;result.status=PureProjectorWeightStatus::success;
     result.log_abs_weight=0;result.complex_phase=DataType(1,0);result.z2_sign=1;
     result.overlap_rank=trial.Phi.cols();result.overlap_rcond=1;result.overlap_residual=0;
@@ -535,7 +541,8 @@ inline PureProjectorWeightResult pureProjectorStableReferenceWeight(
                 std::isfinite(checkpoint.complex_phase.real())&&
                 std::isfinite(checkpoint.complex_phase.imag());
             if(finiteCheckpoint&&checkpoint.prefix_hash==prefixHash&&
-               checkpoint.q.rows()==trial.Phi.rows()&&checkpoint.q.cols()==trial.Phi.cols()) {
+               checkpoint.q.rows()==trial.Phi.rows()&&checkpoint.q.cols()==trial.Phi.cols()&&
+               pureProjectorCanonicalFrameTrusted(checkpoint.q,greenOptions.solve_residual_tolerance)) {
                 work.q=checkpoint.q;logDetR=checkpoint.log_det_r;
                 previousLogOverlap=checkpoint.previous_log_overlap;
                 detRPhase=checkpoint.det_r_phase;
@@ -595,6 +602,12 @@ inline PureProjectorWeightResult pureProjectorStableReferenceWeight(
                 const auto &matrixQR=work.qr.matrixQR();
                 for(int i=0;i<work.x.cols();++i)detR*=matrixQR(i,i);
             }
+            DataType correctionDet;
+            if(!pureProjectorCanonicalMicrocorrect(work.next_q,correctionDet,
+                    greenOptions.solve_residual_tolerance,options.accelerated_linear_algebra)) {
+                propagation_failure=true;return;
+            }
+            detR*=correctionDet;
         });
         if(propagation_failure){
             result.status=PureProjectorWeightStatus::propagation_failure;result.first_failing_slice=index;return result;}
@@ -694,10 +707,10 @@ inline PureProjectorWeightResult pureProjectorStableReferenceWeight(
                     }
                 });
             }
-            if(result.status!=PureProjectorWeightStatus::success)return result;            PureProjectorGreenResult partial;
-            profileCore("sw_partial_green",[&]{
-                partial=greenFor(work.q);
-            });            if(!partial.ok()){
+            if(result.status!=PureProjectorWeightStatus::success)return result;
+            PureProjectorGreenResult partial;
+            profileCore("sw_partial_green",[&]{partial=greenFor(work.q);});
+            auto retainPartialFailure=[&] {
                 result.status=PureProjectorWeightStatus::overlap_untrusted;
                 result.first_failing_slice=index;
                 result.green_status=partial.status;
@@ -706,15 +719,44 @@ inline PureProjectorWeightResult pureProjectorStableReferenceWeight(
                 result.green_residual=partial.green_residual;
                 result.green_skew_residual=partial.green_skew_residual;
                 result.green_diagonal_residual=partial.green_diagonal_residual;
-                return result;
-            }            PfaffianResult pf;
+            };
+#ifdef PFQMC_TEST_AUGMENTED_ALL_SIGNED_STEPS
+            constexpr bool allAugmented=true;
+#else
+            constexpr bool allAugmented=false;
+#endif
+            const bool eligible=partial.ok()||partial.status==PureProjectorStatus::green_residual_exceeded||
+                partial.status==PureProjectorStatus::green_structure_exceeded||
+                partial.status==PureProjectorStatus::solve_residual_exceeded;
+            if(!partial.ok()&&!eligible){retainPartialFailure();return result;}
+            bool augmentedFailed=false;
             profileCore("sw_pfaffian",[&]{
-                pf=pfaffianForSignOfProductWithStatus(sliceGreen,partial.green);result.pfaffian_status=pf.status;
-                if(!pf.ok()){result.status=PureProjectorWeightStatus::pfaffian_untrusted;result.first_failing_slice=index;return;}
-                // Normalize the Pfaffian ordering at the identity, as in local ratios.
                 const double orderingSign=trial.Phi.cols()%2 ? -1.0 : 1.0;
-                DataType target=pureProjectorUnitPhase(orderingSign*s.eta*pf.value);if((std::conj(target)*ratio).real()<0)ratio=-ratio;
+                if(!partial.ok()||allAugmented) {
+                    // Only the +/- branch is recovered. The determinant/SVD
+                    // magnitude and the final Green certification are unchanged.
+                    const DataType phaseRoot=ratio/(orderingSign*pureProjectorUnitPhase(s.eta));
+                    const auto certificate=pure_projector_augmented_pf::augmentedPhaseFallback(
+                        trial.Phi,work.q,MatType(s.matrix),sliceGreen,phaseRoot,
+                        options.residual_tolerance,options.rank_tolerance,
+                        options.minimum_overlap_rcond,options.residual_tolerance);
+                    if(!certificate.phase_ok){augmentedFailed=true;result.pfaffian_status=PfaffianStatus::untrusted_phase;return;}
+                    result.pfaffian_status=PfaffianStatus::success;
+                    const DataType target=pureProjectorUnitPhase(orderingSign*s.eta*certificate.phase);
+                    if((std::conj(target)*ratio).real()<0)ratio=-ratio;
+                } else {
+                    const auto pf=pfaffianForSignOfProductWithStatus(sliceGreen,partial.green);
+                    result.pfaffian_status=pf.status;
+                    if(!pf.ok()){result.status=PureProjectorWeightStatus::pfaffian_untrusted;result.first_failing_slice=index;return;}
+                    const DataType target=pureProjectorUnitPhase(orderingSign*s.eta*pf.value);
+                    if((std::conj(target)*ratio).real()<0)ratio=-ratio;
+                }
             });
+            if(augmentedFailed) {
+                if(!partial.ok())retainPartialFailure();
+                else {result.status=PureProjectorWeightStatus::pfaffian_untrusted;result.first_failing_slice=index;}
+                return result;
+            }
             if(result.status!=PureProjectorWeightStatus::success)return result;
         }
         if(!std::isfinite(ratio.real())||!std::isfinite(ratio.imag())||std::abs(ratio)<=options.zero_tolerance){
@@ -774,7 +816,7 @@ inline bool pureProjectorRealMagnitudeWeight(
         if(!factor)return false;
         double detR=0.;bool qrOK=false;
         profileCore("sw_propagate_qr",[&] {
-            work.next_q.noalias()=(*factor)*work.q;qrOK=work.orthogonalize(detR);
+            work.next_q.noalias()=(*factor)*work.q;qrOK=work.orthogonalize(detR,pureFastGreenOptions(options).solve_residual_tolerance);
         });
         if(!qrOK||!std::isfinite(detR)||std::abs(detR)<=options.zero_tolerance*(1.+guard))return false;
         double logAbsDet=0.;bool overlapOK=true;
@@ -870,6 +912,12 @@ inline PureProjectorWeightResult pureProjectorMagnitudeWeight(
                 const auto &matrixQR=work.qr.matrixQR();
                 for(int i=0;i<work.x.cols();++i)detR*=matrixQR(i,i);
             }
+            DataType correctionDet;
+            if(!pureProjectorCanonicalMicrocorrect(work.next_q,correctionDet,
+                    greenOptions.solve_residual_tolerance,options.accelerated_linear_algebra)) {
+                propagation_failure=true;return;
+            }
+            detR*=correctionDet;
         });
         if(propagation_failure){
             result.status=PureProjectorWeightStatus::propagation_failure;result.first_failing_slice=index;return result;}

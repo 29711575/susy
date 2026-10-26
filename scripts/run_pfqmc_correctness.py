@@ -11,6 +11,9 @@ import time
 
 
 GROUPS = {
+    "energy": ["kitaev_ssh_total_energy_validate"],
+    "gamma": ["kitaev_ssh_gamma_validate"],
+    "physical": ["kitaev_ssh_physical_trial_validate"],
     "free": ["kitaev_ssh_pfqmc_free_phonon_validate"],
     "fock": ["kitaev_ssh_pfqmc_fock_validate"],
     "cache": ["kitaev_ssh_pfqmc_cache_validate"],

@@ -44,6 +44,10 @@ struct PureEndpointRebuildResult {
     double green_residual = std::numeric_limits<double>::infinity();
     double green_skew_residual = std::numeric_limits<double>::infinity();
     double green_diagonal_residual = std::numeric_limits<double>::infinity();
+    double green_residual_double = std::numeric_limits<double>::infinity();
+    bool long_double_green_residual = false;
+    bool canonical_frame_maintenance = false;
+    double canonical_correction_right = 0.0,canonical_correction_left = 0.0;
     double log_abs_weight = -std::numeric_limits<double>::infinity();
     double log_abs_scalar_prefactor = -std::numeric_limits<double>::infinity();
     DataType scalar_prefactor_phase = DataType(0.0,0.0);
@@ -65,7 +69,7 @@ inline std::uint64_t endpointAcceleratedQrCalls=0;
 inline std::uint64_t endpointReferenceQrCalls=0;
 
 inline ScaledThinQr scaledThinQr(const MatType &subspace,
-                                 const PureProjectorOptions &options) {
+                                 const PureProjectorOptions &options, bool canonical = false) {
     ScaledThinQr result;
     if (subspace.rows() <= 0 || subspace.cols() <= 0 ||
         subspace.rows() < subspace.cols() || !pureProjectorMatrixFinite(subspace)) {
@@ -105,6 +109,15 @@ inline ScaledThinQr scaledThinQr(const MatType &subspace,
         Eigen::HouseholderQR<MatType> qr(subspace);
         result.q = qr.householderQ() * MatType::Identity(subspace.rows(),subspace.cols());
         if(!recordScale(qr.matrixQR()))return result;
+    }
+    if(canonical) {
+        DataType correctionDet;
+        if(!pureProjectorCanonicalMicrocorrect(result.q,correctionDet,
+                options.solve_residual_tolerance,options.accelerated_linear_algebra)) {
+            result.status=PureProjectorStatus::solve_residual_exceeded;
+            return result;
+        }
+        result.log_abs_determinant+=std::log(std::abs(correctionDet));
     }
     const double orth=(result.q.adjoint()*result.q-
         MatType::Identity(subspace.cols(),subspace.cols())).norm()/
@@ -180,7 +193,7 @@ inline PureEndpointRebuildResult pureProjectorEndpointRebuild(
         if ((index+1)%blockSize==0 || index+1==cut) {
             pure_projector_endpoint_detail::ScaledThinQr qr;
             profileCore("ep_thin_qr",[&]{
-                qr=pure_projector_endpoint_detail::scaledThinQr(right,options);
+                qr=pure_projector_endpoint_detail::scaledThinQr(right,options,true);
             });
             if (!qr.ok()) {
                 result.status=PureEndpointRebuildStatus::subspace_failure;
@@ -205,7 +218,7 @@ inline PureEndpointRebuildResult pureProjectorEndpointRebuild(
         if (propagated%blockSize==0 || index==cut) {
             pure_projector_endpoint_detail::ScaledThinQr qr;
             profileCore("ep_thin_qr",[&]{
-                qr=pure_projector_endpoint_detail::scaledThinQr(left,options);
+                qr=pure_projector_endpoint_detail::scaledThinQr(left,options,true);
             });
             if (!qr.ok()) {
                 result.status=PureEndpointRebuildStatus::subspace_failure;
@@ -219,13 +232,19 @@ inline PureEndpointRebuildResult pureProjectorEndpointRebuild(
     if(ep_failed)return result;
 
     PureProjectorGreenResult endpoint;
-    profileCore("ep_green",[&]{ endpoint=pureProjectorGreen(right,left,options); });    result.q_right=right;result.q_left=left;
+    PureProjectorOptions gaussianOptions=options;gaussianOptions.fail_on_green_structure=true;
+    profileCore("ep_green",[&]{ endpoint=pureProjectorGreen(right,left,gaussianOptions); });    result.q_right=right;result.q_left=left;
     result.overlap_rank=endpoint.overlap_rank;
     result.overlap_rcond=endpoint.overlap_rcond;
     result.solve_residual=endpoint.solve_residual;
     result.green_residual=endpoint.green_residual;
     result.green_skew_residual=endpoint.green_skew_residual;
     result.green_diagonal_residual=endpoint.green_diagonal_residual;
+    result.green_residual_double=endpoint.green_residual_double;
+    result.long_double_green_residual=endpoint.long_double_green_residual;
+    result.canonical_frame_maintenance=endpoint.canonical_frame_maintenance;
+    result.canonical_correction_right=endpoint.canonical_correction_right;
+    result.canonical_correction_left=endpoint.canonical_correction_left;
     if (!endpoint.ok()) {
         result.status=PureEndpointRebuildStatus::endpoint_overlap_untrusted;
         result.message=std::string("target-cut overlap failed: ")+

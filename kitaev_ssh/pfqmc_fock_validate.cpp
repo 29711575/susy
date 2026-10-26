@@ -69,6 +69,24 @@ void run(bool synthetic){
  }
  if(synthetic)check("nontrivial_complex_phase_witness",phaseWitness?0.:1.,0.);
 }
+void g0GroundState() {
+ const auto c=operators(4);MatType h=MatType::Zero(16,16);
+ for(auto e:edges())h+=Complex(0,e.j)*c[e.a]*c[e.b];
+ Eigen::SelfAdjointEigenSolver<MatType> ed(h);const double energy=ed.eigenvalues()[0];const auto psi=ed.eigenvectors().col(0).eval();
+ MatType green(8,8);for(int a=0;a<8;++a)for(int b=0;b<8;++b)green(a,b)=(a==b?1.:0.)-(psi.adjoint()*c[a]*c[b]*psi)(0);
+ KitaevSSHModel model(HoneycombLattice(2,2),{1,1,.5,0});auto trial=freeGroundState(model);auto gen=honeycombGenerator(model);
+ std::cout<<"CASE g0_Fock L=2 J=1,1,.5 gauge=zero_flux Wilson=+1,+1 trial=free_ground_state normalized_bra_ket tau=2 mass=100/9 omega=.3 trial_shift=0 field=0 E="<<energy<<'\n';
+ for(int M:{10,20})for(int production:{0,1})for(int pathKind:{0,1,2}) {
+  PhononPath p(12,M,2./M,{100./9,.3},std::vector<double>(12,0));
+  for(int b=0;b<12;++b)for(int j=0;j<=M;++j)p=p.withCoordinate(j,b,pathKind==0?0.:pathKind==1?.23:std::sin(.43*b+.19*j));
+  PhononWeightOptions opt{bool(production),bool(production),bool(production),bool(production),bool(production),true,bool(production)};
+  CoupledPhononPath state(p,trial,gen,4,opt);state.ensureMeasured();const auto &w=state.state().weight;
+  check("g0_positive_unit_phase",std::abs(w.matter_phase-Complex(1)),2e-9);
+  check("g0_Fock_log_weight_and_X_independence",std::abs(w.log_abs_matter+2*energy),2e-9);
+  check("g0_Fock_center_Green",(w.center_green-green).cwiseAbs().maxCoeff(),2e-9);
+  check("g0_Fock_matter_energy",std::abs(matterEnergyAtDisplacement(model,p.node(M/2),w.center_green)-energy),2e-9);
+ }
+}
 void negativeRealWitness(){
  // Four Majoranas, real Hermitian Fock Hamiltonians. Products of positive
  // factors need not have positive trial overlaps. No scalar eta is injected.
@@ -84,4 +102,4 @@ void negativeRealWitness(){
 }
 
 }
-int main(){std::cout<<std::setprecision(17);try{run(false);run(true);negativeRealWitness();for(auto &m:metrics)std::cout<<"PASS "<<m.first<<" comparisons="<<m.second.count<<" max_error="<<m.second.error<<" tolerance="<<m.second.tolerance<<'\n';return 0;}catch(const std::exception&e){std::cerr<<"FAIL "<<e.what()<<'\n';return 1;}}
+int main(int argc,char **argv){std::cout<<std::setprecision(17);try{if(argc==2&&std::string(argv[1])=="--g0"){g0GroundState();}else {run(false);run(true);negativeRealWitness();}for(auto &m:metrics)std::cout<<"PASS "<<m.first<<" comparisons="<<m.second.count<<" max_error="<<m.second.error<<" tolerance="<<m.second.tolerance<<'\n';return 0;}catch(const std::exception&e){std::cerr<<"FAIL "<<e.what()<<'\n';return 1;}}

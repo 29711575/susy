@@ -53,13 +53,13 @@ eager/deferred、局部接受/拒绝及完整参考比较均通过，最大缩�
 代码：`inc/pure_projector_endpoint.h`、`kitaev_ssh/phonon_projector.h`、
 `kitaev_ssh/coupled_mc.cpp`、`kitaev_ssh/center_green_validate.cpp`、
 `kitaev_ssh/numerical_failure_validate.cpp` 及 CMake/nodeps 目标。
-完整证据：[验收报告](../../evidence/recorded-validation/center-green/REPORT.txt)。
+完整证据：[验收报告](../../audit/1010/center-green-acceptance/REPORT.txt)。
 
 2026-10-11 补充适用范围：上文关于QR关闭宏删除保护的描述针对共享库
 UDT引擎。当前SSH生产入口不调用该引擎，实际投影QR/Green检查由各自代码
 控制，不受该宏影响。只增加宏的原生新构建与已验收程序逐字节一致，
 故当前长链通过这个宏获得的算法耗时收益为0%。它不能算作当前生产
-遗漏的有效加速开关；见原工作区 audit/1010/qr-guard-cost/REPORT.txt（历史记录，未随本次导出）。
+遗漏的有效加速开关；见[编译对照](../../audit/1010/qr-guard-cost/REPORT.txt)。
 
 2026-10-11 局部Green适配可行性补充：独立完整支撑稠密原型在L6/L9
 固定路径上通过权重比/完整同cut Green对照。L9/M200,M240热cache的
@@ -67,6 +67,6 @@ UDT引擎。当前SSH生产入口不调用该引擎，实际投影QR/Green检查
 这不是生产集成或整链效率验收；缓存建立/失效与提议数量需要另计。
 现有精确小支撑低秩内核仍不适用，不用数值秩阈值删模式，也不替换当前
 非对易矩阵指数的离散方式。当前不新增生产开关，现有guided/q保持。
-见原工作区 audit/1011/local-green-feasibility/REPORT.txt（历史记录，未随本次导出）。
+见[可行性原型](../../audit/1011/local-green-feasibility/REPORT.txt)。
 
 2026-10-13 CLI 默认更新：普通生产现从 numerical_policy.h 使用 production-v1，省略 center-green-fast 的默认改为1；脚本无需逐项传入数值优化开关。旧显式0及 --numerics reference 仍可诊断。见 ADR-022；此前验证记录保留原日期和范围。

@@ -117,11 +117,34 @@ $$
 
 ## 按需 Majorana 能量与中心 Green（2026-10-02）
 
+2026-10-22：源码 CLI 的 `--bond-diagnostics` 默认改为1，记录中心各键及方向
+平均的 `BondK`、`BondXK`，与基本X使用共同相位原始区块；显式0可关闭。
+`BondK=i*c_A*c_B`不含规范u，平均力用 `B_b=u_b*BondK_b` 和
+`R_mu=k*<X_mu>+g*<B_mu>`，误差保留X/B协方差。有限tau/dt的非零残差不能
+直接判为数值失败。该默认值适用于新编译的CLI，历史冻结程序保留原设置。
+
 `--measure-energy` 默认 1，保留 Majorana 能量估计器；显式 0 只省略其
 输出字段及区块列，不改变声子/VBS 的测量定义和复数相位重加权。
-fermions=0 时可省去测量中心 Green；fermions=1 始终强制它，费米子
-矩阵、相位和统计处理保持原定义。输出 measure_energy 和
+仅当 measure-energy=0、fermions=0 且 bond-diagnostics=0 时可省去测量
+中心 Green；任一项开启均需要它。费米子矩阵、相位和统计处理保持原定义。输出 measure_energy 和
 measurement_green_enabled 区分测量选择。参见 [ADR-008](decisions/ADR-008-real-magnitude.md)。
+
+## 总能量及分项（2026-10-23）
+
+`--measure-total-energy 0|1`活动源码默认0，新生产脚本显式设为0；按需设1开启。
+2026-10-23用户撤回先前默认开启设置。已有冻结二进制仍保留原省略默认，
+使用它提交新任务时必须显式传0；旧`--measure-energy 1`仍默认开启。
+追加`energy_bare_matter`、`energy_matter_phonon`、`energy_phonon_kinetic`、
+`energy_phonon_potential`、`energy_external_source`、`energy_total`六个广延原始量，
+保留声子零点能；外场项为`-sum force_b*X_b`，无外场时为零。
+六项使用同一相位分母，总量误差保留分项协方差。
+
+全部新分项在`tau/2 ± dt/2`的相邻声子传播中点对称平均，原中心
+`majorana_energy`仍只含matter及其声子耦合。不能把它与另一位置的声子项直接相加。
+输出`total_energy`记录切面、归一化和估计器schema。新能量单独重建两处Green；
+不要求额外中心Green，不抽取随机数。有限dt不宣称变分上界，单构型动能可为负。
+精确插入公式、原数值门槛及独立验证见[TOTAL_ENERGY.md](TOTAL_ENERGY.md)。
+
 # VBS 静态极化率扩展（2026-10-05）
 
 `--vbs-susceptibility 1` 在 `--vbs 1 --vbs-mode all` 下保存允许动量上的

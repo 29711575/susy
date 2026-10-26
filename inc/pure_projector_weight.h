@@ -238,7 +238,7 @@ public:
 
             if (options_.thin_qr_interval > 0 &&
                 ((index + 1) % options_.thin_qr_interval) == 0) {
-                const ThinQrResult qr = thinQrSubspace(stablePhi, options_.green_options);
+                const ThinQrResult qr = thinQrSubspace(stablePhi, options_.green_options, true);
                 if (!qr.ok())
                     return fail(result, PureProjectorWeightStatus::overlap_untrusted, index);
                 stablePhi = qr.q;

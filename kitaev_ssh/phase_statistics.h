@@ -10,6 +10,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include "checkpoint_io.h"
 
 namespace kitaev_ssh {
 using Complex=std::complex<double>;
@@ -167,6 +168,43 @@ public:
     const std::vector<PhaseBlock> &blocks() const { return blocks_; }
     int blockSamples() const { return block_samples_; }
     const std::vector<std::string> &names() const { return names_; }
+    std::uint64_t samplesIncludingPending() const {
+        return std::uint64_t(blocks_.size())*block_samples_+pending_.count;
+    }
+    void saveCheckpoint(std::ostream &out) const {
+        out<<std::setprecision(17)<<block_samples_<<' '<<names_.size()<<' '<<blocks_.size()<<'\n';
+        for(const auto &name:names_)out<<std::quoted(name)<<'\n';
+        auto write=[&](const PhaseBlock &b) {
+            out<<b.count<<' '<<b.phase.real()<<' '<<b.phase.imag()<<' '
+               <<b.positive<<' '<<b.negative<<' '<<b.nonreal<<'\n';
+            for(auto z:b.numerator)out<<z.real()<<' '<<z.imag()<<'\n';
+        };
+        for(const auto &b:blocks_)write(b);write(pending_);
+        if(!out)throw std::runtime_error("statistics checkpoint write failed");
+    }
+    void loadCheckpoint(std::istream &in) {
+        int bs;std::size_t width,count;
+        checkpointRequire(bool(in>>bs>>width>>count) && bs==block_samples_ && width==names_.size(),"statistics schema mismatch");
+        for(const auto &name:names_){std::string got;checkpointRequire(bool(in>>std::quoted(got)) && got==name,"observable names mismatch");}
+        auto read=[&](bool pending) {
+            PhaseBlock b;double re,im;
+            checkpointRequire(bool(in>>b.count>>re>>im>>b.positive>>b.negative>>b.nonreal),"truncated phase block");
+            b.phase={re,im};
+            checkpointRequire(finiteComplex(b.phase) && (pending?b.count<std::uint64_t(bs):b.count==std::uint64_t(bs)) &&
+                b.positive+b.negative+b.nonreal==b.count && std::abs(b.phase)<=double(b.count)*(1+1e-10),"invalid phase block");
+            b.numerator.resize(width);
+            for(auto &z:b.numerator){checkpointRequire(bool(in>>re>>im),"truncated observable sums");z={re,im};checkpointRequire(finiteComplex(z),"nonfinite observable sum");}
+            return b;
+        };
+        // Bound allocation by the actual text remaining, including a minimal block header.
+        const auto here=in.tellg();in.seekg(0,std::ios::end);const auto end=in.tellg();in.seekg(here);
+        checkpointRequire(here>=0 && end>=here && count<=std::uint64_t(end-here)/12,"invalid block count");
+        std::vector<PhaseBlock> blocks;for(std::size_t i=0;i<count;++i)blocks.push_back(read(false));
+        auto pending=read(true);checkpointEnd(in);blocks_=std::move(blocks);pending_=std::move(pending);
+    }
+    void writeAllBlocks(std::ostream &out) const {
+        for(std::size_t i=0;i<blocks_.size();++i)writeBlock(out,i);
+    }
     PhaseSummary summary() const {
         if(pending_.count) throw std::logic_error("incomplete final block: no samples silently discarded");
         return summarizeBlocks(blocks_);
@@ -182,13 +220,17 @@ public:
         out<<'\n';
     }
     void writeLastBlock(std::ostream &out) const {
-        const auto &b=blocks_.back(); out<<blocks_.size()-1<<','<<b.count<<','<<b.phase.real()<<','<<b.phase.imag();
-        out<<','<<b.positive<<','<<b.negative<<','<<b.nonreal;
-        for(auto z:b.numerator) out<<','<<z.real()<<','<<z.imag();
-        out<<'\n'; out.flush();
+        writeBlock(out,blocks_.size()-1);out.flush();
         if(!out) throw std::runtime_error("block statistics write failed");
     }
 private:
+    void writeBlock(std::ostream &out,std::size_t index) const {
+        const auto &b=blocks_.at(index); out<<index<<','<<b.count<<','<<b.phase.real()<<','<<b.phase.imag();
+        out<<','<<b.positive<<','<<b.negative<<','<<b.nonreal;
+        for(auto z:b.numerator) out<<','<<z.real()<<','<<z.imag();
+        out<<'\n';
+        if(!out) throw std::runtime_error("block statistics write failed");
+    }
     std::vector<std::string> names_;
     int block_samples_;
     PhaseBlock pending_;

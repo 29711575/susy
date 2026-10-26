@@ -1,4 +1,5 @@
 #include "phonon_projector.h"
+#include "physical_matter_trial.h"
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -46,7 +47,7 @@ int main(int argc,char **argv) {
             return PhononPath(model.lattice().bondCount(),integer("intervals",8),real("dt",.05),
                               {real("mass",4.),real("omega-ph",.5)},shifts).freeSample(rng);
         };
-        CoupledPhononPath state(initial(),freeGroundState(model),honeycombGenerator(model));
+        CoupledPhononPath state(initial(),selectFreeMatterTrial(model).trial,honeycombGenerator(model));
         auto rejected=state.propose(state.state().path.center(),0,state.state().path.coordinate(state.state().path.center(),0)+.1);
         state.reject(rejected);
         auto accepted=state.propose(0,1,state.state().path.coordinate(0,1)-.15);
