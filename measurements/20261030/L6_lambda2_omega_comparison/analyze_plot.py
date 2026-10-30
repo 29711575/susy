@@ -24,7 +24,7 @@ for (om,dt,tau),g in sorted(groups.items()):
  total=np.sum([c['raw'] for c in g],axis=0);r=est(total,sum(c['retained'] for c in g));r.update(omega=om,dt=dt,tau=tau,seeds=len(g),saved_min=min(c['saved'] for c in g),saved_max=max(c['saved'] for c in g),retained=sum(c['retained'] for c in g),m_error=jack(g,total,'m'),m2_error=jack(g,total,'m2'),chi_error=jack(g,total,'chi'));rows.append(r)
 fields=['omega','dt','tau','seeds','saved_min','saved_max','retained','m','m_error','m2','m2_error','chi','chi_error','q_m','q_chi','phase']
 with open(D/'summary.csv','w',newline='') as f:
- w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(rows)
+ w=csv.DictWriter(f,fieldnames=fields,lineterminator="\n");w.writeheader();w.writerows(rows)
 for key,label,out in [('m',r'$m$', 'order-comparison.png'),('m2',r'$m^2$', 'order-squared-comparison.png'),('chi',r'$\chi$', 'susceptibility-comparison.png')]:
  fig,ax=plt.subplots(figsize=(8.3,5.7),layout='constrained');colors={.1:'#2878b5',.2:'#ef8636',.3:'#36934a',.5:'#bb486c'}
  for om,dt in [(.1,.2),(.1,.4),(.2,.4),(.3,.4),(.5,.4)]:

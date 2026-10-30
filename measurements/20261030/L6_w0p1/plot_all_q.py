@@ -21,7 +21,7 @@ for (lam,tau),g in sorted(groups.items()):
  total=np.sum([c['raw'] for c in g],axis=0);r=estimate(total,sum(c['retained'] for c in g));r.update(lambda_value=lam,tau=tau,seeds=len(g),saved_min=min(c['saved'] for c in g),saved_max=max(c['saved'] for c in g),retained=sum(c['retained'] for c in g),m_error=err(g,total,'m'),m2_error=err(g,total,'m2'),chi_error=err(g,total,'chi'));rows.append(r)
 fields=['lambda_value','tau','seeds','saved_min','saved_max','retained','m','m_error','m2','m2_error','chi','chi_error','q_m','q_chi','phase']
 with open(D/'summary.csv','w',newline='') as f:
- w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(rows)
+ w=csv.DictWriter(f,fieldnames=fields,lineterminator="\n");w.writeheader();w.writerows(rows)
 colors=plt.get_cmap('tab10');ls=sorted({r['lambda_value'] for r in rows})
 for key,label,out in [('m',r'$m$', 'order-vs-tau.png'),('m2',r'$m^2$', 'order-squared-vs-tau.png'),('chi',r'$\chi$', 'susceptibility-vs-tau.png')]:
  fig,ax=plt.subplots(figsize=(8.4,6),layout='constrained')

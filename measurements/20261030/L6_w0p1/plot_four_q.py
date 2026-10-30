@@ -18,7 +18,7 @@ for (lam,tau),g in sorted(groups.items()):
  total=np.sum([c['raw'] for c in g],axis=0);m2,q,values=estimate(total);n=len(g);reps=[estimate(total-np.array(c['raw']))[0] for c in g] if n>1 else [];se=float(np.sqrt((n-1)/n*np.sum((np.array(reps)-np.mean(reps))**2))) if reps else None
  rows.append(dict(lambda_value=lam,tau=tau,seeds=n,m2=m2,m2_error=se,q_peak=q,saved_min=min(c['saved'] for c in g),saved_max=max(c['saved'] for c in g),retained=sum(c['retained'] for c in g),**{'m2_q%d'%q:values[q] for q in Q}))
 with (D/'four-q-summary.csv').open('w',newline='') as f:
- w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
+ w=csv.DictWriter(f,fieldnames=list(rows[0]),lineterminator="\n");w.writeheader();w.writerows(rows)
 fig,ax=plt.subplots(figsize=(8.8,6.4),layout='constrained');colors=plt.get_cmap('tab10')
 for i,lam in enumerate(sorted(set(r['lambda_value'] for r in rows))):
  rr=sorted([r for r in rows if r['lambda_value']==lam and r['m2']>0],key=lambda r:r['tau']);x=[r['tau'] for r in rr];y=[r['m2'] for r in rr];e=[r['m2_error'] if r['m2_error'] is not None and r['m2_error']<r['m2'] else float('nan') for r in rr]

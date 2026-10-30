@@ -23,7 +23,7 @@ for (lam,tau),g in sorted(groups.items()):
  raw=np.sum([c['raw'] for c in g],axis=0);m,m2,q=est(raw);n=len(g);rep=[est(raw-np.array(c['raw'])) for c in g] if n>1 else [];e=[float(np.sqrt((n-1)/n*np.sum((np.array([v[i] for v in rep])-np.mean([v[i] for v in rep]))**2))) for i in (0,1)] if rep else [None,None]
  rows.append(dict(lambda_value=lam,tau=tau,dt=.1,seeds=n,saved_min=min(c['saved'] for c in g),saved_max=max(c['saved'] for c in g),retained=sum(c['retained'] for c in g),m=m,m_error=e[0],m2=m2,m2_error=e[1],q=q,phase=abs(complex(raw[0],raw[1]))/sum(c['retained'] for c in g),sources=';'.join(sorted(set(c['root'] for c in g)))))
 with (D/'summary.csv').open('w',newline='') as f:
- fields=['lambda_value','tau','dt','seeds','saved_min','saved_max','retained','m','m_error','m2','m2_error','q','phase','sources'];w=csv.DictWriter(f,fields);w.writeheader();w.writerows(rows)
+ fields=['lambda_value','tau','dt','seeds','saved_min','saved_max','retained','m','m_error','m2','m2_error','q','phase','sources'];w=csv.DictWriter(f,fields,lineterminator="\n");w.writeheader();w.writerows(rows)
 for metric,label,out in [('m',r'$m_z$', 'order-vs-tau.png'),('m2',r'$m_z^2$', 'order-squared-vs-tau.png')]:
  fig,ax=plt.subplots(figsize=(8,5.8),layout='constrained')
  for lam in [6,7,8]:
