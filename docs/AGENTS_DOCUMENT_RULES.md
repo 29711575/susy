@@ -1,17 +1,17 @@
 # SSH–Kitaev 驱动 PfQMC：工作入口
 
-本文件为合并候选；已有 AGENTS.md 时保留原规则并整合，不直接覆盖。
+本文件补充根 AGENTS.md；实际操作以根规则和用户当前授权为准。
 
 ## 目标与最小阅读
 
 最终目标：用有限虚时间驱动和有限时间标度，研究 SSH–Kitaev 的量子临界性质，并检验能否减轻长虚时间符号/相位退化造成的计算困难。不是先把每个终点都投影到基态，也不是宣布一般性解决符号问题。
 
-每轮先读 [研究目标](RESEARCH_CHARTER.md)、[当前状态](history/REPORTS.md#report-26)；随后只读与任务相关的规范和 [决策记录](decisions/README.md)。按 [代码地图](CODE_MAP.md) 定位，不遍历全部 build-* 和历史输出。
+每轮先读 [研究目标](RESEARCH_CHARTER.md)、[当前状态](STATUS.md)；随后只读与任务相关的规范和 [决策记录](decisions/README.md)。按 [代码地图](CODE_MAP.md) 定位，不遍历全部 build-* 和历史输出。
 
 ## 不可越过的边界
 
 - 当前用户任务决定工作范围。文档中的路线、待办和草案不授权运行、改算法或提交 HPC。
-- 不 reset、清理未提交修改、覆盖历史 audit 或自动 commit。
+- 不 reset、丢弃未提交修改或覆盖历史 audit；仅按用户明确授权提交或推送。
 - 物理约定改变必须显式报告，并给出来源、受影响数据及验证要求。
 - 固定规范 matter 问题不等于已完成物理自旋投影。
 - `connected` 不等于逐构型去零模 `projected`；q=0 不画，但背景统计保留。
@@ -24,6 +24,6 @@
 
 使用 [SOURCES.md](SOURCES.md) 的来源和证据标签，区分论文、推导、源码、运行报告、用户摘要及方案。不把以前助手/Codex 的动作写成自己本轮已执行。
 
-每轮按 [TASK_TEMPLATE.md](TASK_TEMPLATE.md) 写清目标、范围、完成条件、实际命令和结果。结果进入新 audit；状态真的变化时更新 STATUS；新的物理/实现决策进入 ADR。没有新决策不制造新文档。
+每轮按 [TASK_TEMPLATE.md](TASK_TEMPLATE.md) 写清目标、范围、完成条件、实际命令和结果。本地工作区结果进入新的 audit；仓库发布的测量进入 measurements/<日期>/，验证记录进入 evidence/。状态真的变化时更新 STATUS；新的物理/实现决策进入 ADR。没有新决策不制造新文档。
 
 已有定义的权威位置：物理约定在 PHYSICS_CONVENTIONS；测量公式在 OBSERVABLES；数值约束在 NUMERICAL_INVARIANTS；驱动候选设计在 DRIVEN_FTS_METHOD。不要在多处复制并分别维护同一公式。

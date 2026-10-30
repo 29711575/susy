@@ -5,16 +5,16 @@
 新任务使用原来的计算参数启动即可，程序默认写`mc_checkpoint.control.json`。
 可选`--checkpoint-every 100`每100sweep保存；默认只在收到信号时保存。
 
-在仓库根目录请求20022上的**一个**子任务保存后退出：
+在仓库根目录请求20015上的**一个**子任务保存后退出：
 
 ```bash
 python3 scripts/checkpoint_job.py \
-  --port 20022 --job 'JOB_ID[INDEX].mgt' \
+  --port 20015 --job 'JOB_ID[INDEX].mgt' \
   --control '/home/sunxr/RUN_ROOT/runs/CHAIN/mc_checkpoint.control.json' \
   --stop
 ```
 
-去掉`--stop`则保存后继续。20015改相应端口即可。
+去掉`--stop`则保存后继续。20022改相应端口即可。
 脚本核对作业、节点与PID身份，等待`checkpoint_saved: true`才返回成功；
 不会取消PBS任务。一个sweep可能持续数分钟，可用`--timeout 1800`延长等待。
 若节点SSH不允许或程序不支持接口，脚本报错且不改作业。

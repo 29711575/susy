@@ -1,3 +1,7 @@
+> 2026-09 历史实验记录。旧提交文件已归入
+> [历史脚本压缩包](../docs/history/legacy-hpc-scripts-before-20261030.zip)，
+> 下文路径、命令及结果属于当时任务；当前操作见[模块入口](README.md)。
+
 # 均匀移位声子试探态：实现与有界对照（2026-09-16）
 
 已实现并在 HPC 用新二进制完成对照。Xz 的均匀投影漂移明显减小；Btrace 有减小迹象但统计较弱。两点结果不构成投影收敛证明。
@@ -63,6 +67,6 @@ q1=(0,1)、q3=(1,1) 固定，未逐配置选峰。Xz 的“新漂移−旧漂移
  --measure-every 1 --block-samples 25 --qr-block 4 --vbs 1 --output NEW_PREFIX
 ```
 
-完整 HPC 编译和四链命令在 `shifted_trial.pbs` / `run_p5.sh`；通过20015端口上传至新目录后 `qsub kitaev_ssh/shifted_trial.pbs`。本地 `cmake --build build-kitaev-p01 --target kitaev_ssh_mc kitaev_ssh_shifted_validate -j 2`，然后 `ctest --test-dir build-kitaev-p01 -R '^(kitaev_ssh_shifted_trial|density_sign)$' --output-on-failure`。分析：`P5_PYTHON=/home/asus/.cache/pfqmc_plot_env/bin/python bash kitaev_ssh/analyze_shifted_trial.sh`，输出目录拒绝覆盖。
+完整 HPC 编译和四链当时使用 `shifted_trial.pbs` / `run_p5.sh`；`shifted_trial.pbs` 与计划现保存在历史压缩包中，不作为当前提交命令。本地 `cmake --build build-kitaev-p01 --target kitaev_ssh_mc kitaev_ssh_shifted_validate -j 2`，然后 `ctest --test-dir build-kitaev-p01 -R '^(kitaev_ssh_shifted_trial|density_sign)$' --output-on-failure`。分析：`P5_PYTHON=/home/asus/.cache/pfqmc_plot_env/bin/python bash kitaev_ssh/analyze_shifted_trial.sh`，输出目录拒绝覆盖。
 
 本轮按预算结束。下一步优先固定新态参数改善独立统计与分块稳定性，再决定是否补一个更长 T；不自动倍增投影或展开尺寸/耦合扫描。

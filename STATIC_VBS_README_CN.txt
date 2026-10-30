@@ -1,13 +1,13 @@
-静态VBS软模工具（quick1010，2026-10-10）
+固定背景静态VBS软模工具
 
-当前 note 已更正，零场模长峰任务见 VBS_AMPLITUDE_README_CN.txt 与 ADR-019。
-以下工具按旧 note 完成，保留作独立静态参考；以下“note参数”均指旧版本。
+本工具定义与适用范围见 docs/decisions/ADR-018-fixed-background-static-curvature.md。
+零场模长观测量用 VBS_AMPLITUDE_README_CN.txt；以下“note参数”只指历史演示点。
 
-从/home/asus/newsusy执行：
+从仓库根目录执行：
 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 \
 MPLCONFIGDIR=/tmp/quick1010-static-mpl \
-python3 quick1010/kitaev_ssh/static_vbs_response.py \
-  --output-dir fast-1006/audit/1010/YOUR_NEW_TASK \
+python3 kitaev_ssh/static_vbs_response.py \
+  --output-dir results/static-vbs/YOUR_NEW_TASK \
   --Jx 1 --Jy 1 --Jz .5 --g .3 --mass 1.7 --omega-ph .8 \
   --spring-k 1.088 --uniform-grid 800 --reference-grids 200,400 \
   --geometries '6,6,0;12,3,0;12,3,3' --finite-step .001 --plot
@@ -23,7 +23,7 @@ K(q)是静态能量曲率，不能替换QMC等时S(q)或有限投影响应chi(q)
 
 专项验证：
 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 \
-python3 -m unittest discover -s quick1010/kitaev_ssh -p test_static_vbs_response.py -v
+python3 -m unittest discover -s kitaev_ssh -p test_static_vbs_response.py -v
 
-本次实际结果和复现：../fast-1006/audit/1010/static-vbs-note-20261010/REPORT.txt
+历史原工作区报告：fast-1006/audit/1010/static-vbs-note-20261010/REPORT.txt（未随仓库发布）
 定义和边界：docs/decisions/ADR-018-fixed-background-static-curvature.md

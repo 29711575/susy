@@ -1,4 +1,7 @@
-严格静态极限：全键松弛与单畴极化率（2026-10-10）
+严格静态极限：全键松弛与单畴极化率
+
+此仓库接口中的 --parity trial 保留历史自由试探态扇区；它不同于 MC 的 physical trial 默认。
+使用前应按目标几何和规范核对物理宇称，不把此工具的局部响应当作完整自旋投影。
 
 入口 kitaev_ssh/static_limit_response.py，仅依赖 NumPy/SciPy，绘图另需 Matplotlib。
 从仓库根目录执行，输出目录必须新建或为空：

@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "parent_commit": "ccafc3ff494c2a99f670bf729059c092bbb8806d",
+  "frozen_core_files_unchanged": 245,
+  "archived_legacy_files": 32,
+  "archive_path": "docs/history/legacy-hpc-scripts-before-20261030.zip",
+  "archive_sha256": "b56e73d8ae87a8a2df5a9dbd4154af7881401e3c4d65c7418b46d837d89f93a9",
+  "retained_referenced_plans": 5,
+  "current_guide_links_checked": 83,
+  "protected_measurement_and_evidence_files_unchanged": 96,
+  "archived_documents": {
+    "HANDOFF_REPORT_CN.md": "docs/history/HANDOFF_REPORT_BEFORE_20261030.md",
+    "docs/STATUS.md": "docs/history/STATUS_BEFORE_20261030.md",
+    "kitaev_ssh/README.md": "docs/history/KITAEV_FREE_BASELINE_README_CN.md"
+  },
+  "production_CXX_changes": false,
+  "no_MC_or_HPC_operations": true
+}

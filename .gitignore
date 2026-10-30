@@ -16,3 +16,6 @@ compile_commands.json
 *.key
 *:Zone.Identifier
 .DS_Store
+
+# Generated outputs of documented local analysis commands.
+/results/

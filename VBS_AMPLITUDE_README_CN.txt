@@ -1,6 +1,6 @@
-更正后的 note：零场模长峰观测量（2026-10-10）
+VBS零场模长矩及响应
 
-当前依据是 new/note.docx（SHA256 6c78e4ceec66453972f66b0c64736c7c98d66f6012ffcf66a4fb4980adfa94c2）。
+实现依据的历史说明是原工作区 new/note.docx（SHA256 6c78e4ceec66453972f66b0c64736c7c98d66f6012ffcf66a4fb4980adfa94c2），该文件未随仓库发布。
 旧 note 的静态曲率工具保留作独立参考；当前任务与设计见 docs/decisions/ADR-019-vbs-amplitude-peaks.md。
 
 已实现
@@ -15,16 +15,16 @@
   --vbs 1 --vbs-mode all --vbs-amplitude 1 --vbs-amplitude-response 1
 仅等时矩时省略 response 开关。两个新增开关均默认0，不能与 selected/both 模式同时使用。
 无需 vbs-susceptibility 或 vbs-field；也可与它们同时测量，原始列按旧列之后追加。
-可运行的本机程序：build-amplitude-20261010/run_mc.sh；不能用旧 build-guided 程序测新量。
+当前程序从仓库根目录按 README.md 构建；既有任务仍使用原冻结程序。
 批量生产前需冻结当前新源码并在目标机器原生构建；已有 HPC 冻结作业不会产生新矩。
 IA 开启后每次测量约增加 M+1 次全网格 Fourier（中心只计算一次），
 以及 15*Nc 个原始复相位加权列（只测等时则为9*Nc）。不增加 Green 重建。
 
-从 /home/asus/newsusy 使用后处理（同尺寸、几何、trial、dt/tau、裸 J/k/m；仅 g 改变）：
+从仓库根目录使用后处理（同尺寸、几何、trial、dt/tau、裸 J/k/m；仅 g 改变）：
   MPLCONFIGDIR=/tmp/quick1010-amplitude-mpl OPENBLAS_NUM_THREADS=1 \
-  python3 quick1010/kitaev_ssh/analyze_vbs_amplitude.py \
+  python3 kitaev_ssh/analyze_vbs_amplitude.py \
     --n1 3 --n2 3 --bond z --windows 3 5 7 --degree 2 --replicas 1000 \
-    --output fast-1006/audit/1010/YOUR_NEW_SCAN_ANALYSIS \
+    --output results/amplitude/YOUR_NEW_SCAN_ANALYSIS \
     path/to/chain1_results.json path/to/chain2_results.json ...
 例子的 n=(3,3) 仅适用于既定 L6/shear0 模式；L9 既定研究用 n=(5,4)。
 不同尺寸分别分析，不能混入同一条扫描。lambda=g^2/(mass*omega_ph^2)，取 g>=0。

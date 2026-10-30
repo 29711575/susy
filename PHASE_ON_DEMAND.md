@@ -1,4 +1,4 @@
-# Phase-on-Demand (Deferred Pfaffian Phase) — EXPERIMENTAL Design Note
+# Phase-on-Demand (Deferred Pfaffian Phase) — Implementation Note
 
 Status: **validated optimization, default ON**. Enabled explicitly with `--defer-phase 1` on
 `kitaev_ssh_mc` (sets `PhononWeightOptions.defer_phase_measurement=true`), or

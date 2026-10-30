@@ -1,11 +1,11 @@
 {
-  "exported_beijing": "2026-10-30T21:16:00.971454+08:00",
+  "exported_beijing": "2026-10-30T21:49:37.733170+08:00",
   "source_workspace": "quick1010 verified frozen core 20261028",
-  "prior_github_head": "5f4c3579b645a3bf64b045ac862b576012357576",
+  "prior_github_head": "ccafc3ff494c2a99f670bf729059c092bbb8806d",
   "source_files": [
     {
       "path": ".gitignore",
-      "sha256": "794db6b9501d34c5d7f8aba5a6f8a285776755b54669f0ee12341a6460cf7703"
+      "sha256": "fd8746469121613647e76421938ef0e99da67243c48ad8f89cbbc05f8afd4389"
     },
     {
       "path": "AGENTS.md",
@@ -17,7 +17,7 @@
     },
     {
       "path": "HANDOFF_REPORT_CN.md",
-      "sha256": "8e97af885bf07e6c0246b706107fd2963d5792ce7cd36df0368ec53ad3662482"
+      "sha256": "bc5b7bfda9df38e89ada04f032f99678c4c638037e3013d558c6d6a3431bb0b3"
     },
     {
       "path": "LICENSE",
@@ -25,15 +25,15 @@
     },
     {
       "path": "OPTIMIZATION_README_CN.md",
-      "sha256": "21592f2919337075f89f61ffed67cb989e7efb1cd30673b115569ce385e53205"
+      "sha256": "a2d20808359b090c188b2e7822a549dbdd532cdff52a0b7c8b877ee5f2a07c8e"
     },
     {
       "path": "PHASE_ON_DEMAND.md",
-      "sha256": "93981c6c7d402e1563657631d88e46836b5690e4b5b4040173212e204e5b2ece"
+      "sha256": "62021cc3c460fff655ed6803db9c9e3e38ee0166c385046921ca0c9ee9193484"
     },
     {
       "path": "README.md",
-      "sha256": "a0d7b2c8397f76e7135a5104fc702bfce289278a6d4a506df7a39227eff7adef"
+      "sha256": "b222b42fc4b8c9d9816c70b9a52f592f5c95b3d3e95238c8e1c5d6aacb80929d"
     },
     {
       "path": "SHEARED_PBC.md",
@@ -41,15 +41,15 @@
     },
     {
       "path": "STATIC_VBS_README_CN.txt",
-      "sha256": "199a2d831947e98b78497657e04009a90f1dc27236e941e343fa7720bb14c4aa"
+      "sha256": "8822bc93ca876590c7cf37ce756ed9d8b689c118e3d1f6c86b3f2d2b5fcb430b"
     },
     {
       "path": "STRICT_STATIC_README_CN.txt",
-      "sha256": "407d2b161484222e8026c7c3e9dd0b6a6afe4f11b7c0336323789ab3c4fc7043"
+      "sha256": "b6580468cce2bc7fca41ce619f672590d81dab3c9b0a0d8c1329d770e779e775"
     },
     {
       "path": "VBS_AMPLITUDE_README_CN.txt",
-      "sha256": "d7e29daffef8a9493b9ed6a984a5b12121bd81737801c2972fc627cf3636f481"
+      "sha256": "2d37d5215a0c905a2dd9976dbf5957fa514142de298793cdb159909725cb70b0"
     },
     {
       "path": "cmake/mklroot_cache_regression.cmake",
@@ -57,7 +57,7 @@
     },
     {
       "path": "docs/AGENTS_DOCUMENT_RULES.md",
-      "sha256": "d0e8a4fa5eb74385ceb8f0d5f3e0e9f07fdcff3d07559f955f2f3d81ffe8ca07"
+      "sha256": "a3c08d055bad36273302390ecc62686b7f10b3438b7f9da6c323cc8c787b9706"
     },
     {
       "path": "docs/CALCULATION_TOOLS.md",
@@ -65,7 +65,7 @@
     },
     {
       "path": "docs/CHECKPOINT_RESUME.md",
-      "sha256": "3a1618f6da2c7e018594dd13fae4643077e2c5be5153254cec4551c94bfae94b"
+      "sha256": "d5a577e36f435c2eab209fd1ab82c5b54be61029c58f91f3805713dd5ed5e86e"
     },
     {
       "path": "docs/CODE_MAP.md",
@@ -105,7 +105,7 @@
     },
     {
       "path": "docs/STATUS.md",
-      "sha256": "fd3ca7abc8d60e7d2d362e020b7426a135fe9c3b8974e6b1b6a8f43e7a807320"
+      "sha256": "1eca8dad5f0dd3a6e5e384218c926a7d2839933f91aabfc22aa2e3ba5e6e4fee"
     },
     {
       "path": "docs/TASK_TEMPLATE.md",
@@ -256,12 +256,36 @@
       "sha256": "05f3493262ab3e31cfcae534823d3833c766218f561f9df734abdf75c6802c98"
     },
     {
+      "path": "docs/history/HANDOFF_REPORT_BEFORE_20261030.md",
+      "sha256": "7fd9591353518a356261b1ef610bac48555984b4d9ff1ecd35af525f6b7119df"
+    },
+    {
+      "path": "docs/history/KITAEV_FREE_BASELINE_README_CN.md",
+      "sha256": "bc3314d6001acb93e39bae5945184a1726724f7729037430283601f5ab66fffe"
+    },
+    {
+      "path": "docs/history/README.md",
+      "sha256": "221bb8f458281963ef60fd90bf30e45d980b3d6ff59e146c35044b011ad56261"
+    },
+    {
       "path": "docs/history/REPORTS.md",
-      "sha256": "a197e84c1348db4ec74ea7d8932fa220120f62ecc5cc4bfd9d8f18445d1c39d6"
+      "sha256": "65505e01f392ae7032b8f24dcc0cc3fca133bc71f2b3f62eaa49101b24152965"
+    },
+    {
+      "path": "docs/history/STATUS_BEFORE_20261030.md",
+      "sha256": "6290708b0e130ba92c21a1455c9e56c6d0a2e29920bbec5f457c76b02e5191e4"
+    },
+    {
+      "path": "docs/history/legacy-hpc-scripts-before-20261030.zip",
+      "sha256": "b56e73d8ae87a8a2df5a9dbd4154af7881401e3c4d65c7418b46d837d89f93a9"
     },
     {
       "path": "docs/provenance/PRODUCTION_SOURCE.local-20261023.json",
       "sha256": "e10b30fb65178d7b9f824ac9b0ae9811000bf754455dd7daec9fc21b602e7f7d"
+    },
+    {
+      "path": "docs/provenance/README.md",
+      "sha256": "49bc9735fefad49e0051f39376526641279ffe527018c78a9d7a8c083f7df35e"
     },
     {
       "path": "docs/provenance/SHA256SUMS.20261013",
@@ -478,6 +502,14 @@
     {
       "path": "evidence/recorded-validation/guided/native-vbs-susceptibility.log",
       "sha256": "17b631d574da5f6f3f6611e9ebb00351cf2355704f564d0f4ae3cc0fcc0fc0ff"
+    },
+    {
+      "path": "evidence/repository-cleanup-20261030/README.md",
+      "sha256": "900d22e1d7846bbf2bc222b9b1e0670362547a15a8005776d1288cdbb9624c6a"
+    },
+    {
+      "path": "evidence/repository-cleanup-20261030/summary.json",
+      "sha256": "cd5f0213b0f275850f3ae0a80e80874a0dae1bef7b596515d0ee50f294780397"
     },
     {
       "path": "evidence/source-sync-20261026/README.md",
@@ -1069,11 +1101,11 @@
     },
     {
       "path": "kitaev_ssh/README.md",
-      "sha256": "8085d8eed22fd058d8285a436ee341557a199fe19f3033bd3a1bab88c0b59852"
+      "sha256": "070c90cac081cec0857590647d93714f54dc86ffbea9d7cb85d745d7e5a40efb"
     },
     {
       "path": "kitaev_ssh/SHIFTED_TRIAL.md",
-      "sha256": "8686917e92ba78b30f173483938be0cd9f8a191f30113453d92ef005c2122bcf"
+      "sha256": "6aff2af0b8ee7e587247af8878bb7e02e078f91809773b0a0a4296aecfbf8567"
     },
     {
       "path": "kitaev_ssh/STATIONARITY_POSTPROCESS.md",
@@ -1216,10 +1248,6 @@
       "sha256": "57677ec52794a6b9b3b917601d02f84917a1f4d0c878f92b7d8b52b26b2dd02d"
     },
     {
-      "path": "kitaev_ssh/density_regression_hpc.pbs",
-      "sha256": "8bb8619a092126da6456845ff7473da4bc70e7739966d7dfad9c4cdc7ca28c57"
-    },
-    {
       "path": "kitaev_ssh/detect_equilibration.py",
       "sha256": "d1ce8076c20a189a348571d429341a4370f2a450e0ee744f2ec86e76e0350bf3"
     },
@@ -1280,42 +1308,6 @@
       "sha256": "4c249c7694416b54f1eff0b194187225ebe32581bb9449c46c91a05ed7512b2f"
     },
     {
-      "path": "kitaev_ssh/l4_mixing.pbs",
-      "sha256": "0606b5bfee7a3f72ee253a4c6a8d76e6f521322c6121502c1984d39fc8142435"
-    },
-    {
-      "path": "kitaev_ssh/l4_mixing_combined.pbs",
-      "sha256": "7a41a260435b6d853ebdecb6196967ffde9873015d73af4301873a2caccda0ca"
-    },
-    {
-      "path": "kitaev_ssh/l4_mixing_combined_array.pbs",
-      "sha256": "01e931376b046342dabfe1a5fe77b7976d5f932b5c4a148d97132af503896dda"
-    },
-    {
-      "path": "kitaev_ssh/l4_mixing_combined_plan.json",
-      "sha256": "9873e23dd00f2ba0c7b601dbf2f73ef7c74246a295fa27cea5d266a45ff034b7"
-    },
-    {
-      "path": "kitaev_ssh/l4_mixing_plan.json",
-      "sha256": "08e276d74291d6c44c087921d087be972e02b107710aee9052c2826150b274df"
-    },
-    {
-      "path": "kitaev_ssh/l4_pilot.pbs",
-      "sha256": "52d8ddd76a2f45b395f585095474d2794e1ed44a62c94dc08d19486b05f03058"
-    },
-    {
-      "path": "kitaev_ssh/l4_pilot_plan.json",
-      "sha256": "ce5d1972b3c667b6f94f7a65f2eb8a5b7404d45835f49b321ef45ad06bfd2f45"
-    },
-    {
-      "path": "kitaev_ssh/l4_profile.pbs",
-      "sha256": "9df0ef109b01345a12af0c14537548db418126db66fed90eea7df6644e75c946"
-    },
-    {
-      "path": "kitaev_ssh/l4_profile_plan.json",
-      "sha256": "d4ffa7d554e8fdefcfb86c4afcba95b19cc4452edd78470365c8041311d10500"
-    },
-    {
       "path": "kitaev_ssh/mc_checkpoint.h",
       "sha256": "c64b7cbdee456aeb21a57e18f4f1d0b60cdfd8582c158cc7fd5a1009bdfde850"
     },
@@ -1342,14 +1334,6 @@
     {
       "path": "kitaev_ssh/overlap_svd_validate.cpp",
       "sha256": "06a7104e21940385f4e2f2e7913a6f1a22aba0c1b3a50c6be32a8e122fe1bc93"
-    },
-    {
-      "path": "kitaev_ssh/p5_followup.pbs",
-      "sha256": "c5ab4ed86c46130f6f92c2ec24428052344d4a14ae6c2e1adac6526220d6d112"
-    },
-    {
-      "path": "kitaev_ssh/p5_followup_plan.json",
-      "sha256": "6b94af3c9a0d62d47fb1787c2b951c40f23f787e0ecd325f6e6f981538cd4570"
     },
     {
       "path": "kitaev_ssh/p5_plan.json",
@@ -1504,30 +1488,6 @@
       "sha256": "f219171b7c90e7fe793e895470b530346c93c8039bd66cb44ca48040c526b20a"
     },
     {
-      "path": "kitaev_ssh/shifted_long.pbs",
-      "sha256": "931fa0dd60e3980e37a996bd2f7c8087b3986ff8b8d552f5716a89b7f9da4f57"
-    },
-    {
-      "path": "kitaev_ssh/shifted_long_plan.json",
-      "sha256": "353503b6552b07eb9f2a9b90f2607f5ff96809fd6bf4796688b2bb4b9fce6450"
-    },
-    {
-      "path": "kitaev_ssh/shifted_t32_stationarity.pbs",
-      "sha256": "676a4ce2606c7f68f8af035a1b7a7979adb59117454c37545096f8836d9e0138"
-    },
-    {
-      "path": "kitaev_ssh/shifted_t32_stationarity_plan.json",
-      "sha256": "8c2ce31d0580348d81e86e5ca6341fbb5912878d983aa3bdd53a79cfb3715338"
-    },
-    {
-      "path": "kitaev_ssh/shifted_trial.pbs",
-      "sha256": "6ab68ee489f1b984ba67bcda1676b51df1b6a113c20e75a3f3dafee3d5676d73"
-    },
-    {
-      "path": "kitaev_ssh/shifted_trial_plan.json",
-      "sha256": "18a48b27f7ee1a9dd3c91f97ea84f5574e23cbb194081d2e6484139815929e7b"
-    },
-    {
       "path": "kitaev_ssh/shifted_trial_validate.cpp",
       "sha256": "7756203095bed776884d0ac643a1442334ee142eb6cf8c80d58ba5741c30627c"
     },
@@ -1560,36 +1520,12 @@
       "sha256": "6315275c9cd25b4d8c57cdd780dd714e9ba79598d93a8c398a261bf8cfedfd9b"
     },
     {
-      "path": "kitaev_ssh/t32_replication.pbs",
-      "sha256": "980714281b60dd819f3e66d4334a1101b01db99f971b795e474d832407958852"
-    },
-    {
-      "path": "kitaev_ssh/t32_replication8.pbs",
-      "sha256": "48b4e0c1a5ded4d8aad5d64f1dc5260d59104843f32e84b1e6eda675206e9529"
-    },
-    {
       "path": "kitaev_ssh/t32_replication8_plan.json",
       "sha256": "76835fbf2cc815735a81294e5e4fb7ed30d496b05d57fe131175e6137648fbe9"
     },
     {
       "path": "kitaev_ssh/t32_replication_plan.json",
       "sha256": "1861204ef5851116b3bb4cabd0746835db717b653f0ae41671728659a1661d11"
-    },
-    {
-      "path": "kitaev_ssh/t32_t64_projection_plan.json",
-      "sha256": "5ccd8af4ec4fc37f019ca686570a4d81ac34cc4cfe3f19efdb2e73fd1e0ba0a1"
-    },
-    {
-      "path": "kitaev_ssh/t64_h01.pbs",
-      "sha256": "cf4490422df91a098ca9586bb87ea9c269153f9d4de16aa0d954293056b4db70"
-    },
-    {
-      "path": "kitaev_ssh/t64_projection.pbs",
-      "sha256": "37ab0f57365707e6bb7f9c837ace4e0d6d75c1d1e3da1791553923a30e91950f"
-    },
-    {
-      "path": "kitaev_ssh/t64_step_plan.json",
-      "sha256": "24ec56b6441c39fdb7bbac6ab3683c743357e15600ede8a0825379790a79aa91"
     },
     {
       "path": "kitaev_ssh/test_convergence_analysis.py",
@@ -1622,14 +1558,6 @@
     {
       "path": "kitaev_ssh/test_vbs_window.py",
       "sha256": "2257fbc004b9dc9c03b4ec22667daa24d6c21f029bd7436b46a705d40d5083fe"
-    },
-    {
-      "path": "kitaev_ssh/testq_build.pbs",
-      "sha256": "2c262d7d121d74e9c0b5059cbafb549f0376bb9aba545e8eb5632226f98bb50e"
-    },
-    {
-      "path": "kitaev_ssh/testq_long.pbs",
-      "sha256": "caf62ba92098b5c8b4e126b7f7addf2e4b551762ca9ddd3efd61576b93d730a8"
     },
     {
       "path": "kitaev_ssh/total_energy.h",
@@ -1696,36 +1624,12 @@
       "sha256": "2dc87550bb595d78630b4967b9360dda94d148882584d0ba45a38745ff1650d9"
     },
     {
-      "path": "kitaev_ssh/weight_array.pbs",
-      "sha256": "1b38f8228fafb6f9783b16ec66a2a5efe3881ebc48bb42cfb7062d970c253436"
-    },
-    {
       "path": "kitaev_ssh/weight_benchmark.cpp",
       "sha256": "9328f0eec8a7112f7eb1278471029854d0e6dd565281a29c692033365573a97c"
     },
     {
-      "path": "kitaev_ssh/weight_build.pbs",
-      "sha256": "49fc1659fbc582dd72770b27700977fcaeb27b50a585333c4b9f95666762d798"
-    },
-    {
-      "path": "kitaev_ssh/weight_build_mc_default.pbs",
-      "sha256": "45c82f12a1ecacdb344ec663dfa9d350df473d0721165a6f82ef67e205e97d1c"
-    },
-    {
-      "path": "kitaev_ssh/weight_optimization.pbs",
-      "sha256": "7e05282a82bf711dbc12c9063ef5f73ca080251f91ce4c1df9196799a1b44514"
-    },
-    {
-      "path": "kitaev_ssh/weight_optimization_plan.json",
-      "sha256": "7eb07a41b2a8c21bd10446d5b1a1e0316074421d4374c257088ed05f8d496c7f"
-    },
-    {
       "path": "kitaev_ssh/weight_optimization_validate.cpp",
       "sha256": "9eb44ef90cda22fd7e9326188d294eb18cee0d456f0f0036545adf73fa78d3fa"
-    },
-    {
-      "path": "kitaev_ssh/weight_replay.pbs",
-      "sha256": "671f95ef6dc96b35edc114a118dbb7ef2a9b604947e96f71317fb0c7f2f141f8"
     },
     {
       "path": "kitaev_ssh/workspace_reuse_validate.cpp",
@@ -1992,10 +1896,10 @@
       "sha256": "92ef64a66ce8297b452fd386f4e20fd723378bcceb051770f84b006ec5bfac4b"
     }
   ],
-  "scope": "Verified numerical-core update, portable current measurement snapshots and concise reports; existing historical data retained",
+  "scope": "Repository cleanup: current entry guides, archived legacy HPC task files and historical status; numerical core and measurement datasets unchanged",
   "physical_model_hamiltonian_changed": false,
   "physical_matter_trial_policy_changed": false,
-  "numerical_implementation_changed": true,
+  "numerical_implementation_changed": false,
   "optional_sampling_kernels_added": false,
   "matter_trial_default": "physical",
   "gamma_every_default": 0,
@@ -2007,11 +1911,14 @@
     "full Monte Carlo checkpoints and full sweep histories",
     "isolated multiscale Gamma-pm and replica-exchange implementations"
   ],
-  "measurements_source": "Selected 2026-10-30 snapshots; each dataset keeps its own source identity, cut and measurement time; no new MC or HPC operations in this export",
+  "measurements_source": "All existing frozen measurement data and analysis scripts unchanged; only the measurements index refreshed",
   "historical_manifest": "docs/provenance/SOURCE_MANIFEST.20261026.json",
-  "export_validation": "evidence/source-sync-20261030/README.md",
+  "export_validation": "evidence/repository-cleanup-20261030/README.md",
   "frozen_local_source_archive_sha256": "9b7c24398cf4d650480bd89396ab62898efe394859dfe4b39f64589e4b04fdcf",
   "core_files_verified": 245,
   "target_runtime_validation": "Original 20261028 target record retained separately; current export checked with fresh local build only",
-  "core_numerics_policy": "production-v1"
+  "core_numerics_policy": "production-v1",
+  "numerical_export_validation": "evidence/source-sync-20261030/README.md",
+  "cleanup_archive": "docs/history/legacy-hpc-scripts-before-20261030.zip",
+  "cleanup_note": "32 legacy task files archived with exact bytes and SHA256; 5 referenced plans retained. Previous exported layout is recoverable from prior_github_head."
 }
