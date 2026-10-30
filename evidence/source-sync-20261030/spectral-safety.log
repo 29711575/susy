@@ -1,0 +1,1 @@
+PASS spectral_safety checks=108 analytic_paired_spectrum=1 overflow_rejected=1

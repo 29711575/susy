@@ -75,6 +75,28 @@ struct PureProjectorSlice {
             ?(*owned-MatType::Identity(owned->rows(),owned->cols())).norm():0.;
         return result;
     }
+    // Preserve an already assembled immutable owner (and any exact real
+    // companion) instead of materializing and copying its dense matrix.
+    static PureProjectorSlice fromValidatedDense(PureFactorMatrix factor,DataType scalar,
+                                                 std::string name) {
+        const MatType *owned=factor.denseStorage();
+        if(!owned||!owned->allFinite())
+            throw std::invalid_argument("validated dense factor is nonfinite");
+        PureProjectorSlice result;
+        result.matrix=std::move(factor);
+        result.eta=scalar;result.label=std::move(name);result.validated_dense=true;
+        result.identity_residual=
+            (*owned-MatType::Identity(owned->rows(),owned->cols())).norm();
+        return result;
+    }
+    template<class Writer>
+    static PureProjectorSlice fromValidatedDense(PureFactorMatrix::DenseStoragePool *pool,
+                                                 Writer &&writer,DataType scalar,
+                                                 std::string name) {
+        return fromValidatedDense(
+            PureFactorMatrix::fromValidatedDense(pool,std::forward<Writer>(writer)),
+            scalar,std::move(name));
+    }
 };
 
 struct PureProjectorWeightOptions {

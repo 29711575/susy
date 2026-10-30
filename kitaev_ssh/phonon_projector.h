@@ -50,16 +50,37 @@ struct MajoranaGenerator {
         else out=(*this)(x);
     }
     bool producesValidatedDense() const { return validated_dense; }
+    // Public callables/flags remain replaceable. Only the factory's original
+    // immutable model wrappers certify that repeated generation is unchanged.
+    bool hasImmutableSpectralSource() const {
+        const auto *v=value.target<ImmutableValue>();
+        const auto *i=into.target<ImmutableInto>();
+        return immutable_model_ && validated_dense && bipartite_real && v && i &&
+            v->model==immutable_model_ && i->model==immutable_model_;
+    }
+private:
+    struct ImmutableValue {
+        std::shared_ptr<const KitaevSSHModel> model;
+        MatType operator()(const std::vector<double> &x) const {
+            return model->frameworkGeneratorWith(x);
+        }
+    };
+    struct ImmutableInto {
+        std::shared_ptr<const KitaevSSHModel> model;
+        void operator()(const std::vector<double> &x,MatType &out) const {
+            model->frameworkGeneratorWith(x,out);
+        }
+    };
+    std::shared_ptr<const KitaevSSHModel> immutable_model_;
+    friend MajoranaGenerator honeycombGenerator(const KitaevSSHModel &model);
 };
 inline MajoranaGenerator honeycombGenerator(const KitaevSSHModel &model) {
     // A3: reuse the immutable model's lattice/couplings/gauge; only x varies.
-    MajoranaGenerator::ValueFunction value=[model](const std::vector<double> &x) {
-        return model.frameworkGeneratorWith(x);
-    };
-    MajoranaGenerator::IntoFunction into=[model](const std::vector<double> &x,MatType &out) {
-        model.frameworkGeneratorWith(x,out);
-    };
-    return MajoranaGenerator(std::move(value),std::move(into),true,true);
+    auto immutable=std::make_shared<const KitaevSSHModel>(model);
+    MajoranaGenerator result(MajoranaGenerator::ImmutableValue{immutable},
+                             MajoranaGenerator::ImmutableInto{immutable},true,true);
+    result.immutable_model_=std::move(immutable);
+    return result;
 }
 inline PureProjectorSlice phononNodeSlice(const MatType &matrix,const MajoranaGenerator &generator,
                                           std::string label) {
@@ -140,10 +161,23 @@ struct PreparedOwnedPath {
     std::vector<PureProjectorSlice> factors;
     std::vector<PureProjectorSlice> weightOrder;
     std::vector<MatType> cayley;
+    // Construction result only; public prepared data is never a reuse proof.
+    bool all_spectral=true;
 };
 struct PreparedOwnedNode {
     MatType half_step;
     MatType merged_factor;
+    bool spectral=true;
+};
+// The only issuer is the chain owning an immutable Snapshot and generator.
+// Public prepared paths/slices cannot be adopted as measurement reuse sources.
+class OwnedMeasurementReuse {
+public:
+    const std::vector<PureProjectorSlice> &weightOrder() const {return *order_;}
+private:
+    friend class CoupledPhononPath;
+    explicit OwnedMeasurementReuse(const std::vector<PureProjectorSlice> &order):order_(&order) {}
+    const std::vector<PureProjectorSlice> *order_;
 };
 inline void assembleOwnedHalfStep(PhononNodeSpectrum &spectral,double dt,
                                    MajoranaGenerationWorkspace &generation) {
@@ -184,6 +218,7 @@ inline PreparedOwnedNode prepareOwnedNode(const PhononPath &path,int node,int di
         if(!result.merged_factor.allFinite()) {
             if(!haveHalf) {assembleOwnedHalfStep(spectral,path.dt(),generation);haveHalf=true;}
             result.merged_factor=(generation.half_step*generation.half_step).eval();
+            result.spectral=false;
         }
         if(!result.merged_factor.allFinite() ||
            (result.merged_factor-result.merged_factor.adjoint()).norm()>
@@ -197,11 +232,18 @@ inline PreparedOwnedPath prepareOwnedPath(const PhononPath &path,int dimension,
                                           const MajoranaGenerator &generator,
                                           bool wantCayley=true,
                                           MajoranaGenerationWorkspace *generationWorkspace=nullptr,
-                                          bool wantHalfSteps=true) {
+                                          bool wantHalfSteps=true,
+                                          PureFactorMatrix::DenseStoragePool *factorPool=nullptr,
+                                          bool wantCertifiedReal=false,
+                                          const OwnedMeasurementReuse *measurementReuse=nullptr) {
     PreparedOwnedPath out;
     const int M=path.intervals();
     if(wantHalfSteps) out.factors.resize(2*M);
     std::vector<MatType> weightB(path.nodes()),weightC(path.nodes());
+    const bool pooledDense=factorPool&&generator.producesValidatedDense();
+    const auto *reuseOrder=measurementReuse?&measurementReuse->weightOrder():nullptr;
+    std::vector<PureFactorMatrix> pooledWeightB(pooledDense?path.nodes():0);
+    if(pooledDense)factorPool->beginBatch();
     MajoranaGenerationWorkspace localGeneration;
     MajoranaGenerationWorkspace &generation=generationWorkspace?*generationWorkspace:localGeneration;
     for(int j=0;j<path.nodes();++j){
@@ -218,8 +260,11 @@ inline PreparedOwnedPath prepareOwnedPath(const PhononPath &path,int dimension,
             return true;
         });
         if(wantHalfSteps) {
-            const PureProjectorSlice node=phononNodeSlice(generation.half_step,generator,
-                                                           "phonon_node:"+std::to_string(j));
+            const std::string label="phonon_node:"+std::to_string(j);
+            const PureProjectorSlice node=pooledDense
+                ?PureProjectorSlice::fromValidatedDense(factorPool,
+                    [&](MatType &matrix){matrix=generation.half_step;},1.,label)
+                :phononNodeSlice(generation.half_step,generator,label);
             for(int f:nodeFactors(j,M)) out.factors[f]=node;
         }
         const double a=interior?path.dt():path.dt()/2;
@@ -234,19 +279,53 @@ inline PreparedOwnedPath prepareOwnedPath(const PhononPath &path,int dimension,
         }
         profilePath("gen_full_assemble",[&]{
             if(interior){
-                MatType B;spectral.exponential(path.dt(),B);
-                if(!B.allFinite()) {
-                    // Preserve the original overflow fallback, materializing
-                    // and validating this node's half-step only if needed.
-                    if(!haveHalf) assembleOwnedHalfStep(spectral,path.dt(),generation);
-                    B=(generation.half_step*generation.half_step).eval();
+                if(reuseOrder) {
+                    // The sealed source is already the exact spectral full
+                    // factor for this immutable node. Still rebuild h and C.
+                    if(pooledDense)pooledWeightB[j]=(*reuseOrder)[M-j].matrix;
+                    else weightB[j]=MatType((*reuseOrder)[M-j].matrix);
+                } else if(pooledDense) {
+                    if(!spectral.exponentialFactor(path.dt(),pooledWeightB[j],
+                                                   factorPool,wantCertifiedReal)) {
+                        // A nonfinite spectral assembly still follows the
+                        // original half*h recovery, without a real certificate.
+                        if(!haveHalf)assembleOwnedHalfStep(spectral,path.dt(),generation);
+                        out.all_spectral=false;
+                        if(!PureFactorMatrix::tryFromValidatedDense(factorPool,
+                            [&](MatType &matrix){
+                                matrix=(generation.half_step*generation.half_step).eval();
+                            },pooledWeightB[j]))
+                            throw std::runtime_error("invalid merged Majorana node factor");
+                    }
+                } else {
+                    MatType B;spectral.exponential(path.dt(),B);
+                    if(!B.allFinite()) {
+                        // Preserve the original overflow fallback, materializing
+                        // and validating this node's half-step only if needed.
+                        if(!haveHalf) assembleOwnedHalfStep(spectral,path.dt(),generation);
+                        B=(generation.half_step*generation.half_step).eval();
+                        out.all_spectral=false;
+                    }
+                    weightB[j]=std::move(B);
                 }
-                weightB[j]=std::move(B);
                 if(wantCayley&&spectrallySafe){
                     spectral.cayley(path.dt(),weightC[j]);
                 }
             } else {
-                weightB[j]=generation.half_step;
+                if(reuseOrder) {
+                    if(pooledDense)pooledWeightB[j]=(*reuseOrder)[M-j].matrix;
+                    else weightB[j]=MatType((*reuseOrder)[M-j].matrix);
+                } else if(pooledDense) {
+                    // The ordinary/signed path copies its already validated
+                    // half-step. Only a requested exact companion needs the
+                    // endpoint's original blocks assembled once more.
+                    const bool certified=wantCertifiedReal&&spectral.reduced()&&
+                        spectral.exponentialFactor(path.dt()/2,pooledWeightB[j],
+                                                   factorPool,true);
+                    if(!certified)
+                        pooledWeightB[j]=PureFactorMatrix::fromValidatedDense(factorPool,
+                            [&](MatType &matrix){matrix=generation.half_step;});
+                } else weightB[j]=generation.half_step;
                 if(wantCayley&&spectrallySafe){
                     spectral.cayley(path.dt()/2,weightC[j]);
                 }
@@ -255,11 +334,15 @@ inline PreparedOwnedPath prepareOwnedPath(const PhononPath &path,int dimension,
         });
     }    out.weightOrder.reserve(path.nodes());out.cayley.reserve(path.nodes());    for(int j=M;j>=0;--j){
         const bool interior=(j>0&&j<M);
-        if(interior && (!weightB[j].allFinite() ||
-            (weightB[j]-weightB[j].adjoint()).norm()>1e-12*std::max(1.,weightB[j].norm())))
+        const MatType &b=pooledDense?*pooledWeightB[j].denseStorage():weightB[j];
+        if(interior && (!b.allFinite() ||
+            (b-b.adjoint()).norm()>1e-12*std::max(1.,b.norm())))
             throw std::runtime_error("invalid merged Majorana node factor");
-        out.weightOrder.push_back(phononNodeSlice(std::move(weightB[j]),generator,
-                                                  "owned_node_weight:"+std::to_string(j)));
+        const std::string label="owned_node_weight:"+std::to_string(j);
+        if(reuseOrder)out.weightOrder.push_back((*reuseOrder)[M-j]);
+        else out.weightOrder.push_back(pooledDense
+            ?PureProjectorSlice::fromValidatedDense(std::move(pooledWeightB[j]),1.,label)
+            :phononNodeSlice(std::move(weightB[j]),generator,label));
         out.cayley.push_back(std::move(weightC[j]));
     }
     return out;
@@ -323,6 +406,10 @@ struct PhononCacheDiagnostics {
     std::uint64_t local_node_reuses=0;
     std::uint64_t local_merged_squares=0;
     std::uint64_t bond_refresh_full_rebuilds=0;
+    // Deferred merged measurement attempts, selected before numerical work.
+    std::uint64_t measurement_spectral_reuses=0;
+    std::uint64_t measurement_full_rebuilds=0;
+    std::uint64_t measurement_merged_node_reuses=0;
 };
 inline std::string weightFailure(const char *where,const PureProjectorWeightResult &r) {
     std::ostringstream out; out<<std::setprecision(17)<<where<<": "<<pureProjectorWeightStatusName(r.status)
@@ -387,7 +474,8 @@ inline PathWeight evaluatePath(const PhononPath &path,const GaussianTrialState &
         w.magnitude_valid=w.phase_valid=true; w.green_valid=false;
         return w;
     }
-    const auto center=profilePath("center_green",[&] {return pureProjectorEndpointRebuild(trial,factors,path.intervals(),block,phononCenterGreenOptions(centerGreenFast));});
+    const auto center=profilePath("center_green",[&] {return pureProjectorEndpointRebuild(trial,factors,path.intervals(),block,phononCenterGreenOptions(centerGreenFast),
+        centerGreenFast&&weightWorkspace?&weightWorkspace->endpoint:nullptr);});
     if (!center.ok()) {
         std::ostringstream out; out<<std::setprecision(17)<<"phonon center Green: "<<center.message
             <<" rank="<<center.overlap_rank<<" rcond="<<center.overlap_rcond
@@ -449,7 +537,8 @@ public:
         PhononPath path;
         // Empty only for deferred merged proposals: weight_order owns all
         // certified propagators. ensureMeasured() rebuilds canonical factors
-        // before signed/Green evaluation; eager and recovery paths retain them.
+        // before signed/Green evaluation and may reuse sealed spectral full
+        // factors; eager and recovery paths retain their canonical factors.
         std::vector<PureProjectorSlice> factors;
         // Immutable order used by the matter-weight routine. A merged eager
         // local cache uses h*h, while deferred/A2 uses the existing spectral
@@ -460,6 +549,20 @@ public:
         std::shared_ptr<const PureProjectorLUCayleyCache> lu_cayley_cache;
         PathWeight weight;
         std::uint64_t configuration_hash=0;
+    private:
+        friend class CoupledPhononPath;
+        // Issued only by this chain's direct spectral construction. An
+        // uncached/eager h*h node or any overflow fallback clears the proof.
+        bool all_spectral_=false;
+        Snapshot(PhononPath p,std::vector<PureProjectorSlice> f,
+                 std::vector<PureProjectorSlice> order,bool local,
+                 std::shared_ptr<const PureProjectorSignedPrefixCache> prefix,
+                 std::shared_ptr<const PureProjectorLUCayleyCache> cayley,
+                 PathWeight w,std::uint64_t hash,bool spectral)
+            :path(std::move(p)),factors(std::move(f)),weight_order(std::move(order)),
+             weight_order_is_local(local),signed_prefix_cache(std::move(prefix)),
+             lu_cayley_cache(std::move(cayley)),weight(std::move(w)),
+             configuration_hash(hash),all_spectral_(spectral) {}
     };
     class Proposal {
     public:
@@ -496,6 +599,8 @@ public:
     const Snapshot &state() const { return *state_; }
     std::uint64_t configurationHash() const { return state_->configuration_hash; }
     const PhononCacheDiagnostics &cacheDiagnostics() const { return cacheDiagnostics_; }
+    const PureFactorMatrix::DenseStoragePool &factorStoragePool() const {return factorStoragePool_;}
+    const PureRealMagnitudeWorkspace &realMagnitudeWorkspace() const {return weightWorkspace_.real_magnitude;}
     // Task B: full signed weight + center Green for the current configuration,
     // computed at a measurement stride. Consumes no RNG; an immutable snapshot
     // is replaced atomically only after the reference evaluation succeeds.
@@ -511,7 +616,8 @@ public:
         if(!options_.defer_phase_measurement) {
             const auto center=profilePath("center_green",[&] {
                 return pureProjectorEndpointRebuild(trial_,state_->factors,
-                    state_->path.intervals(),block_,phononCenterGreenOptions(options_.center_green_fast));
+                    state_->path.intervals(),block_,phononCenterGreenOptions(options_.center_green_fast),
+                    options_.center_green_fast?&weightWorkspace_.endpoint:nullptr);
             });
             if(!center.ok()) {
                 std::ostringstream out;
@@ -528,12 +634,21 @@ public:
             weight.center_green=center.green.adjoint().eval();
             weight.green_valid=true;
             state_=std::make_shared<const Snapshot>(makeSnapshot(
-                state_->path,state_->factors,std::move(weight),state_->weight_order));
+                state_->path,state_->factors,std::move(weight),state_->weight_order,
+                false,nullptr,nullptr,state_->all_spectral_));
             return *state_;
         }
         if(options_.merge_node_half_steps && !a2Disabled()) {
+            weightWorkspace_.real_magnitude.releaseFactorOwners();
+            const bool canReuse=state_->all_spectral_ && generator_.hasImmutableSpectralSource();
+            OwnedMeasurementReuse reuse(state_->weight_order);
+            if(canReuse) {
+                ++cacheDiagnostics_.measurement_spectral_reuses;
+                cacheDiagnostics_.measurement_merged_node_reuses+=state_->path.nodes();
+            } else ++cacheDiagnostics_.measurement_full_rebuilds;
             auto prepared=prepareOwnedPath(state_->path,trial_.Phi.rows(),generator_,true,
-                                           &generationWorkspace_);
+                                           &generationWorkspace_,true,&factorStoragePool_,false,
+                                           canReuse?&reuse:nullptr);
             auto factors=std::move(prepared.factors);
             auto weight=evaluatePath(state_->path,trial_,factors,block_,
                 options_.singular_values_only,&prepared.weightOrder,true,preparedTrial(),&prepared.cayley,
@@ -541,7 +656,8 @@ public:
                 options_.compute_measurement_green,options_.center_green_fast);
             state_=std::make_shared<const Snapshot>(makeSnapshot(
                 state_->path,std::move(factors),std::move(weight),
-                std::move(prepared.weightOrder)));
+                std::move(prepared.weightOrder),false,nullptr,nullptr,
+                prepared.all_spectral&&generator_.hasImmutableSpectralSource()));
         } else {
             // The deferred candidate already stores the canonical half-step
             // factors. Reuse them for the full signed measurement path.
@@ -574,7 +690,8 @@ public:
             const int cut=s->path.intervals()+(side==0?-1:1);
             const auto endpoint=profilePath("energy_link_green",[&] {
                 return pureProjectorEndpointRebuild(trial_,s->factors,cut,block_,
-                    phononCenterGreenOptions(!reference&&options_.center_green_fast));
+                    phononCenterGreenOptions(!reference&&options_.center_green_fast),
+                    !reference&&options_.center_green_fast?&weightWorkspace_.endpoint:nullptr);
             });
             if(!endpoint.ok())throw std::runtime_error("energy link Green cut="+std::to_string(cut)+": "+endpoint.message);
             if(std::abs(endpoint.log_abs_weight-s->weight.log_abs_matter)>1e-9*std::max(1.,std::abs(s->weight.log_abs_matter)))
@@ -587,15 +704,24 @@ public:
     Snapshot fullReference(const PhononPath &path,bool wantPrefixCache=true,bool computeGreen=true) const {
         if(options_.defer_phase_measurement) {
             if(options_.merge_node_half_steps && !a2Disabled()) {
+                // Every node is regenerated. Drop only the obsolete conversion
+                // owners; retain its real matrix buffers and every live
+                // accepted/candidate factor's independent ownership.
+                weightWorkspace_.real_magnitude.releaseFactorOwners();
+                const bool wantCertifiedReal=trial_.Phi.cols()>=16&&
+                    !PureRealMagnitudeWorkspace::disabled()&&
+                    weightWorkspace_.real_magnitude.trialMatches(trial_);
                 auto prepared=profilePath("factor_generation_and_storage",[&] {
                     return prepareOwnedPath(path,trial_.Phi.rows(),generator_,/*wantCayley=*/false,
-                                            &generationWorkspace_,/*wantHalfSteps=*/false);});
+                                            &generationWorkspace_,/*wantHalfSteps=*/false,
+                                            &factorStoragePool_,wantCertifiedReal);});
                 auto factors=std::move(prepared.factors);
                 auto weight=evaluatePathMagnitude(path,trial_,factors,block_,&prepared.weightOrder,
                                                   &weightWorkspace_,true);
                 return profilePath("snapshot_path_copy",[&] {
                     return makeSnapshot(path,std::move(factors),std::move(weight),
-                                        std::move(prepared.weightOrder));});
+                                        std::move(prepared.weightOrder),false,nullptr,nullptr,
+                                        prepared.all_spectral&&generator_.hasImmutableSpectralSource());});
             }
             auto factors=profilePath("factor_generation_and_storage",[&] {
                 return pathFactors(path,trial_.Phi.rows(),generator_);});
@@ -606,9 +732,10 @@ public:
                 return makeSnapshot(path,std::move(factors),std::move(weight),std::move(weightOrder));});
         }
         if(options_.merge_node_half_steps && !a2Disabled()) {
+            weightWorkspace_.real_magnitude.releaseFactorOwners();
             auto prepared=profilePath("factor_generation_and_storage",[&] {
                 return prepareOwnedPath(path,trial_.Phi.rows(),generator_,true,
-                                        &generationWorkspace_);});
+                                        &generationWorkspace_,true,&factorStoragePool_);});
             auto factors=std::move(prepared.factors);
             auto prefixCache=wantPrefixCache&&options_.reuse_signed_prefix_checkpoints
                 ?std::make_shared<PureProjectorSignedPrefixCache>():nullptr;
@@ -618,7 +745,8 @@ public:
             return profilePath("snapshot_path_copy",[&] {
                 return makeSnapshot(path,std::move(factors),std::move(weight),
                                     std::move(prepared.weightOrder),false,
-                                    std::move(prefixCache));});
+                                    std::move(prefixCache),nullptr,
+                                    prepared.all_spectral&&generator_.hasImmutableSpectralSource());});
         }
         auto factors=profilePath("factor_generation_and_storage",[&] {
             return pathFactors(path,trial_.Phi.rows(),generator_);});
@@ -687,7 +815,8 @@ public:
             auto weight=evaluatePathMagnitude(path,trial_,{},block_,&weightOrder,
                                               &weightWorkspace_,true);
             auto next=std::make_shared<const Snapshot>(makeSnapshot(
-                std::move(path),{},std::move(weight),std::move(weightOrder),false));
+                std::move(path),{},std::move(weight),std::move(weightOrder),false,nullptr,nullptr,
+                old.all_spectral_&&prepared.spectral&&generator_.hasImmutableSpectralSource()));
             return Proposal(state_,std::move(next),local);
         }
         auto factors=old.factors;
@@ -804,11 +933,12 @@ private:
                                  std::vector<PureProjectorSlice> weightOrder={},
                                  bool weightOrderIsLocal=false,
                                  std::shared_ptr<const PureProjectorSignedPrefixCache> prefixCache=nullptr,
-                                 std::shared_ptr<const PureProjectorLUCayleyCache> cayleyCache=nullptr) {
+                                 std::shared_ptr<const PureProjectorLUCayleyCache> cayleyCache=nullptr,
+                                 bool allSpectral=false) {
         const auto hash=phononPathConfigurationHash(path);
-        return Snapshot{std::move(path),std::move(factors),std::move(weightOrder),
+        return Snapshot(std::move(path),std::move(factors),std::move(weightOrder),
                         weightOrderIsLocal,std::move(prefixCache),std::move(cayleyCache),
-                        std::move(weight),hash};
+                        std::move(weight),hash,allSpectral);
     }
     PureProjectorSlice localMergedNode(const std::vector<PureProjectorSlice> &factors,
                                        int node,int intervals) const {
@@ -844,8 +974,9 @@ private:
         throw std::logic_error("missing owned node in weight order: "+label);
     }
     GaussianTrialState trial_;
-    MajoranaGenerator generator_;
+    const MajoranaGenerator generator_;
     mutable MajoranaGenerationWorkspace generationWorkspace_;
+    mutable PureFactorMatrix::DenseStoragePool factorStoragePool_;
     mutable PureStableWeightWorkspace weightWorkspace_;
     mutable std::shared_ptr<const PreparedGreenTrial> preparedTrial_;    int block_;
     PhononWeightOptions options_;

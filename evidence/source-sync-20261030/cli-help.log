@@ -1,0 +1,41 @@
+Static coupled |W| MC with complex phase reweighting; fixed-gauge matter sector.
+--matter-trial physical|unrestricted (default physical): fixed free trial in the geometry/gauge-compatible matter parity; unrestricted is a legacy control.
+--Lx 2 --Ly 2 --shear 0 --Jx 1 --Jy 1 --Jz 0.5 --intervals 4 --dt 0.2
+--mass 4 --omega-ph 0.5 --g 0.3 --seed 42 --warmup 100 --sweeps 400
+--measure-every 2 --block-samples 10 --qr-block 4 --vbs 1 --output PREFIX
+--bond-diagnostics 0|1 appends center K_b=i*c_A*c_B and X_b*K_b per physical bond and direction; no gauge factor in K_b (default 1; 0 disables).
+--phonon-diagnostics 1 appends node X/X2, center-node same/neighbor-bond correlations and matter log-weight to raw phase blocks (default 0).
+--vbs-susceptibility 1 saves finite-projection static response moments (requires --vbs 1 --vbs-mode all).
+--vbs-amplitude 1 saves A=|D|, A2 and per-configuration A4 for all allowed q and bonds; requires --vbs 1 --vbs-mode all.
+--vbs-amplitude-response 1 additionally saves IA=sum_j t_j |D(node_j)| and A(center)*IA, with trapezoidal weights; requires --vbs-amplitude 1. No physical source is applied.
+--vbs-field-h h --vbs-field-n1 n1 --vbs-field-n2 n2 --vbs-field-phase phi: H_h=H-h sum_r cos(q.r+phi) X_z(r), fixed trial; requires VBS susceptibility. Explicit h=0 measures the same selected channel.
+--vbs 1 is the master VBS switch (default 0). With --vbs 1:
+  --vbs-mode all      (default) full PBC momentum grid via FFT and full real-space C;
+  --vbs-mode selected --vbs-q-file q.txt: only the listed momenta (finite-window
+                       Fourier estimator; no full FFT/real-space C; phonon stays PBC);
+  --vbs-mode both      full grid block followed by the selected block.
+q-file lines: 'label u v' with Q=u*b1+v*b2 (fractional reciprocal coords);
+blank lines and '#' comments are allowed. Off-grid points are reported, never snapped
+to fabricated integer indices. --shear is an integer tilted torus, not a U(1) twist.
+--fermions 1 adds all cell-displacement AA/AB/BA/BB bare and directed gauge-string Majorana correlations (default 0).
+--measure-energy 0 omits Majorana energy; center Green is still required when --fermions 1 or --bond-diagnostics 1 is enabled.
+--acceptance-every N flushes stage-cumulative acceptance to PREFIX_acceptance.csv every N completed sweeps (0 disables).
+--gamma-every N --gamma-beta beta: optional separate xyz real Gamma path updates (default off). --q-mode-extra-pool file preserves primary cadence. --initial-path file loads matching coordinates only. --mixing-diagnostics 1 writes all-q raw traces and formal counts.
+--q-mode-every N --q-mode-n1 n1 --q-mode-n2 n2 --q-mode-beta beta: optional nonzero allowed z-bond spatial pCN mode (default interval 0, beta 1).
+--q-diagnostic-every N writes raw measurement diagnostics to PREFIX_q_diagnostic.csv; N must be a multiple of measure-every (default 0).
+--warmup-observable-every N records raw per-configuration all-q-max every N warmup sweeps (diagnostic only).
+--proposal local (default), bond-refresh (legacy), or bond-guided (fixed-reference pCN).
+--validation-series 1 writes compact unweighted values plus common phase each measurement; --path-series-bond b appends its full time path. Default off.
+--bond-beta beta (default 1); --bond-guide bare|zero (default bare); --bond-guide-x/y/z f overrides. Proposal-only forces, NOT external fields or changed trial states.
+--q-mode-bonds z|xyz|... (default z); --q-mode-pool file: fixed integer n1 n2 pairs, one uniformly chosen per q update; no Gamma or conjugate duplicates. With a pool, q diagnostics use its first entry.
+Numerics are built in: combined weight, deferred signed phase, applicable prefix/Cayley caches and fast center Green, with unchanged strict gates.
+--numerics reference: diagnostic unmerged/eager configuration with caches and fast center Green off (default production).
+Legacy per-feature numerical options remain accepted for diagnostic/compatibility overrides; ordinary production scripts need none.
+--trial-dx 0 --trial-dy 0 --trial-dz 0: equal bra/ket endpoint shifts, uniform by bond direction; not static X or a Hamiltonian shift.
+Numerical policy: same candidate, one uncached reference retry, then abort; never silently reject.
+Writes PREFIX_blocks.csv, PREFIX_results.json and representative PREFIX_numerical.jsonl (refuses overwrite).
+SIGUSR1 saves and continues; SIGUSR2/SIGTERM save and stop (exit75), at a completed sweep boundary.
+--checkpoint-file FILE.dat (default PREFIX_checkpoint.dat); --checkpoint-every N (default0, signals only).
+--measure-total-energy 0|1 (default 0): six extensive energy components at symmetric adjacent phonon-link midpoints; legacy majorana_energy stays at the center node.
+--resume FILE --output NEW_PREFIX restores path, RNG/distribution, sweep progress and raw statistics. Original options are inherited and locked; --sweeps sets the TOTAL target.
+Resume requires the identical executable/runtime; caches rebuild with strict numerical gates. Bitwise interacting trajectories across cache rebuilds are not guaranteed.

@@ -1,0 +1,10 @@
+{
+  "captured_utc": "2026-10-30T11:36:16.925150Z",
+  "cut": 4000,
+  "statuses": {
+    "captured": 480
+  },
+  "cells": 160,
+  "complete_seed_cells": 160,
+  "chains_included": 480
+}

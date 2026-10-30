@@ -200,6 +200,21 @@ if(BUILD_TESTING)
   add_test(NAME kitaev_ssh_vbs_field COMMAND kitaev_ssh_vbs_field_validate)
   add_density_target(kitaev_ssh_green_refinement_validate kitaev_ssh/green_refinement_validate.cpp)
   add_test(NAME kitaev_ssh_green_refinement COMMAND kitaev_ssh_green_refinement_validate)
+  add_density_target(kitaev_ssh_workspace_reuse_validate kitaev_ssh/workspace_reuse_validate.cpp)
+  add_test(NAME kitaev_ssh_workspace_reuse COMMAND kitaev_ssh_workspace_reuse_validate)
+  add_density_target(kitaev_ssh_path_factor_reuse_validate kitaev_ssh/path_factor_reuse_validate.cpp)
+  add_test(NAME kitaev_ssh_path_factor_reuse COMMAND kitaev_ssh_path_factor_reuse_validate)
+  add_density_target(kitaev_ssh_measurement_factor_reuse_validate kitaev_ssh/measurement_factor_reuse_validate.cpp)
+  add_test(NAME kitaev_ssh_measurement_factor_reuse COMMAND kitaev_ssh_measurement_factor_reuse_validate)
+  foreach(_reference_check reference_core endpoint_propagation spectral_safety)
+    add_density_target(kitaev_ssh_${_reference_check}_validate
+      kitaev_ssh/${_reference_check}_validate.cpp)
+    add_test(NAME kitaev_ssh_${_reference_check}
+      COMMAND kitaev_ssh_${_reference_check}_validate)
+    set_tests_properties(kitaev_ssh_${_reference_check} PROPERTIES
+      LABELS "pfqmc_correctness"
+      ENVIRONMENT "OMP_NUM_THREADS=1;MKL_NUM_THREADS=1;OPENBLAS_NUM_THREADS=1;MKL_DYNAMIC=FALSE")
+  endforeach()
   add_density_target(kitaev_ssh_vbs_susceptibility_validate kitaev_ssh/vbs_susceptibility_validate.cpp)
   add_test(NAME kitaev_ssh_vbs_susceptibility COMMAND kitaev_ssh_vbs_susceptibility_validate)
   add_density_target(kitaev_ssh_vbs_amplitude_validate kitaev_ssh/vbs_amplitude_validate.cpp)

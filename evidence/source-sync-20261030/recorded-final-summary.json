@@ -1,0 +1,336 @@
+{
+  "pass_all": true,
+  "source_archive_sha256": "9b7c24398cf4d650480bd89396ab62898efe394859dfe4b39f64589e4b04fdcf",
+  "files": 246,
+  "changed_files": [
+    "inc/pure_projector_endpoint.h",
+    "kitaev_ssh/bipartite_spectrum.h",
+    "kitaev_ssh/endpoint_propagation_validate.cpp",
+    "kitaev_ssh/reference_core_validate.cpp",
+    "kitaev_ssh/spectral_safety_validate.cpp",
+    "scripts/build_nodeps.sh",
+    "scripts/run_pfqmc_correctness.py",
+    "CMakeLists.txt"
+  ],
+  "deterministic_tests": {
+    "spectral_safety": {
+      "command": [
+        "/home/asus/newsusy/quick1010/audit/1028/reference-core-optimization/native/spectral_safety"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "seconds": 0.013566360023105517,
+      "binary_sha256": "38d74564eaa8e6c44e035c44832e3ec37597482cd08e00e4d135531b4cb898ce",
+      "stdout_sha256": "3aac0870f404691542fa52948abe0e41010eea31faa039a837c37a67782e31f4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_archive_sha256": "15ee11e595a10dc5ba43e42973d1f684bc1ca281b5772a455ff400ffe4779b63",
+      "scope": "deterministic fixed inputs; no MC",
+      "pass": true
+    },
+    "endpoint_propagation": {
+      "command": [
+        "/home/asus/newsusy/quick1010/audit/1028/reference-core-optimization/native/endpoint_propagation"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "seconds": 1.5616841499868315,
+      "binary_sha256": "979347b9c502b0bc305f433d976012c9759a1d70a268f703d28fe70cf5d2a88b",
+      "stdout_sha256": "72c534eea086242957601e91840032660911806a1e40ef48a90125470d8efafb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_archive_sha256": "15ee11e595a10dc5ba43e42973d1f684bc1ca281b5772a455ff400ffe4779b63",
+      "scope": "deterministic fixed inputs; no MC",
+      "pass": true
+    },
+    "pfqmc_fock": {
+      "command": [
+        "/home/asus/newsusy/quick1010/audit/1028/reference-core-optimization/native/pfqmc_fock"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "seconds": 0.08617275601136498,
+      "binary_sha256": "8bf3a3cc9d9f439acac85eb5945bdfb66b640eaa6e331a1cb2bbdb0fc780d42c",
+      "stdout_sha256": "59ae946f9935a30784ea438832aba15052c0131ca3728c9beae86918cf95796e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_archive_sha256": "15ee11e595a10dc5ba43e42973d1f684bc1ca281b5772a455ff400ffe4779b63",
+      "scope": "deterministic fixed inputs; no MC",
+      "pass": true
+    },
+    "physical_matter_trial": {
+      "command": [
+        "/home/asus/newsusy/quick1010/audit/1028/reference-core-optimization/native/physical_matter_trial"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "seconds": 0.8141899869951885,
+      "binary_sha256": "27349a21ba649fea907b07cae7fa9faafe591669cc3635bd407fbc814e271609",
+      "stdout_sha256": "022be4ae1e0b89386949d48ee6f1b5c831d6ecf7d1a2676e0675d44286fd36dd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_archive_sha256": "15ee11e595a10dc5ba43e42973d1f684bc1ca281b5772a455ff400ffe4779b63",
+      "scope": "deterministic fixed inputs; no MC",
+      "pass": true
+    },
+    "pfqmc_cache": {
+      "command": [
+        "/home/asus/newsusy/quick1010/audit/1028/reference-core-optimization/native/pfqmc_cache"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "seconds": 14.825047585007269,
+      "binary_sha256": "37783ec7eac210c5a8a6f3f267440ec77f70b9413fed56db4c4a66bb0fc3b53f",
+      "stdout_sha256": "d94b1c09a9cc74fd30e1eba6ea142475437a3e9ec0a12cf9630aafb681dfe15f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_archive_sha256": "15ee11e595a10dc5ba43e42973d1f684bc1ca281b5772a455ff400ffe4779b63",
+      "scope": "deterministic fixed inputs; no MC",
+      "pass": true
+    },
+    "green_refinement": {
+      "command": [
+        "/home/asus/newsusy/quick1010/audit/1028/reference-core-optimization/native/green_refinement"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "seconds": 1.73289287899388,
+      "binary_sha256": "b172d107d7fe6df88fb3e6b46b2cc9bf0087f1bd38c4c8051cd55dbc495ea040",
+      "stdout_sha256": "8672af14635ae74a3ef605d7dc5bb8b34b8559a7f8b7574938df68d2b782a7ab",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_archive_sha256": "15ee11e595a10dc5ba43e42973d1f684bc1ca281b5772a455ff400ffe4779b63",
+      "scope": "deterministic fixed inputs; no MC",
+      "pass": true
+    },
+    "total_energy": {
+      "command": [
+        "/home/asus/newsusy/quick1010/audit/1028/reference-core-optimization/native/total_energy"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "seconds": 0.29976305898162536,
+      "binary_sha256": "597ba88d039e8f9708afb9e4800424464c852bb8825e699f5182af45fcc6f59d",
+      "stdout_sha256": "ecbe820868a44cf9f081ae6922a5036ed8a1f6af570aee360fc89d4b26db53a5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_archive_sha256": "15ee11e595a10dc5ba43e42973d1f684bc1ca281b5772a455ff400ffe4779b63",
+      "scope": "deterministic fixed inputs; no MC",
+      "pass": true
+    },
+    "reference_core": {
+      "command": [
+        "/home/asus/newsusy/quick1010/audit/1028/reference-core-optimization/final/native/reference_core"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "seconds": 0.11405058699892834,
+      "binary_sha256": "662ef062cf1f2c524e11602dedf2213af959adc099098f8dfbce35ec75561ede",
+      "stdout_sha256": "574814720029ba316c18ef87bdc7998867e0877d6b6d06f58fe2cc02404d40ca",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_archive_sha256": "9b7c24398cf4d650480bd89396ab62898efe394859dfe4b39f64589e4b04fdcf",
+      "scope": "deterministic fixed inputs; no MC",
+      "pass": true
+    }
+  },
+  "baseline_spectral_bug_reproduced": true,
+  "registered_group": {
+    "status": "PASS",
+    "completed": 3,
+    "planned": 3,
+    "tests": [
+      {
+        "name": "kitaev_ssh_reference_core_validate",
+        "command": [
+          "/home/asus/newsusy/quick1010/audit/1028/reference-core-optimization/registered-binaries/kitaev_ssh_reference_core_validate"
+        ],
+        "binary_sha256": "662ef062cf1f2c524e11602dedf2213af959adc099098f8dfbce35ec75561ede",
+        "exit_code": 0,
+        "status": "PASS",
+        "seconds": 0.28583542999695055
+      },
+      {
+        "name": "kitaev_ssh_endpoint_propagation_validate",
+        "command": [
+          "/home/asus/newsusy/quick1010/audit/1028/reference-core-optimization/registered-binaries/kitaev_ssh_endpoint_propagation_validate"
+        ],
+        "binary_sha256": "979347b9c502b0bc305f433d976012c9759a1d70a268f703d28fe70cf5d2a88b",
+        "exit_code": 0,
+        "status": "PASS",
+        "seconds": 2.06609085801756
+      },
+      {
+        "name": "kitaev_ssh_spectral_safety_validate",
+        "command": [
+          "/home/asus/newsusy/quick1010/audit/1028/reference-core-optimization/registered-binaries/kitaev_ssh_spectral_safety_validate"
+        ],
+        "binary_sha256": "38d74564eaa8e6c44e035c44832e3ec37597482cd08e00e4d135531b4cb898ce",
+        "exit_code": 0,
+        "status": "PASS",
+        "seconds": 0.017783362010959536
+      }
+    ]
+  },
+  "existing_validator_equivalence": {
+    "identical_files": 245,
+    "only_difference": [
+      "kitaev_ssh/reference_core_validate.cpp"
+    ]
+  },
+  "native_CLI": {
+    "pass_all": true,
+    "build_exit": 0,
+    "build_exit_evidence": "Actual subprocess returncode retained in native-cli-build-receipt.json",
+    "source_archive_sha256": "9b7c24398cf4d650480bd89396ab62898efe394859dfe4b39f64589e4b04fdcf",
+    "cli_sha256": "fc5d458e4c5b663d3f694ebffe682bb8fa97577e77ae52c09ea3188d797dc229",
+    "build_receipt_sha256": "7c39d6c8a9473be2b2c8ac4ad6894a145cbaaea4eed72fb558aa58103a6147eb",
+    "checks": {
+      "help": {
+        "command": [
+          "/home/asus/newsusy/quick1010/audit/1028/reference-core-optimization/final/frozen-native/run_mc.sh",
+          "--help"
+        ],
+        "exit_code": 0,
+        "stdout_sha256": "60fb14be21f28677740044d233a420f0ef507da2057b37fb68bb0c7023dcef71",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "ldd": {
+        "command": [
+          "ldd",
+          "/home/asus/newsusy/quick1010/audit/1028/reference-core-optimization/final/frozen-native/kitaev_ssh_mc"
+        ],
+        "exit_code": 0,
+        "stdout_sha256": "bf4f69186a7991b89d10e8ae3acc889a9ca78726db28608737d7b899387e32e1",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "ldd_and_help_pass": true,
+    "scope": "Frozen O3 native CLI and runtime verification only; no Monte Carlo"
+  },
+  "target_runtime": {
+    "artifact_manifest_sha256": "b06f8e37a471c9c0122dcb7c75cd51d632d2931fd8ad1ea014883c51d019adfc",
+    "tests": {
+      "spectral_safety": "PASS spectral_safety checks=108 analytic_paired_spectrum=1 overflow_rejected=1",
+      "endpoint_propagation": "{\"status\":\"PASS\",\"checks\":889,\"endpoint_comparisons\":72,\"maximum_green_error\":3.3497847202537514e-15,\"maximum_log_error\":5.3290705182007514e-15,\"direct_dense_right_calls\":322,\"direct_dense_left_calls\":318}",
+      "reference_core": "PASS cases=40 modes=1,2,3,5 blocked=0,1 backends=3 core_order=reversed core_cut=0 endpoint_order=chronological endpoint_cut=N max_weight=3.8868259776272326e-15 max_Green=2.6729066054950162e-15 max_endpoint_Green=2.7357551712248006e-15 max_direct_four_point=2.0760661501036876e-15"
+    },
+    "source_files_verified": 246,
+    "build_exit": 0,
+    "full_records_location": "/home/sunxr/1028/reference-core-optimization/final",
+    "MKL": "2021.2.0",
+    "ldd_and_help_pass": true,
+    "existing_jobs_changed": false,
+    "source_archive_sha256": "9b7c24398cf4d650480bd89396ab62898efe394859dfe4b39f64589e4b04fdcf",
+    "cli_sha256": "8756c087755f4c79054c2a097d6d538bf63edb015ad03bff76026f9fd226ff90",
+    "remote_root": "/home/sunxr/1028/reference-core-optimization/final",
+    "source_rehashed": true,
+    "scope": "necessary target build and deterministic validators; no Monte Carlo",
+    "artifacts_rehashed": true,
+    "pass_all": true,
+    "port": 20022,
+    "compiler": "GCC8.3.0"
+  },
+  "saved_correctness_cases": 7,
+  "saved_timing_pairs": 6,
+  "all_saved_physics_exact": true,
+  "saved_maximum_absolute_differences": {
+    "path_index": 0.0,
+    "L": 0.0,
+    "M": 0.0,
+    "trial_parity": 0.0,
+    "blocked": 0.0,
+    "block": 0.0,
+    "J": 0.0,
+    "lambda": 0.0,
+    "g": 0.0,
+    "omega": 0.0,
+    "spring": 0.0,
+    "mass": 0.0,
+    "dt": 0.0,
+    "tau": 0.0,
+    "shear": 0.0,
+    "endpoint_shifts": 0.0,
+    "qr_block": 0.0,
+    "candidates": 0.0,
+    "energy": 0.0,
+    "log_abs_matter": 0.0,
+    "log_phonon": 0.0,
+    "index": 0.0,
+    "bond": 0.0,
+    "log_abs_ratio": 0.0,
+    "log_matter_ratio": 0.0,
+    "phase_real": 0.0,
+    "phase_imag": 0.0,
+    "green_rows": 0.0,
+    "green_cols": 0.0,
+    "green_real": 0.0,
+    "green_imag": 0.0,
+    "basic_real": 0.0,
+    "basic_imag": 0.0,
+    "fermion_real": 0.0,
+    "fermion_imag": 0.0,
+    "real_calls": 0.0,
+    "complex_calls": 0.0,
+    "extended_calls": 0.0,
+    "failures": 0.0,
+    "extended_green_residual_checks": 0.0,
+    "maximum_relative_correction": 0.0,
+    "maximum_input_isotropy": 0.0,
+    "maximum_output_isotropy": 0.0,
+    "maximum_output_orthonormality": 0.0,
+    "energy_real": 0.0,
+    "energy_imag": 0.0
+  },
+  "performance": {
+    "historical": {
+      "measured_baseline_seconds": 28.187826018,
+      "measured_new_seconds": 26.693296173,
+      "pipeline_baseline_seconds": 29.471979699,
+      "pipeline_new_seconds": 27.906371113,
+      "paired_measured_speedup": {
+        "median": 1.0245543254143517,
+        "ratios": [
+          0.9994219445624101,
+          1.0850154504853389,
+          1.0245543254143517
+        ]
+      }
+    },
+    "physical": {
+      "measured_baseline_seconds": 6.658054471,
+      "measured_new_seconds": 6.891185947,
+      "pipeline_baseline_seconds": 7.959946541,
+      "pipeline_new_seconds": 8.184493551,
+      "paired_measured_speedup": {
+        "median": 0.9870518196214951,
+        "ratios": [
+          0.9554491807966322,
+          0.9870518196214951,
+          0.9882905979289199
+        ]
+      }
+    }
+  },
+  "no_Monte_Carlo": true,
+  "existing_jobs_changed": false,
+  "endpoint_performance": {
+    "historical": {
+      "paired_speedup_median": 0.9908236080298781,
+      "paired_speedups": [
+        0.9598023894228321,
+        1.0333234993216303,
+        0.9908236080298781
+      ],
+      "baseline_seconds_median": 0.7881223552,
+      "new_seconds_median": 0.7827509138
+    },
+    "physical": {
+      "paired_speedup_median": 1.0192508430326357,
+      "paired_speedups": [
+        1.0192508430326357,
+        0.9916746957466636,
+        1.053761739500673
+      ],
+      "baseline_seconds_median": 0.7771058820000001,
+      "new_seconds_median": 0.7762130492000001
+    }
+  },
+  "limitations": [
+    "Deterministic fixed-input checks do not certify equilibrium, mixing, projection/dt convergence, ESS or SUSY.",
+    "Saved-path timings are not full Monte Carlo or equal-error throughput.",
+    "Frozen source includes SSH nodeps build inputs; full CMake registration was checked in the complete workspace."
+  ]
+}

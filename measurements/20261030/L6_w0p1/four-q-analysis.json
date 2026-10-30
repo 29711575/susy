@@ -1,0 +1,23 @@
+{
+  "snapshot": "snapshot.json.gz",
+  "snapshot_sha256": "3c95cc7fae777b0929cf11a2a1500cb4e5b344a582c17d3153a6af3aec1cdb67",
+  "captured_utc": "2026-10-30T11:36:16.925150Z",
+  "cut": 4000,
+  "momenta": [
+    15,
+    20,
+    22,
+    27
+  ],
+  "cells": 160,
+  "seeds": [
+    3
+  ],
+  "anchor": {
+    "lambda": 1.8,
+    "tau": 8,
+    "m2": 0.0017183521281833338
+  },
+  "positive_cells": 160,
+  "definition": "phase pool first, max of four momenta, delete-one-seed jackknife with peak re-selection"
+}

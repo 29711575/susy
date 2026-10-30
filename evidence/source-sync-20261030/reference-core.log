@@ -1,0 +1,1 @@
+PASS cases=40 modes=1,2,3,5 blocked=0,1 backends=3 core_order=reversed core_cut=0 endpoint_order=chronological endpoint_cut=N max_weight=3.6139368624168792e-15 max_Green=2.1491424663986516e-15 max_endpoint_Green=3.5333894300643195e-15 max_direct_four_point=1.8507215105454089e-15

@@ -1,0 +1,1 @@
+{"status":"PASS","checks":889,"endpoint_comparisons":72,"maximum_green_error":2.4095259125226437e-15,"maximum_log_error":3.5527136788005009e-15,"direct_dense_right_calls":322,"direct_dense_left_calls":318}

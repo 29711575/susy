@@ -1,0 +1,24 @@
+test_aborted_final_summary_recovered_without_mc (test_qmc_tools.RecoveryTests.test_aborted_final_summary_recovered_without_mc) ... skipped 'historical failed-finalization fixture not present'
+test_block_window_requires_exact_boundaries (test_qmc_tools.RecoveryTests.test_block_window_requires_exact_boundaries) ... ok
+test_center_matter_energy_uses_recorded_gauge (test_qmc_tools.RecoveryTests.test_center_matter_energy_uses_recorded_gauge) ... ok
+test_corrupt_full_record_and_partial_tail_are_distinct (test_qmc_tools.RecoveryTests.test_corrupt_full_record_and_partial_tail_are_distinct) ... ok
+test_energy_components_and_center_location_are_distinct (test_qmc_tools.RecoveryTests.test_energy_components_and_center_location_are_distinct) ... ok
+test_existing_cpp_complete_result_parity (test_qmc_tools.RecoveryTests.test_existing_cpp_complete_result_parity) ... skipped 'historical reference fixture not present'
+test_interacting_cpp_result_parity (test_qmc_tools.RecoveryTests.test_interacting_cpp_result_parity) ... skipped 'historical interacting reference fixture absent'
+test_nonlinear_response_uses_ratios_before_connection (test_qmc_tools.RecoveryTests.test_nonlinear_response_uses_ratios_before_connection) ... ok
+test_gamma_offset_and_nonstandard_record_layout (test_qmc_tools.RegistryTests.test_gamma_offset_and_nonstandard_record_layout) ... ok
+test_missing_live_job_not_assumed_finished (test_qmc_tools.RegistryTests.test_missing_live_job_not_assumed_finished) ... ok
+test_remote_qstat_parser_and_wide_tail (test_qmc_tools.RegistryTests.test_remote_qstat_parser_and_wide_tail) ... ok
+test_submission_indices_and_migration_subset (test_qmc_tools.RegistryTests.test_submission_indices_and_migration_subset) ... skipped 'submission fixture absent'
+test_duplicate_seeds_and_ancestry_rejected (test_qmc_tools.StatisticsTests.test_duplicate_seeds_and_ancestry_rejected) ... ok
+test_no_cross_chain_or_remainder_discard (test_qmc_tools.StatisticsTests.test_no_cross_chain_or_remainder_discard) ... ok
+test_phase_zero_is_undefined (test_qmc_tools.StatisticsTests.test_phase_zero_is_undefined) ... ok
+test_rank_diagnostics_detect_chain_disagreement (test_qmc_tools.StatisticsTests.test_rank_diagnostics_detect_chain_disagreement) ... ok
+test_signed_complex_common_phase (test_qmc_tools.StatisticsTests.test_signed_complex_common_phase) ... ok
+test_unequal_independent_chains_keep_original_allocation (test_qmc_tools.StatisticsTests.test_unequal_independent_chains_keep_original_allocation) ... ok
+test_weighted_tail_groups_match_independent_pseudovalue_reference (test_qmc_tools.StatisticsTests.test_weighted_tail_groups_match_independent_pseudovalue_reference) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.229s
+
+OK (skipped=4)

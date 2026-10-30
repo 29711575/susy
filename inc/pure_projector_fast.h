@@ -375,6 +375,10 @@ struct PureStableWeightWorkspace {
     PureOverlapSingularValues magnitude_svd;
     PureRealMagnitudeWorkspace real_magnitude;
     std::vector<DataType> qr_tau;
+    PureComplexQRWorkspace complex_qr;
+    PureCanonicalWorkspace canonical;
+    PureProjectorGreenWorkspace green;
+    PureEndpointRebuildWorkspace endpoint;
 };
 
 // The validated SSH factors retain an immutable dense matrix.  Keep this
@@ -481,8 +485,10 @@ inline PureProjectorWeightResult pureProjectorStableReferenceWeight(
     // whenever the prepared basis is unavailable or fails its residual gate.
     auto greenFor=[&](const MatType &qr)->PureProjectorGreenResult{
         const PureProjectorGreenResult raw=preparedTrial
-            ? pureProjectorGreenPreparedRight(qr,trial,*preparedTrial,greenOptions)
-            : pureProjectorGreenThinQr(qr,trial.Phi,greenOptions);
+            ? pureProjectorGreenPreparedRight(qr,trial,*preparedTrial,greenOptions,
+                workspace&&options.accelerated_linear_algebra?&work.green:nullptr)
+            : pureProjectorGreenThinQr(qr,trial.Phi,greenOptions,
+                workspace&&options.accelerated_linear_algebra?&work.green:nullptr);
         // A large Green norm is expected for an oblique projector.  The
         // dimension-normalized involution residual can therefore reject a
         // numerically valid solve even when the relative residual is tiny.
@@ -589,12 +595,18 @@ inline PureProjectorWeightResult pureProjectorStableReferenceWeight(
             if(options.reference_singular_values_only&&options.accelerated_linear_algebra&&n>=32) {
                 // Preserve the complex determinant phase before overwriting
                 // R with Q. Basis rephasings cancel against the overlap phase.
-                work.next_q=work.x;work.qr_tau.resize(n);
-                if(LAPACKE_zgeqrf(LAPACK_COL_MAJOR,m,n,work.next_q.data(),m,
-                                  work.qr_tau.data())!=0){propagation_failure=true;return;}
+                work.next_q=work.x;
+                if(workspace) {
+                    if(!work.complex_qr.factorize(work.next_q)){propagation_failure=true;return;}
+                } else {
+                    work.qr_tau.resize(n);
+                    if(LAPACKE_zgeqrf(LAPACK_COL_MAJOR,m,n,work.next_q.data(),m,
+                                      work.qr_tau.data())!=0){propagation_failure=true;return;}
+                }
                 for(int i=0;i<n;++i)detR*=work.next_q(i,i);
-                if(LAPACKE_zungqr(LAPACK_COL_MAJOR,m,n,n,work.next_q.data(),m,
-                                  work.qr_tau.data())!=0){propagation_failure=true;return;}
+                const bool qOK=workspace?work.complex_qr.formQ(work.next_q):
+                    LAPACKE_zungqr(LAPACK_COL_MAJOR,m,n,n,work.next_q.data(),m,work.qr_tau.data())==0;
+                if(!qOK){propagation_failure=true;return;}
             } else {
                 work.qr.compute(work.x);
                 work.identity.resize(work.x.rows(),work.x.cols());work.identity.setIdentity();
@@ -604,7 +616,8 @@ inline PureProjectorWeightResult pureProjectorStableReferenceWeight(
             }
             DataType correctionDet;
             if(!pureProjectorCanonicalMicrocorrect(work.next_q,correctionDet,
-                    greenOptions.solve_residual_tolerance,options.accelerated_linear_algebra)) {
+                    greenOptions.solve_residual_tolerance,options.accelerated_linear_algebra,
+                    workspace?&work.canonical:nullptr)) {
                 propagation_failure=true;return;
             }
             detR*=correctionDet;
@@ -898,13 +911,17 @@ inline PureProjectorWeightResult pureProjectorMagnitudeWeight(
                 // subspace.  MKL's no-pivot QR preserves that contract while
                 // avoiding Eigen's temporary full thin-Q construction.
                 work.next_q=work.x;
-                work.qr_tau.resize(n);
-                const lapack_int info=LAPACKE_zgeqrf(LAPACK_COL_MAJOR,m,n,
-                    work.next_q.data(),m,work.qr_tau.data());
-                if(info!=0){propagation_failure=true;return;}
+                if(workspace) {
+                    if(!work.complex_qr.factorize(work.next_q)){propagation_failure=true;return;}
+                } else {
+                    work.qr_tau.resize(n);
+                    if(LAPACKE_zgeqrf(LAPACK_COL_MAJOR,m,n,work.next_q.data(),m,
+                                      work.qr_tau.data())!=0){propagation_failure=true;return;}
+                }
                 for(int i=0;i<n;++i)detR*=work.next_q(i,i);
-                if(LAPACKE_zungqr(LAPACK_COL_MAJOR,m,n,n,work.next_q.data(),m,
-                                  work.qr_tau.data())!=0){propagation_failure=true;return;}
+                const bool qOK=workspace?work.complex_qr.formQ(work.next_q):
+                    LAPACKE_zungqr(LAPACK_COL_MAJOR,m,n,n,work.next_q.data(),m,work.qr_tau.data())==0;
+                if(!qOK){propagation_failure=true;return;}
             }else{
                 work.qr.compute(work.x);
                 work.identity.resize(work.x.rows(),work.x.cols());work.identity.setIdentity();
@@ -914,7 +931,8 @@ inline PureProjectorWeightResult pureProjectorMagnitudeWeight(
             }
             DataType correctionDet;
             if(!pureProjectorCanonicalMicrocorrect(work.next_q,correctionDet,
-                    greenOptions.solve_residual_tolerance,options.accelerated_linear_algebra)) {
+                    greenOptions.solve_residual_tolerance,options.accelerated_linear_algebra,
+                    workspace?&work.canonical:nullptr)) {
                 propagation_failure=true;return;
             }
             detR*=correctionDet;

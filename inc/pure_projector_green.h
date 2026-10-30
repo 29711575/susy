@@ -136,7 +136,8 @@ inline double pureProjectorSolveTolerance(
 inline ThinQrResult thinQrSubspace(
     const MatType &subspace,
     const PureProjectorOptions &options = PureProjectorOptions(),
-    bool canonical = false) {
+    bool canonical = false,
+    PureCanonicalWorkspace *canonicalWorkspace=nullptr) {
     ThinQrResult result;
     if (subspace.rows() <= 0 || subspace.cols() <= 0 ||
         subspace.rows() < subspace.cols()) return result;
@@ -175,7 +176,7 @@ inline ThinQrResult thinQrSubspace(
     if(canonical) {
         DataType correctionDet;
         if(!pureProjectorCanonicalMicrocorrect(result.q,correctionDet,
-                options.solve_residual_tolerance,options.accelerated_linear_algebra)) {
+                options.solve_residual_tolerance,options.accelerated_linear_algebra,canonicalWorkspace)) {
             result.status=PureProjectorStatus::solve_residual_exceeded;
             return result;
         }
@@ -193,9 +194,28 @@ inline ThinQrResult thinQrSubspace(
     return result;
 }
 
+// Scratch belongs to one chain and never aliases the input frames or returned Green.
+struct PureProjectorGreenWorkspace {
+    MatType overlap,right_hand_side,solved;
+    Eigen::PartialPivLU<MatType> lu;
+    PureGreenSvd svd;
+    PureCanonicalWorkspace canonical;
+    PureProjectorGreenWorkspace()=default;
+    // Scratch has no mathematical state to copy. A copied chain receives
+    // independent empty caches, never another chain's decomposition storage.
+    PureProjectorGreenWorkspace(const PureProjectorGreenWorkspace &) {}
+    PureProjectorGreenWorkspace &operator=(const PureProjectorGreenWorkspace &other) {
+        if(this!=&other)*this=PureProjectorGreenWorkspace{};
+        return *this;
+    }
+    PureProjectorGreenWorkspace(PureProjectorGreenWorkspace &&)=default;
+    PureProjectorGreenWorkspace &operator=(PureProjectorGreenWorkspace &&)=default;
+};
+
 inline PureProjectorGreenResult pureProjectorGreen(
     const MatType &phiRight, const MatType &phiLeft,
-    const PureProjectorOptions &options = PureProjectorOptions()) {
+    const PureProjectorOptions &options = PureProjectorOptions(),
+    PureProjectorGreenWorkspace *workspace=nullptr) {
     PureProjectorGreenResult result;
     if (phiRight.rows() <= 0 || phiRight.cols() <= 0 ||
         phiRight.rows() != phiLeft.rows() || phiRight.cols() != phiLeft.cols() ||
@@ -205,8 +225,13 @@ inline PureProjectorGreenResult pureProjectorGreen(
         return result;
     }
 
-    const MatType overlap = phiLeft.adjoint() * phiRight;
-    PureGreenSvd svd(overlap,options.accelerated_linear_algebra,!options.prefer_lu_green_solve);
+    MatType localOverlap;
+    MatType &overlap=workspace?workspace->overlap:localOverlap;
+    if(workspace)overlap.noalias()=phiLeft.adjoint()*phiRight;
+    else overlap=phiLeft.adjoint()*phiRight;
+    PureGreenSvd localSvd;
+    PureGreenSvd &svd=workspace?workspace->svd:localSvd;
+    svd.compute(overlap,options.accelerated_linear_algebra,!options.prefer_lu_green_solve);
     svd.setThreshold(options.rank_tolerance);
     result.overlap_rank = svd.rank();
     if (result.overlap_rank != overlap.rows()) {
@@ -224,10 +249,14 @@ inline PureProjectorGreenResult pureProjectorGreen(
 
     const double solveTolerance = pureProjectorSolveTolerance(options, result.overlap_rcond);
 
-    const MatType rightHandSide = phiLeft.adjoint();
+    MatType localRightHandSide;
+    MatType &rightHandSide=workspace?workspace->right_hand_side:localRightHandSide;
+    rightHandSide = phiLeft.adjoint();
     const double rightHandSideScale = std::max(1.0, rightHandSide.norm());
-    Eigen::PartialPivLU<MatType> lu;
-    MatType solved;
+    Eigen::PartialPivLU<MatType> localLu;
+    Eigen::PartialPivLU<MatType> &lu=workspace?workspace->lu:localLu;
+    MatType localSolved;
+    MatType &solved=workspace?workspace->solved:localSolved;
     if(options.prefer_lu_green_solve) {
         lu.compute(overlap);solved=lu.solve(rightHandSide);
     } else solved=svd.solve(rightHandSide);
@@ -412,21 +441,24 @@ inline PureProjectorGreenResult pureProjectorGreen(
 
 inline PureProjectorGreenResult pureProjectorGreenThinQr(
     const MatType &phiRight, const MatType &phiLeft,
-    const PureProjectorOptions &options = PureProjectorOptions()) {
-    const ThinQrResult rightQr = thinQrSubspace(phiRight, options, true);
+    const PureProjectorOptions &options = PureProjectorOptions(),
+    PureProjectorGreenWorkspace *workspace=nullptr) {
+    const ThinQrResult rightQr = thinQrSubspace(phiRight, options, true,
+        workspace?&workspace->canonical:nullptr);
     if (!rightQr.ok()) {
         PureProjectorGreenResult result;
         result.status = rightQr.status;
         return result;
     }
-    const ThinQrResult leftQr = thinQrSubspace(phiLeft, options, true);
+    const ThinQrResult leftQr = thinQrSubspace(phiLeft, options, true,
+        workspace?&workspace->canonical:nullptr);
     if (!leftQr.ok()) {
         PureProjectorGreenResult result;
         result.status = leftQr.status;
         return result;
     }
     PureProjectorOptions gaussianOptions=options;gaussianOptions.fail_on_green_structure=true;
-    return pureProjectorGreen(rightQr.q, leftQr.q, gaussianOptions);
+    return pureProjectorGreen(rightQr.q, leftQr.q, gaussianOptions,workspace);
 }
 
 // A1: the LEFT basis is the immutable trial state, identical for every slice
@@ -461,7 +493,8 @@ inline PreparedGreenTrial prepareGreenTrial(
 // falls back to the full two-sided thin-QR path, preserving old behavior.
 inline PureProjectorGreenResult pureProjectorGreenPreparedRight(
         const MatType &qRight, const GaussianTrialState &trial,
-        const PreparedGreenTrial &prepared, const PureProjectorOptions &options) {
+        const PreparedGreenTrial &prepared, const PureProjectorOptions &options,
+        PureProjectorGreenWorkspace *workspace=nullptr) {
     if (!prepared.ok() ||
         qRight.rows() != prepared.qLeft.rows() ||
         qRight.cols() != prepared.qLeft.cols() ||
@@ -481,7 +514,7 @@ inline PureProjectorGreenResult pureProjectorGreenPreparedRight(
     }
     PureProjectorOptions gaussianOptions=options;gaussianOptions.fail_on_green_structure=true;
     const PureProjectorGreenResult preparedResult =
-        pureProjectorGreen(qRight, prepared.qLeft, gaussianOptions);
+        pureProjectorGreen(qRight, prepared.qLeft, gaussianOptions,workspace);
     if (preparedResult.ok()) return preparedResult;
 
     // The prepared QR is mathematically equivalent to re-orthogonalizing the

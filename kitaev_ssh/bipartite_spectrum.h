@@ -1,6 +1,7 @@
 #ifndef KITAEV_SSH_BIPARTITE_SPECTRUM_H
 #define KITAEV_SSH_BIPARTITE_SPECTRUM_H
 #include "skewMatUtils.h"
+#include "pure_projector_factor.h"
 #include <algorithm>
 #include <cstdlib>
 #include <limits>
@@ -18,6 +19,22 @@ class BipartiteSpectrum {
     std::vector<lapack_int> integer_work_;
     lapack_int workspace_dimension_=0;
     bool valid_=false;
+    void exponentialBlocks(double a) {
+        if(!valid_)throw std::logic_error("invalid bipartite spectrum");
+        function_=(a*singular_.array()).cosh();
+        scaled_=u_*function_.asDiagonal();aa_.noalias()=scaled_*u_.transpose();
+        scaled_=v_*function_.asDiagonal();bb_.noalias()=scaled_*vt_;
+        function_=(a*singular_.array()).sinh();
+        scaled_=u_*function_.asDiagonal();ab_.noalias()=scaled_*vt_;
+    }
+    void assembleExponential(MatType &out)const {
+        const int n=singular_.size();
+        out.resize(2*n,2*n);
+        for(int j=0;j<n;++j)for(int i=0;i<n;++i) {
+            out(i,j)=DataType(aa_(i,j),0.);out(n+i,n+j)=DataType(bb_(i,j),0.);
+            out(i,n+j)=DataType(0.,ab_(i,j));out(n+j,i)=DataType(0.,-ab_(i,j));
+        }
+    }
 public:
     static bool disabled() {
         static const bool flag=[] {
@@ -56,18 +73,29 @@ public:
     }
     bool valid()const{return valid_;}
     void exponential(double a,MatType &out) {
-        if(!valid_)throw std::logic_error("invalid bipartite spectrum");
-        const int n=singular_.size();
-        function_=(a*singular_.array()).cosh();
-        scaled_=u_*function_.asDiagonal();aa_.noalias()=scaled_*u_.transpose();
-        scaled_=v_*function_.asDiagonal();bb_.noalias()=scaled_*vt_;
-        function_=(a*singular_.array()).sinh();
-        scaled_=u_*function_.asDiagonal();ab_.noalias()=scaled_*vt_;
-        out.resize(2*n,2*n);
-        for(int j=0;j<n;++j)for(int i=0;i<n;++i) {
-            out(i,j)=DataType(aa_(i,j),0.);out(n+i,n+j)=DataType(bb_(i,j),0.);
-            out(i,n+j)=DataType(0.,ab_(i,j));out(n+j,i)=DataType(0.,-ab_(i,j));
+        exponentialBlocks(a);assembleExponential(out);
+    }
+    // Both representations come from the same unmodified spectral blocks.
+    // The private owner factory is accessible only to this exact-structure
+    // solver; callers cannot attach a certificate to arbitrary dense input.
+    bool exponentialFactor(double a,PureFactorMatrix &out,
+                           PureFactorMatrix::DenseStoragePool *pool=nullptr,bool certifyReal=false) {
+        exponentialBlocks(a);
+        if(certifyReal) {
+            return PureFactorMatrix::tryFromValidatedDenseCertified(pool,
+                [&](MatType &dense,Eigen::MatrixXd &real) {
+                    const int n=singular_.size();
+                    dense.resize(2*n,2*n);real.resize(2*n,2*n);
+                    for(int j=0;j<n;++j)for(int i=0;i<n;++i) {
+                        dense(i,j)=DataType(aa_(i,j),0.);dense(n+i,n+j)=DataType(bb_(i,j),0.);
+                        dense(i,n+j)=DataType(0.,ab_(i,j));dense(n+j,i)=DataType(0.,-ab_(i,j));
+                        real(i,j)=aa_(i,j);real(n+i,n+j)=bb_(i,j);
+                        real(i,n+j)=-ab_(i,j);real(n+j,i)=-ab_(i,j);
+                    }
+                },out);
         }
+        return PureFactorMatrix::tryFromValidatedDense(pool,
+            [&](MatType &dense) {assembleExponential(dense);},out);
     }
     void cayley(double a,MatType &out) {
         if(!valid_)throw std::logic_error("invalid bipartite spectrum");
@@ -81,7 +109,7 @@ public:
     }
     bool cayleySafe(double a,int dimension)const {
         if(!valid_)return false;
-        const double maximum=a*singular_(0);
+        const double maximum=std::abs(a)*singular_(0);
         const double hi=1.+std::exp(maximum),lo=1.+std::exp(-maximum);
         return std::isfinite(hi)&&lo/hi>
             2.*double(dimension)*std::numeric_limits<double>::epsilon();
@@ -109,6 +137,14 @@ public:
             out.noalias()=reference_.V*f.asDiagonal()*reference_.V.adjoint();
         }
     }
+    bool exponentialFactor(double a,PureFactorMatrix &out,
+                           PureFactorMatrix::DenseStoragePool *pool=nullptr,bool certifyReal=false) {
+        if(bipartite_)return bipartite_->exponentialFactor(a,out,pool,certifyReal);
+        // A general complex spectrum never issues a real certificate. Failed
+        // finite checks leave out untouched for the caller's h*h fallback.
+        return PureFactorMatrix::tryFromValidatedDense(pool,
+            [&](MatType &dense) {exponential(a,dense);},out);
+    }
     void cayley(double a,MatType &out) {
         if(bipartite_)bipartite_->cayley(a,out);
         else {
@@ -121,7 +157,10 @@ public:
         double lo=std::numeric_limits<double>::infinity(),hi=0.;
         for(int e=0;e<reference_.D.size();++e) {
             const double onePlus=1.+std::exp(-a*reference_.D(e));
-            if(std::isfinite(onePlus)){lo=std::min(lo,onePlus);hi=std::max(hi,onePlus);}
+            // Every eigenvalue participates in the condition estimate. An
+            // overflow cannot be discarded as if that spectral mode were absent.
+            if(!std::isfinite(onePlus))return false;
+            lo=std::min(lo,onePlus);hi=std::max(hi,onePlus);
         }
         const double rcond=hi>0.&&std::isfinite(lo)?lo/hi:0.;
         return rcond>2.*double(dimension)*std::numeric_limits<double>::epsilon();

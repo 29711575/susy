@@ -102,44 +102,52 @@ public:
 // reconstructions. Reference callers retain Eigen unless explicitly enabled.
 class PureGreenSvd {
     std::unique_ptr<Eigen::JacobiSVD<MatType>> eigen_;
-    MatType u_,v_;
+    MatType u_,v_,work_,vt_;
     dVecType singular_;
     double threshold_=1e-12;
     bool valid_=false;
     bool compute_vectors_=true;
+    bool eigen_active_=false;
+    bool threshold_set_=false;
 public:
-    PureGreenSvd(const MatType &matrix,bool accelerated,bool computeVectors=true)
-        :compute_vectors_(computeVectors){
+    PureGreenSvd()=default;
+    PureGreenSvd(const MatType &matrix,bool accelerated,bool computeVectors=true) {
+        compute(matrix,accelerated,computeVectors);
+    }
+    void compute(const MatType &matrix,bool accelerated,bool computeVectors=true) {
+        compute_vectors_=computeVectors;valid_=false;eigen_active_=false;
         if(!accelerated||std::min(matrix.rows(),matrix.cols())<32){
-            eigen_.reset(new Eigen::JacobiSVD<MatType>(matrix,
-                compute_vectors_?(Eigen::ComputeThinU|Eigen::ComputeThinV):0));return;
+            if(!eigen_)eigen_.reset(new Eigen::JacobiSVD<MatType>);
+            eigen_->compute(matrix,compute_vectors_?(Eigen::ComputeThinU|Eigen::ComputeThinV):0);
+            if(threshold_set_)eigen_->setThreshold(threshold_);
+            eigen_active_=true;return;
         }
-        MatType work=matrix;
+        work_=matrix;
         const lapack_int m=matrix.rows(),n=matrix.cols(),k=std::min(m,n);
         singular_.resize(k);
         if(!compute_vectors_){
             DataType unusedU,unusedV;
-            const lapack_int info=LAPACKE_zgesdd(LAPACK_COL_MAJOR,'N',m,n,work.data(),m,
+            const lapack_int info=LAPACKE_zgesdd(LAPACK_COL_MAJOR,'N',m,n,work_.data(),m,
                 singular_.data(),&unusedU,1,&unusedV,1);
             valid_=info==0&&singular_.allFinite();
             return;
         }
-        u_.resize(m,k);MatType vt(k,n);
-        const lapack_int info=LAPACKE_zgesdd(LAPACK_COL_MAJOR,'S',m,n,work.data(),m,
-            singular_.data(),u_.data(),m,vt.data(),k);
-        valid_=info==0&&singular_.allFinite()&&u_.allFinite()&&vt.allFinite();
-        if(valid_)v_=vt.adjoint();
+        u_.resize(m,k);vt_.resize(k,n);
+        const lapack_int info=LAPACKE_zgesdd(LAPACK_COL_MAJOR,'S',m,n,work_.data(),m,
+            singular_.data(),u_.data(),m,vt_.data(),k);
+        valid_=info==0&&singular_.allFinite()&&u_.allFinite()&&vt_.allFinite();
+        if(valid_)v_=vt_.adjoint();
     }
-    void setThreshold(double threshold){threshold_=threshold;if(eigen_)eigen_->setThreshold(threshold);}
+    void setThreshold(double threshold){threshold_=threshold;threshold_set_=true;if(eigen_active_)eigen_->setThreshold(threshold);}
     int rank()const{
-        if(eigen_)return eigen_->rank();
+        if(eigen_active_)return eigen_->rank();
         if(!valid_||singular_.size()==0)return 0;
         return (singular_.array()>std::max(std::numeric_limits<double>::min(),threshold_*singular_(0))).count();
     }
-    const dVecType &singularValues()const{return eigen_?eigen_->singularValues():singular_;}
+    const dVecType &singularValues()const{return eigen_active_?eigen_->singularValues():singular_;}
     MatType solve(const MatType &rhs)const{
         if(!compute_vectors_)throw std::logic_error("PureGreenSvd values-only decomposition cannot solve");
-        if(eigen_)return eigen_->solve(rhs);
+        if(eigen_active_)return eigen_->solve(rhs);
         const int count=rank();
         return v_.leftCols(count)*singular_.head(count).cwiseInverse().asDiagonal()*
             (u_.leftCols(count).adjoint()*rhs);

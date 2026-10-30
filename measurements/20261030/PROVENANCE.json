@@ -1,0 +1,50 @@
+{
+  "report_date": "2026-10-30",
+  "version_scope": "Each dataset retains its recorded source. Current repository core does not retroactively change old measurements.",
+  "datasets": [
+    {
+      "dataset": "L6_w0p1",
+      "raw": [
+        {
+          "file": "L6_w0p1/snapshot.json.gz",
+          "sha256": "3c95cc7fae777b0929cf11a2a1500cb4e5b344a582c17d3153a6af3aec1cdb67",
+          "snapshot_utc": "2026-10-30T11:36:16.925150Z",
+          "cut": 4000,
+          "chains": 480
+        }
+      ]
+    },
+    {
+      "dataset": "L9_w1",
+      "raw": [
+        {
+          "file": "L9_w1/snapshot-20015.json.gz",
+          "sha256": "c7e5d50a4fd2a00d9f8945254854a6a8373c26abed3ce411ec565ca6b539398d",
+          "snapshot_utc": "2026-10-30T11:01:17.636253Z",
+          "cut": 5000,
+          "chains": 96
+        }
+      ]
+    },
+    {
+      "dataset": "L6_lambda2_omega_comparison",
+      "raw": [
+        {
+          "file": "L6_lambda2_omega_comparison/snapshot-20015.json.gz",
+          "sha256": "a525a0f0c67e404ef19b1b0066e8ee655597cc4c429e329784c3eb832054cb0b",
+          "snapshot_utc": "2026-10-30T04:38:47.680084Z",
+          "cut": 4000,
+          "chains": 20
+        },
+        {
+          "file": "L6_lambda2_omega_comparison/snapshot-20022.json.gz",
+          "sha256": "26d6a600564e46cefdfba503887110e620694c4c6719940b9ebe63066708039b",
+          "snapshot_utc": "2026-10-30T04:33:40.082946Z",
+          "cut": 4000,
+          "chains": 120
+        }
+      ]
+    }
+  ],
+  "source_note": "Original source paths and full-line SHA256 are recorded per chain in the raw snapshots. No credentials, full checkpoints, binaries or libraries are included."
+}

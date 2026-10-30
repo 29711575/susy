@@ -3,6 +3,7 @@
 #include "types.h"
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
 #include <cstring>
 #include <memory>
 #include <stdexcept>
@@ -10,6 +11,7 @@
 #include <vector>
 
 class PureFactorMatrix;
+namespace kitaev_ssh { class BipartiteSpectrum; }
 struct PureFactorPairBlock {
     int first=-1,second=-1;
     MatType matrix;
@@ -26,6 +28,10 @@ class PureFactorMatrix : public Eigen::ReturnByValue<PureFactorMatrix> {
     struct Storage {
         Eigen::Index rows=0,cols=0;
         MatType dense;
+        // An exact D^dag B D companion assembled from the same real blocks.
+        // Only the bipartite assembler may certify this representation.
+        Eigen::MatrixXd certified_real;
+        bool certified_real_valid=false;
         std::vector<Entry> entries;
         std::uint64_t tail=1,tail_sign=0;
         std::vector<std::uint64_t> zero_signs;
@@ -50,6 +56,39 @@ class PureFactorMatrix : public Eigen::ReturnByValue<PureFactorMatrix> {
         while(n){if(n&1)result*=p;p*=p;n>>=1;}return result;
     }
 public:
+    // Chain-private high-water storage. A published factor (including one
+    // retained by a cache or an old proposal) pins its slot against writes.
+    // beginBatch makes each path rebuild scan the pool at most once.
+    class DenseStoragePool {
+        friend class PureFactorMatrix;
+        std::vector<std::shared_ptr<Storage>> slots_;
+        std::size_t next_=0;
+        std::shared_ptr<Storage> acquire() {
+            while(next_<slots_.size()) {
+                auto &slot=slots_[next_++];
+                if(slot.use_count()==1) {++slot_reuses;return slot;}
+            }
+            auto slot=std::make_shared<Storage>();
+            slots_.push_back(slot);next_=slots_.size();++slots_created;
+            return slot;
+        }
+    public:
+        std::uint64_t slots_created=0,slot_reuses=0;
+        DenseStoragePool()=default;
+        DenseStoragePool(const DenseStoragePool&)=delete;
+        DenseStoragePool &operator=(const DenseStoragePool&)=delete;
+        DenseStoragePool(DenseStoragePool&&)=default;
+        DenseStoragePool &operator=(DenseStoragePool&&)=default;
+        void beginBatch() {next_=0;}
+        std::size_t slotCount() const {return slots_.size();}
+        std::size_t storageBytes() const {
+            std::size_t bytes=sizeof(*this)+slots_.capacity()*sizeof(slots_[0]);
+            for(const auto &slot:slots_)
+                bytes+=sizeof(Storage)+slot->dense.size()*sizeof(DataType)+
+                    slot->certified_real.size()*sizeof(double);
+            return bytes;
+        }
+    };
     PureFactorMatrix()=default;
     PureFactorMatrix(const PureFactorMatrix &other):storage_(other.storage_){}
     PureFactorMatrix(PureFactorMatrix &&other) noexcept:storage_(std::move(other.storage_)){}
@@ -69,6 +108,26 @@ public:
     static PureFactorMatrix fromValidatedDense(MatType &&matrix) {
         if(!matrix.allFinite()) throw std::invalid_argument("validated dense factor is nonfinite");
         PureFactorMatrix result;result.assignValidatedDense(std::move(matrix));return result;
+    }
+    // The writer must completely assign the matrix and retain no mutable
+    // reference. Failed assembly leaves the output and all published owners
+    // untouched; its unpublished slot can be overwritten by a later batch.
+    template<class Writer>
+    static bool tryFromValidatedDense(DenseStoragePool *pool,Writer &&writer,
+                                      PureFactorMatrix &out) {
+        auto s=pool?pool->acquire():std::make_shared<Storage>();
+        s->certified_real_valid=false;
+        std::forward<Writer>(writer)(s->dense);
+        if(!s->dense.allFinite())return false;
+        s->rows=s->dense.rows();s->cols=s->dense.cols();
+        out.storage_=std::move(s);return true;
+    }
+    template<class Writer>
+    static PureFactorMatrix fromValidatedDense(DenseStoragePool *pool,Writer &&writer) {
+        PureFactorMatrix result;
+        if(!tryFromValidatedDense(pool,std::forward<Writer>(writer),result))
+            throw std::invalid_argument("validated dense factor is nonfinite");
+        return result;
     }
     template<class Derived> PureFactorMatrix &operator=(const Eigen::MatrixBase<Derived>&matrix){
         MatType evaluated=matrix;assign(evaluated);return *this;
@@ -172,6 +231,9 @@ public:
     const MatType *denseStorage()const{
         return storage_&&storage_->dense.size()?&storage_->dense:nullptr;
     }
+    const Eigen::MatrixXd *certifiedRealStorage()const{
+        return storage_&&storage_->certified_real_valid?&storage_->certified_real:nullptr;
+    }
     bool hasPairBlocks()const{return storage_&&storage_->paired;}
     const std::vector<PureFactorPairBlock> &pairBlocks()const{return storage_->pairs;}
     // Public proposals may be edited after a cache is attached. Verify every
@@ -257,9 +319,26 @@ public:
     }
     std::size_t storageBytes()const{
         return storage_?sizeof(Storage)+sizeof(DataType)*(storage_->dense.size()+storage_->block.size())+
+            sizeof(double)*storage_->certified_real.size()+
             sizeof(int)*storage_->active.capacity()+sizeof(Entry)*storage_->entries.capacity()+sizeof(std::uint64_t)*storage_->zero_signs.capacity()+
             sizeof(PureFactorPairBlock)*storage_->pairs.capacity()+
             [&](){std::size_t bytes=0;for(const auto&p:storage_->pairs)bytes+=p.matrix.size()*sizeof(DataType);return bytes;}():0;
+    }
+private:
+    friend class kitaev_ssh::BipartiteSpectrum;
+    // Kept private: accepting unrelated complex/real buffers would bypass
+    // the exact structure gate used by the generic real conversion path.
+    template<class Writer>
+    static bool tryFromValidatedDenseCertified(DenseStoragePool *pool,Writer &&writer,
+                                               PureFactorMatrix &out) {
+        auto s=pool?pool->acquire():std::make_shared<Storage>();
+        s->certified_real_valid=false;
+        std::forward<Writer>(writer)(s->dense,s->certified_real);
+        if(!s->dense.allFinite()||!s->certified_real.allFinite()||
+           s->dense.rows()!=s->certified_real.rows()||
+           s->dense.cols()!=s->certified_real.cols())return false;
+        s->rows=s->dense.rows();s->cols=s->dense.cols();
+        s->certified_real_valid=true;out.storage_=std::move(s);return true;
     }
 };
 

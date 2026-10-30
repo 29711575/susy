@@ -2,6 +2,7 @@
 #define PURE_PROJECTOR_CANONICAL_H
 
 #include "types.h"
+#include "pure_projector_qr_workspace.h"
 #include <algorithm>
 #include <cmath>
 #include <limits>
@@ -79,14 +80,52 @@ inline bool pureProjectorCanonicalFrameTrusted(const MatType &q,double orthToler
 // X_new=(Q+delta)R=Q_new(R2 R). Return det(R2) so every weight consumer
 // retains its magnitude AND phase. For a Green-only consumer no scale is
 // needed. The span change is first-order in the floating-point defect.
+struct PureCanonicalWorkspace {
+    PureComplexQRWorkspace qr;
+    MatType isotropy,delta,corrected,next,gram;
+};
+
 inline bool pureProjectorCanonicalMicrocorrect(
-    MatType &q,DataType &correctionDet,double orthTolerance,bool accelerated=false) {
+    MatType &q,DataType &correctionDet,double orthTolerance,bool accelerated=false,
+    PureCanonicalWorkspace *workspace=nullptr) {
     auto &stats=pureCanonicalCorrectionStats;++stats.complex_calls;
     const auto fail=[&](){++stats.failures;return false;};
     correctionDet=DataType(1.,0.);
     const int m=q.rows(),n=q.cols();
     if(m<=0||m!=2*n||!q.allFinite())return fail();
     const double normalization=std::sqrt(double(n));
+    if(workspace&&accelerated&&n>=32) {
+        auto &work=*workspace;
+        // All products write independent scratch; q is committed only after
+        // the same correction, QR determinant and residual gates succeed.
+        work.gram.noalias()=q.adjoint()*q;
+        work.gram-=MatType::Identity(n,n);
+        const double orth=work.gram.norm()/normalization;
+        if(!std::isfinite(orth)||orth>orthTolerance)return fail();
+        work.isotropy.noalias()=q.transpose()*q;
+        work.delta.noalias()=-.5*q.conjugate()*work.isotropy;
+        const double relative=work.delta.norm()/q.norm(),before=work.isotropy.norm()/normalization;
+        if(std::isfinite(relative))stats.maximum_relative_correction=std::max(stats.maximum_relative_correction,relative);
+        if(std::isfinite(before))stats.maximum_input_isotropy=std::max(stats.maximum_input_isotropy,before);
+        if(!work.isotropy.allFinite()||!work.delta.allFinite()||!std::isfinite(relative)||
+           relative>pureProjectorCanonicalCorrectionBound(m))return fail();
+        work.corrected=q+work.delta;work.next=work.corrected;
+        if(!work.qr.factorize(work.next))return fail();
+        for(int i=0;i<n;++i)correctionDet*=work.next(i,i);
+        if(!work.qr.formQ(work.next))return fail();
+        work.gram.noalias()=work.next.transpose()*work.next;
+        const double after=work.gram.norm()/normalization;
+        work.gram.noalias()=work.next.adjoint()*work.next;
+        work.gram-=MatType::Identity(n,n);
+        const double afterOrth=work.gram.norm()/normalization;
+        if(std::isfinite(after))stats.maximum_output_isotropy=std::max(stats.maximum_output_isotropy,after);
+        if(std::isfinite(afterOrth))stats.maximum_output_orthonormality=std::max(stats.maximum_output_orthonormality,afterOrth);
+        if(!work.next.allFinite()||!std::isfinite(after)||!std::isfinite(afterOrth)||
+           !std::isfinite(correctionDet.real())||!std::isfinite(correctionDet.imag())||
+           !(std::abs(correctionDet)>0.)||after>pureProjectorCanonicalCorrectionBound(m)||
+           afterOrth>orthTolerance)return fail();
+        q.swap(work.next);return true;
+    }
     const double orth=(q.adjoint()*q-MatType::Identity(n,n)).norm()/normalization;
     if(!std::isfinite(orth)||orth>orthTolerance)return fail();
     const MatType isotropy=q.transpose()*q;

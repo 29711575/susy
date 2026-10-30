@@ -26,6 +26,11 @@
 | [ADR-028](ADR-028-offline-analysis-and-task-registry.md) | implemented; historical C++ parity and read-only live validation | 原始块独立分析、端口限定任务索引、统一复相位统计与块尺度诊断 |
 | [ADR-029](ADR-029-total-energy-at-phonon-link-midpoints.md) | implemented; independent fixed-input and target build verified | 相邻中心声子中点上的完整能量/分项、严格切面重建、联合离线统计 |
 
+| [ADR-030](ADR-030-qr-green-workspace-reuse.md) | implemented; deterministic validation recorded | 链私有 QR/Green 工作区及原参考恢复 |
+| [ADR-031](ADR-031-path-factor-storage-and-real-companion.md) | implemented; deterministic validation recorded | 不可变路径因子复用和实伴随存储 |
+| [ADR-032](ADR-032-measurement-factor-reuse.md) | implemented; deterministic validation recorded | 密封测量快照的谱因子复用 |
+| [ADR-033](ADR-033-endpoint-dense-propagation.md) | implemented; deterministic and target build verified | 稠密中心传播与非有限谱安全判据 |
+
 `recorded`是对已用约定的记录，不是新的执行授权；`proposed`未定稿，不能当作已实现或用户已批准。已有ADR被替代时标明superseded和替代编号，保留历史原因，不直接删掉旧论证。
 
 新ADR最少写：问题、状态/来源、选择、条件/限制、影响的代码、已有或所需验证。若当前仓库有编号冲突，合并时重编号并更新链接，不覆盖既有决策。

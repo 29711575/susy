@@ -11,6 +11,9 @@ import time
 
 
 GROUPS = {
+    "reference-core": ["kitaev_ssh_reference_core_validate",
+                       "kitaev_ssh_endpoint_propagation_validate",
+                       "kitaev_ssh_spectral_safety_validate"],
     "energy": ["kitaev_ssh_total_energy_validate"],
     "gamma": ["kitaev_ssh_gamma_validate"],
     "physical": ["kitaev_ssh_physical_trial_validate"],
@@ -23,7 +26,8 @@ GROUPS = {
                    "kitaev_ssh_numerical_failure_validate",
                    "kitaev_ssh_green_refinement_validate",
                    "kitaev_ssh_fermion_validate"],
-    "optimized": ["kitaev_ssh_real_magnitude_validate", "kitaev_ssh_bipartite_validate"],
+    "optimized": ["kitaev_ssh_real_magnitude_validate", "kitaev_ssh_bipartite_validate",
+                  "kitaev_ssh_workspace_reuse_validate", "kitaev_ssh_path_factor_reuse_validate", "kitaev_ssh_measurement_factor_reuse_validate"],
 }
 
 

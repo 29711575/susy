@@ -55,6 +55,15 @@ struct PureEndpointRebuildResult {
     bool ok() const { return status == PureEndpointRebuildStatus::success; }
 };
 
+// Private to the caller/chain. Endpoint results retain independent matrices;
+// none of these reusable buffers is exposed through a returned reference.
+struct PureEndpointRebuildWorkspace {
+    PureComplexQRWorkspace qr;
+    PureCanonicalWorkspace canonical;
+    PureProjectorGreenWorkspace green;
+    MatType propagation;
+};
+
 namespace pure_projector_endpoint_detail {
 
 struct ScaledThinQr {
@@ -67,9 +76,35 @@ struct ScaledThinQr {
 // Diagnostics only; no counter participates in a numerical decision.
 inline std::uint64_t endpointAcceleratedQrCalls=0;
 inline std::uint64_t endpointReferenceQrCalls=0;
+inline thread_local std::uint64_t endpointDirectDenseRightCalls=0;
+inline thread_local std::uint64_t endpointDirectDenseLeftCalls=0;
+
+// The input frame and immutable factor never alias this chain-private scratch.
+// Preserve the same dense product (including complex adjoint) without expanding
+// the factor or allocating an alias-protection temporary for every half-step.
+// A null workspace and factors without dense storage keep the reference path.
+inline void propagateFactor(const PureFactorMatrix &factor,MatType &frame,bool adjoint,
+                            PureEndpointRebuildWorkspace *workspace) {
+    if(workspace) {
+        if(const MatType *dense=factor.denseStorage()) {
+            if(adjoint) {
+                workspace->propagation.noalias()=dense->adjoint()*frame;
+                ++endpointDirectDenseLeftCalls;
+            } else {
+                workspace->propagation.noalias()=(*dense)*frame;
+                ++endpointDirectDenseRightCalls;
+            }
+            frame.swap(workspace->propagation);
+            return;
+        }
+    }
+    if(adjoint)frame=factor.adjoint()*frame;
+    else frame=factor*frame;
+}
 
 inline ScaledThinQr scaledThinQr(const MatType &subspace,
-                                 const PureProjectorOptions &options, bool canonical = false) {
+                                 const PureProjectorOptions &options, bool canonical = false,
+                                 PureEndpointRebuildWorkspace *workspace=nullptr) {
     ScaledThinQr result;
     if (subspace.rows() <= 0 || subspace.cols() <= 0 ||
         subspace.rows() < subspace.cols() || !pureProjectorMatrixFinite(subspace)) {
@@ -93,14 +128,18 @@ inline ScaledThinQr scaledThinQr(const MatType &subspace,
         ++endpointAcceleratedQrCalls;
         result.q=subspace;
         const lapack_int m=subspace.rows(),n=subspace.cols();
-        cVecType tau(n);
-        const lapack_int info=LAPACKE_zgeqrf(LAPACK_COL_MAJOR,m,n,result.q.data(),m,tau.data());
-        if(info!=0 || !pureProjectorMatrixFinite(result.q) || !recordScale(result.q)) {
+        cVecType tau;
+        bool qrOK;
+        if(workspace)qrOK=workspace->qr.factorize(result.q);
+        else {tau.resize(n);qrOK=LAPACKE_zgeqrf(LAPACK_COL_MAJOR,m,n,result.q.data(),m,tau.data())==0;}
+        if(!qrOK || !pureProjectorMatrixFinite(result.q) || !recordScale(result.q)) {
             if(result.status==PureProjectorStatus::invalid_dimension)
                 result.status=PureProjectorStatus::solve_residual_exceeded;
             return result;
         }
-        if(LAPACKE_zungqr(LAPACK_COL_MAJOR,m,n,n,result.q.data(),m,tau.data())!=0) {
+        const bool qOK=workspace?workspace->qr.formQ(result.q):
+            LAPACKE_zungqr(LAPACK_COL_MAJOR,m,n,n,result.q.data(),m,tau.data())==0;
+        if(!qOK) {
             result.status=PureProjectorStatus::solve_residual_exceeded;
             return result;
         }
@@ -113,7 +152,8 @@ inline ScaledThinQr scaledThinQr(const MatType &subspace,
     if(canonical) {
         DataType correctionDet;
         if(!pureProjectorCanonicalMicrocorrect(result.q,correctionDet,
-                options.solve_residual_tolerance,options.accelerated_linear_algebra)) {
+                options.solve_residual_tolerance,options.accelerated_linear_algebra,
+                workspace?&workspace->canonical:nullptr)) {
             result.status=PureProjectorStatus::solve_residual_exceeded;
             return result;
         }
@@ -142,7 +182,8 @@ inline PureEndpointRebuildResult pureProjectorEndpointRebuild(
     const std::vector<PureProjectorSlice> &slices,
     int cut,
     int blockSize,
-    const PureProjectorOptions &options = PureProjectorOptions()) {
+    const PureProjectorOptions &options = PureProjectorOptions(),
+    PureEndpointRebuildWorkspace *workspace=nullptr) {
     PureEndpointRebuildResult result;
     result.cut=cut;
     if (cut<0 || cut>int(slices.size()) || blockSize<=0 ||
@@ -184,7 +225,10 @@ inline PureEndpointRebuildResult pureProjectorEndpointRebuild(
     bool ep_failed=false;
     profileCore("ep_right",[&]{
       for (int index=0;index<cut;++index) {
-        profileCore("ep_gemm",[&]{ right=slices[index].matrix*right; });
+        profileCore("ep_gemm",[&]{
+            pure_projector_endpoint_detail::propagateFactor(slices[index].matrix,right,false,
+                options.accelerated_linear_algebra?workspace:nullptr);
+        });
         if (!pureProjectorMatrixFinite(right)) {
             result.status=PureEndpointRebuildStatus::subspace_failure;
             result.message="nonfinite right subspace at canonical index "+std::to_string(index);
@@ -193,7 +237,7 @@ inline PureEndpointRebuildResult pureProjectorEndpointRebuild(
         if ((index+1)%blockSize==0 || index+1==cut) {
             pure_projector_endpoint_detail::ScaledThinQr qr;
             profileCore("ep_thin_qr",[&]{
-                qr=pure_projector_endpoint_detail::scaledThinQr(right,options,true);
+                qr=pure_projector_endpoint_detail::scaledThinQr(right,options,true,workspace);
             });
             if (!qr.ok()) {
                 result.status=PureEndpointRebuildStatus::subspace_failure;
@@ -208,7 +252,10 @@ inline PureEndpointRebuildResult pureProjectorEndpointRebuild(
     int propagated=0;
     profileCore("ep_left",[&]{
       for (int index=int(slices.size())-1;index>=cut;--index) {
-        profileCore("ep_gemm",[&]{ left=slices[index].matrix.adjoint()*left; });
+        profileCore("ep_gemm",[&]{
+            pure_projector_endpoint_detail::propagateFactor(slices[index].matrix,left,true,
+                options.accelerated_linear_algebra?workspace:nullptr);
+        });
         ++propagated;
         if (!pureProjectorMatrixFinite(left)) {
             result.status=PureEndpointRebuildStatus::subspace_failure;
@@ -218,7 +265,7 @@ inline PureEndpointRebuildResult pureProjectorEndpointRebuild(
         if (propagated%blockSize==0 || index==cut) {
             pure_projector_endpoint_detail::ScaledThinQr qr;
             profileCore("ep_thin_qr",[&]{
-                qr=pure_projector_endpoint_detail::scaledThinQr(left,options,true);
+                qr=pure_projector_endpoint_detail::scaledThinQr(left,options,true,workspace);
             });
             if (!qr.ok()) {
                 result.status=PureEndpointRebuildStatus::subspace_failure;
@@ -233,7 +280,8 @@ inline PureEndpointRebuildResult pureProjectorEndpointRebuild(
 
     PureProjectorGreenResult endpoint;
     PureProjectorOptions gaussianOptions=options;gaussianOptions.fail_on_green_structure=true;
-    profileCore("ep_green",[&]{ endpoint=pureProjectorGreen(right,left,gaussianOptions); });    result.q_right=right;result.q_left=left;
+    profileCore("ep_green",[&]{ endpoint=pureProjectorGreen(right,left,gaussianOptions,
+        workspace?&workspace->green:nullptr); });    result.q_right=right;result.q_left=left;
     result.overlap_rank=endpoint.overlap_rank;
     result.overlap_rcond=endpoint.overlap_rcond;
     result.solve_residual=endpoint.solve_residual;
