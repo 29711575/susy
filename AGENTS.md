@@ -5,6 +5,10 @@ Read README.md and docs/updates/20261030-source-and-results.md for current behav
 HANDOFF_REPORT_CN.md and measurements preserve historical frozen results.
 Local audit/build paths in technical documents are provenance, not repository destinations.
 
+Static/adiabatic code and compact L6–L9 results are under limit/ (2026-11-02).
+Apply limit/AGENTS.md there. Explicit physical-parity static models are separate
+from the legacy free-vacuum --parity trial control; original Python paths are compatibility entries.
+
 Preserve the Hamiltonian, gauge, geometry, physical parameters, measurement definitions,
 joint complex-phase raw statistics and independent-chain boundaries unless requested.
 Do not infer equilibration, mixing, projection convergence or SUSY from builds or acceptance.

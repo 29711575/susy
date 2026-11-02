@@ -1,0 +1,495 @@
+{
+  "status": "PASS",
+  "Fock_cases": 72,
+  "maximum_Fock_energy_error": 1.2434497875801753e-14,
+  "Fock": [
+    {
+      "n": 2,
+      "required_parity": -1,
+      "detT": -1,
+      "error": 8.881784197001252e-16
+    },
+    {
+      "n": 2,
+      "required_parity": 1,
+      "detT": -1,
+      "error": 2.220446049250313e-16
+    },
+    {
+      "n": 2,
+      "required_parity": -1,
+      "detT": -1,
+      "error": 2.220446049250313e-16
+    },
+    {
+      "n": 2,
+      "required_parity": 1,
+      "detT": -1,
+      "error": 2.7755575615628914e-16
+    },
+    {
+      "n": 2,
+      "required_parity": -1,
+      "detT": -1,
+      "error": 1.1102230246251565e-16
+    },
+    {
+      "n": 2,
+      "required_parity": 1,
+      "detT": -1,
+      "error": 2.220446049250313e-16
+    },
+    {
+      "n": 2,
+      "required_parity": -1,
+      "detT": 1,
+      "error": 2.220446049250313e-16
+    },
+    {
+      "n": 2,
+      "required_parity": 1,
+      "detT": 1,
+      "error": 2.220446049250313e-16
+    },
+    {
+      "n": 2,
+      "required_parity": -1,
+      "detT": -1,
+      "error": 0.0
+    },
+    {
+      "n": 2,
+      "required_parity": 1,
+      "detT": -1,
+      "error": 2.220446049250313e-16
+    },
+    {
+      "n": 2,
+      "required_parity": -1,
+      "detT": -1,
+      "error": 4.440892098500626e-16
+    },
+    {
+      "n": 2,
+      "required_parity": 1,
+      "detT": -1,
+      "error": 2.220446049250313e-16
+    },
+    {
+      "n": 2,
+      "required_parity": -1,
+      "detT": 1,
+      "error": 2.220446049250313e-16
+    },
+    {
+      "n": 2,
+      "required_parity": 1,
+      "detT": 1,
+      "error": 0.0
+    },
+    {
+      "n": 2,
+      "required_parity": -1,
+      "detT": 1,
+      "error": 0.0
+    },
+    {
+      "n": 2,
+      "required_parity": 1,
+      "detT": 1,
+      "error": 4.440892098500626e-16
+    },
+    {
+      "n": 2,
+      "required_parity": -1,
+      "detT": -1,
+      "error": 4.440892098500626e-16
+    },
+    {
+      "n": 2,
+      "required_parity": 1,
+      "detT": -1,
+      "error": 2.220446049250313e-16
+    },
+    {
+      "n": 2,
+      "required_parity": -1,
+      "detT": -1,
+      "error": 0.0
+    },
+    {
+      "n": 2,
+      "required_parity": 1,
+      "detT": -1,
+      "error": 1.1102230246251565e-16
+    },
+    {
+      "n": 2,
+      "required_parity": -1,
+      "detT": 1,
+      "error": 0.0
+    },
+    {
+      "n": 2,
+      "required_parity": 1,
+      "detT": 1,
+      "error": 2.220446049250313e-16
+    },
+    {
+      "n": 2,
+      "required_parity": -1,
+      "detT": -1,
+      "error": 0.0
+    },
+    {
+      "n": 2,
+      "required_parity": 1,
+      "detT": -1,
+      "error": 5.551115123125783e-17
+    },
+    {
+      "n": 3,
+      "required_parity": -1,
+      "detT": -1,
+      "error": 3.552713678800501e-15
+    },
+    {
+      "n": 3,
+      "required_parity": 1,
+      "detT": -1,
+      "error": 1.7763568394002505e-15
+    },
+    {
+      "n": 3,
+      "required_parity": -1,
+      "detT": -1,
+      "error": 0.0
+    },
+    {
+      "n": 3,
+      "required_parity": 1,
+      "detT": -1,
+      "error": 8.881784197001252e-16
+    },
+    {
+      "n": 3,
+      "required_parity": -1,
+      "detT": 1,
+      "error": 4.440892098500626e-15
+    },
+    {
+      "n": 3,
+      "required_parity": 1,
+      "detT": 1,
+      "error": 2.6645352591003757e-15
+    },
+    {
+      "n": 3,
+      "required_parity": -1,
+      "detT": -1,
+      "error": 0.0
+    },
+    {
+      "n": 3,
+      "required_parity": 1,
+      "detT": -1,
+      "error": 8.881784197001252e-16
+    },
+    {
+      "n": 3,
+      "required_parity": -1,
+      "detT": -1,
+      "error": 1.3322676295501878e-15
+    },
+    {
+      "n": 3,
+      "required_parity": 1,
+      "detT": -1,
+      "error": 0.0
+    },
+    {
+      "n": 3,
+      "required_parity": -1,
+      "detT": 1,
+      "error": 1.7763568394002505e-15
+    },
+    {
+      "n": 3,
+      "required_parity": 1,
+      "detT": 1,
+      "error": 8.881784197001252e-16
+    },
+    {
+      "n": 3,
+      "required_parity": -1,
+      "detT": 1,
+      "error": 4.440892098500626e-16
+    },
+    {
+      "n": 3,
+      "required_parity": 1,
+      "detT": 1,
+      "error": 8.881784197001252e-16
+    },
+    {
+      "n": 3,
+      "required_parity": -1,
+      "detT": 1,
+      "error": 8.881784197001252e-16
+    },
+    {
+      "n": 3,
+      "required_parity": 1,
+      "detT": 1,
+      "error": 0.0
+    },
+    {
+      "n": 3,
+      "required_parity": -1,
+      "detT": 1,
+      "error": 2.220446049250313e-15
+    },
+    {
+      "n": 3,
+      "required_parity": 1,
+      "detT": 1,
+      "error": 0.0
+    },
+    {
+      "n": 3,
+      "required_parity": -1,
+      "detT": -1,
+      "error": 8.881784197001252e-16
+    },
+    {
+      "n": 3,
+      "required_parity": 1,
+      "detT": -1,
+      "error": 8.881784197001252e-16
+    },
+    {
+      "n": 3,
+      "required_parity": -1,
+      "detT": 1,
+      "error": 8.881784197001252e-16
+    },
+    {
+      "n": 3,
+      "required_parity": 1,
+      "detT": 1,
+      "error": 1.3322676295501878e-15
+    },
+    {
+      "n": 3,
+      "required_parity": -1,
+      "detT": 1,
+      "error": 0.0
+    },
+    {
+      "n": 3,
+      "required_parity": 1,
+      "detT": 1,
+      "error": 1.7763568394002505e-15
+    },
+    {
+      "n": 4,
+      "required_parity": -1,
+      "detT": -1,
+      "error": 1.2434497875801753e-14
+    },
+    {
+      "n": 4,
+      "required_parity": 1,
+      "detT": -1,
+      "error": 8.881784197001252e-15
+    },
+    {
+      "n": 4,
+      "required_parity": -1,
+      "detT": 1,
+      "error": 4.440892098500626e-15
+    },
+    {
+      "n": 4,
+      "required_parity": 1,
+      "detT": 1,
+      "error": 3.552713678800501e-15
+    },
+    {
+      "n": 4,
+      "required_parity": -1,
+      "detT": 1,
+      "error": 1.7763568394002505e-15
+    },
+    {
+      "n": 4,
+      "required_parity": 1,
+      "detT": 1,
+      "error": 4.440892098500626e-15
+    },
+    {
+      "n": 4,
+      "required_parity": -1,
+      "detT": 1,
+      "error": 8.881784197001252e-16
+    },
+    {
+      "n": 4,
+      "required_parity": 1,
+      "detT": 1,
+      "error": 3.552713678800501e-15
+    },
+    {
+      "n": 4,
+      "required_parity": -1,
+      "detT": 1,
+      "error": 1.7763568394002505e-15
+    },
+    {
+      "n": 4,
+      "required_parity": 1,
+      "detT": 1,
+      "error": 8.881784197001252e-16
+    },
+    {
+      "n": 4,
+      "required_parity": -1,
+      "detT": -1,
+      "error": 4.440892098500626e-15
+    },
+    {
+      "n": 4,
+      "required_parity": 1,
+      "detT": -1,
+      "error": 2.6645352591003757e-15
+    },
+    {
+      "n": 4,
+      "required_parity": -1,
+      "detT": -1,
+      "error": 6.217248937900877e-15
+    },
+    {
+      "n": 4,
+      "required_parity": 1,
+      "detT": -1,
+      "error": 5.329070518200751e-15
+    },
+    {
+      "n": 4,
+      "required_parity": -1,
+      "detT": -1,
+      "error": 4.440892098500626e-16
+    },
+    {
+      "n": 4,
+      "required_parity": 1,
+      "detT": -1,
+      "error": 3.552713678800501e-15
+    },
+    {
+      "n": 4,
+      "required_parity": -1,
+      "detT": -1,
+      "error": 1.7763568394002505e-15
+    },
+    {
+      "n": 4,
+      "required_parity": 1,
+      "detT": -1,
+      "error": 8.881784197001252e-16
+    },
+    {
+      "n": 4,
+      "required_parity": -1,
+      "detT": -1,
+      "error": 0.0
+    },
+    {
+      "n": 4,
+      "required_parity": 1,
+      "detT": -1,
+      "error": 3.552713678800501e-15
+    },
+    {
+      "n": 4,
+      "required_parity": -1,
+      "detT": 1,
+      "error": 8.881784197001252e-16
+    },
+    {
+      "n": 4,
+      "required_parity": 1,
+      "detT": 1,
+      "error": 3.552713678800501e-15
+    },
+    {
+      "n": 4,
+      "required_parity": -1,
+      "detT": 1,
+      "error": 2.6645352591003757e-15
+    },
+    {
+      "n": 4,
+      "required_parity": 1,
+      "detT": 1,
+      "error": 8.881784197001252e-16
+    }
+  ],
+  "derivatives": [
+    {
+      "L": 2,
+      "parity": {
+        "required_code_parity": 1,
+        "target_detT_sign": 1,
+        "geometry_sign": 1,
+        "gauge_product": 1,
+        "Nc": 4
+      },
+      "gradient_error": 4.992983804186224e-11,
+      "hessian_error": 6.019761078501773e-11,
+      "hessian_method": "analytic derivative of nuclear-norm polar factor"
+    },
+    {
+      "L": 3,
+      "parity": {
+        "required_code_parity": -1,
+        "target_detT_sign": 1,
+        "geometry_sign": 1,
+        "gauge_product": 1,
+        "Nc": 9
+      },
+      "gradient_error": 3.782560931142598e-10,
+      "hessian_error": 5.113402236356368e-11,
+      "hessian_method": "analytic derivative of nuclear-norm polar factor"
+    },
+    {
+      "L": 6,
+      "parity": {
+        "required_code_parity": 1,
+        "target_detT_sign": 1,
+        "geometry_sign": 1,
+        "gauge_product": 1,
+        "Nc": 36
+      },
+      "gradient_error": 7.144813629622604e-10,
+      "hessian_error": 7.737030460752692e-11,
+      "hessian_method": "analytic derivative of nuclear-norm polar factor"
+    },
+    {
+      "L": 9,
+      "parity": {
+        "required_code_parity": -1,
+        "target_detT_sign": 1,
+        "geometry_sign": 1,
+        "gauge_product": 1,
+        "Nc": 81
+      },
+      "gradient_error": 1.0053264887233127e-09,
+      "hessian_error": 2.4590133262947234e-09,
+      "hessian_method": "central gradient differences on fixed-parity branch"
+    }
+  ],
+  "orthogonal_search": "orthogonality, parity, monotonic energy and analytic lower bound checked",
+  "scope": "Independent finite Fock matrices and deterministic derivative checks; not MC or global-minimum proof"
+}

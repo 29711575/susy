@@ -1,29 +1,3 @@
-固定背景静态VBS软模工具
-
-本工具定义与适用范围见 docs/decisions/ADR-018-fixed-background-static-curvature.md。
-零场模长观测量用 VBS_AMPLITUDE_README_CN.txt；以下“note参数”只指历史演示点。
-
-从仓库根目录执行：
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 \
-MPLCONFIGDIR=/tmp/quick1010-static-mpl \
-python3 kitaev_ssh/static_vbs_response.py \
-  --output-dir results/static-vbs/YOUR_NEW_TASK \
-  --Jx 1 --Jy 1 --Jz .5 --g .3 --mass 1.7 --omega-ph .8 \
-  --spring-k 1.088 --uniform-grid 800 --reference-grids 200,400 \
-  --geometries '6,6,0;12,3,0;12,3,3' --finite-step .001 --plot
-
-选择新的输出目录，不覆盖历史结果。--spring-k是m*omega^2一致性检查。
-不指定上述物理选项时默认采用note.docx中的静态演示点；不是生产QMC默认参数。
-800均匀背景共同用于所有几何；另计算400背景检查。有限体系扫描所有非零允许q。
-JSON保存完整三键cos/sin矩阵、软子空间、三档真实差分和两档同q积分。
-CSV为全q摘要；--plot只导出PNG；q_candidates文件含允许测量波矢及其共轭。
-候选文件用于--vbs-q-file和selected/both等时测量，susceptibility接口仍需all。
-K(q)是静态能量曲率，不能替换QMC等时S(q)或有限投影响应chi(q)。
-零模保留为不能认证状态及能量扫描，不加展宽；软搜索缺点时显式标记。
-
-专项验证：
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 \
-python3 -m unittest discover -s kitaev_ssh -p test_static_vbs_response.py -v
-
-历史原工作区报告：fast-1006/audit/1010/static-vbs-note-20261010/REPORT.txt（未随仓库发布）
-定义和边界：docs/decisions/ADR-018-fixed-background-static-curvature.md
+固定背景曲率工具现位于 limit/source/static_vbs_response.py。
+使用说明保留在 limit/STATIC_VBS_README_CN.txt；原 kitaev_ssh 路径保留兼容入口。
+物理宇称绝热结果与简表见 limit/README.md。

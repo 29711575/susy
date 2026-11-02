@@ -1,0 +1,102 @@
+{
+  "date": "2026-11-02",
+  "source_workspace": "limit/",
+  "scope": "Square finite torus with explicit physical matter parity; zero flux Wilson++; not a rectangular Bloch period N",
+  "parameters": {
+    "J": [
+      1,
+      1,
+      0.5
+    ],
+    "k": 1,
+    "shear": 0,
+    "lambda_definition": "g^2/k",
+    "required_code_parity": {
+      "6": 1,
+      "7": -1,
+      "8": 1,
+      "9": -1
+    }
+  },
+  "sizes": {
+    "6": {
+      "points": 69,
+      "lambda_min": 0.1,
+      "lambda_max": 3.5,
+      "step": 0.05
+    },
+    "7": {
+      "points": 35,
+      "lambda_min": 0.1,
+      "lambda_max": 3.5,
+      "step": 0.1
+    },
+    "8": {
+      "points": 35,
+      "lambda_min": 0.1,
+      "lambda_max": 3.5,
+      "step": 0.1
+    },
+    "9": {
+      "points": 69,
+      "lambda_min": 0.1,
+      "lambda_max": 3.5,
+      "step": 0.05
+    }
+  },
+  "frozen_sources": [
+    {
+      "path": "limit/source/physical_model.py",
+      "origin": "calculations/20261029/L6L9-static-physical-lambda1p5-3p5-step0p05-testq/production/source/physical_model.py",
+      "sha256": "897e83ae88b3ba04d2fe995c6f305bf2f6718b9643fa0a05c0490b36f9f6458b",
+      "byte_identical": true
+    },
+    {
+      "path": "limit/source/predict_vbs_momenta.py",
+      "origin": "calculations/20261029/L6L9-static-physical-lambda1p5-3p5-step0p05-testq/production/source/predict_vbs_momenta.py",
+      "sha256": "649c9ab02340a06732b206799a285b9841eb1c558ef536edbfbbc125eaad5aee",
+      "byte_identical": true
+    },
+    {
+      "path": "limit/source/static_limit_response.py",
+      "origin": "calculations/20261029/L6L9-static-physical-lambda1p5-3p5-step0p05-testq/production/source/static_limit_response.py",
+      "sha256": "d2e89be0e659b3383a67b383ab207894d91478a9c4d3bb91bf27a8b38a4f0c2a",
+      "byte_identical": true
+    },
+    {
+      "path": "limit/source/static_vbs_response.py",
+      "origin": "calculations/20261029/L6L9-static-physical-lambda1p5-3p5-step0p05-testq/production/source/static_vbs_response.py",
+      "sha256": "64378be90fdb35b717f4edca841fcc5beae4728537bb6ebb38429c885d08f2e1",
+      "byte_identical": true
+    },
+    {
+      "path": "limit/source/validate_physics.py",
+      "origin": "calculations/20261029/L6L9-static-physical-lambda1p5-3p5-step0p05-testq/production/source/validate_physics.py",
+      "sha256": "ba3f10b9f3b47920246bd5b8df0626de513fcbc53fcb8f0cc91a042038a3632c",
+      "byte_identical": true
+    },
+    {
+      "path": "limit/source/workflow.py",
+      "origin": "calculations/20261029/L6L9-static-physical-lambda1p5-3p5-step0p05-testq/production/source/workflow.py",
+      "sha256": "5da1b715d71ebaa1932bbea2345fdf8781ad09fb0769b874fb8bb2fbe25c1ad9",
+      "byte_identical": true
+    },
+    {
+      "path": "limit/accurate_response.py",
+      "origin": "calculations/20261029/L7L8-static-physical-lambda0p1-3p5-step0p1-local/accurate_response.py",
+      "sha256": "99e83e094e5129feebdfe1f9e1d644a0ea05ccc29d1093add83c0130479987fb",
+      "byte_identical": true
+    }
+  ],
+  "original_source_archive_sha256": "41d55b778462a05ff1d2d49eeb75a8ef3d054487bf11d4067c10bd02b3edf142",
+  "original_response_archive_sha256": "059fbae6ca3b927b9b4c7bd125bbafb7e27e10cd92c197e632e3f7db9e3daf58",
+  "original_combined_csv": {
+    "path": "results/20261029/L7L8-static-physical-lambda0p1-3p5-step0p1-local/L6-L7-L8-L9-summary.csv",
+    "sha256": "019176f251aeaef39fefaeb39e0b88549c81f18776fad4893f750459a806c2b7"
+  },
+  "new_optimization_run": false,
+  "global_minimum_proven": false,
+  "results_are_monte_carlo": false,
+  "large_original_search_candidates_and_all_q_matrices_included": false,
+  "original_verification_paths_are_historical_provenance": true
+}

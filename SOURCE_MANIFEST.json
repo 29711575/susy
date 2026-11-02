@@ -4,12 +4,16 @@
   "prior_github_head": "ccafc3ff494c2a99f670bf729059c092bbb8806d",
   "source_files": [
     {
+      "path": ".gitattributes",
+      "sha256": "9e3215c4a6b503d8fdd91eebf7b5ba382ca004cd845155794ebe7a407a5778ca"
+    },
+    {
       "path": ".gitignore",
       "sha256": "fd8746469121613647e76421938ef0e99da67243c48ad8f89cbbc05f8afd4389"
     },
     {
       "path": "AGENTS.md",
-      "sha256": "0f5c216fec6dd3ddb4800a4d8a5ed4bc03328c038a125146b1a680e231a477ea"
+      "sha256": "711e44a50d70175c966f4e96e4e31cc632d3e649a2da3bb259736da3afeb9960"
     },
     {
       "path": "CMakeLists.txt",
@@ -17,7 +21,7 @@
     },
     {
       "path": "HANDOFF_REPORT_CN.md",
-      "sha256": "67d8e5fa244bba904445882d516f39beef3cc24c9922d5e431d9dc14a00bb7e7"
+      "sha256": "608ee64be01667b8be677363e7615ad87482726f3061841871606c3a6b87384b"
     },
     {
       "path": "LICENSE",
@@ -33,7 +37,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "2d8675b707426255fc6eefe0161c9d5b526f366a6b32a57287bbf69fc7d05ad2"
+      "sha256": "f6fa8cb38ed6b040c62b0062444011799fe4ceb3f9acba178c09259fdf2c7035"
     },
     {
       "path": "SHEARED_PBC.md",
@@ -41,11 +45,11 @@
     },
     {
       "path": "STATIC_VBS_README_CN.txt",
-      "sha256": "8822bc93ca876590c7cf37ce756ed9d8b689c118e3d1f6c86b3f2d2b5fcb430b"
+      "sha256": "70c6108ca3d23143144a97ec965345d9832c9fcbeeeda6f0474fec48c0842366"
     },
     {
       "path": "STRICT_STATIC_README_CN.txt",
-      "sha256": "b6580468cce2bc7fca41ce619f672590d81dab3c9b0a0d8c1329d770e779e775"
+      "sha256": "b6a734ce0d79ecdc8ac229fc2670f21dbac2d42cbc362a86749a53c7ba5dd6cc"
     },
     {
       "path": "VBS_AMPLITUDE_README_CN.txt",
@@ -69,7 +73,7 @@
     },
     {
       "path": "docs/CODE_MAP.md",
-      "sha256": "aa84473d7aaaf2894d7d8feb66d02f82f6cd5df544a011be4e56994022a32e62"
+      "sha256": "0acc0b9d8dcc9990bddf386b98c7bfe899e6badaa9d5b2d7d157715a050cec50"
     },
     {
       "path": "docs/DRIVEN_FTS_METHOD.md",
@@ -77,7 +81,7 @@
     },
     {
       "path": "docs/FINITE_SIZE_AND_SHORT_TIME.md",
-      "sha256": "f24408ee999ec87a15b07d65fc811ce5c15b548745944518aad6a6c179217cc5"
+      "sha256": "c72ebdcb9d23155145c0a9cab0a38fc74792fe92e69c68519d0ac949037a8fca"
     },
     {
       "path": "docs/NUMERICAL_INVARIANTS.md",
@@ -109,7 +113,7 @@
     },
     {
       "path": "docs/STATUS.md",
-      "sha256": "49b10347eb5cc4d210fd0a9ebe4614a8c26b4d6555f7368d92c44a7a8cd29b24"
+      "sha256": "27f1c75e009996e2798508abd39cbf3cc3eb7014262e0d631b816776b3efc9a7"
     },
     {
       "path": "docs/TASK_TEMPLATE.md",
@@ -1517,11 +1521,11 @@
     },
     {
       "path": "kitaev_ssh/static_limit_response.py",
-      "sha256": "d2e89be0e659b3383a67b383ab207894d91478a9c4d3bb91bf27a8b38a4f0c2a"
+      "sha256": "a4461194fa4170077022962bdd1b4e69c46143e92e446548232da8e5b0cc67e5"
     },
     {
       "path": "kitaev_ssh/static_vbs_response.py",
-      "sha256": "64378be90fdb35b717f4edca841fcc5beae4728537bb6ebb38429c885d08f2e1"
+      "sha256": "a4461194fa4170077022962bdd1b4e69c46143e92e446548232da8e5b0cc67e5"
     },
     {
       "path": "kitaev_ssh/summarize_stationarity_quarters.py",
@@ -1650,6 +1654,130 @@
     {
       "path": "kitaev_ssh/workspace_reuse_validate.cpp",
       "sha256": "7b1c3852f1a21f1db92ab4578ce2d85a9c9892b4a895465174fe114f9df39321"
+    },
+    {
+      "path": "limit/AGENTS.md",
+      "sha256": "0e37f4fcf08f194fb0bdad3ba8458ef85df59f8dfa8ed9081364cc89ea3564e8"
+    },
+    {
+      "path": "limit/PROVENANCE.json",
+      "sha256": "c095be6da05d6957b13bc89cad789ae0d1e6026c1b107edcb9cd3b3c3443fba8"
+    },
+    {
+      "path": "limit/README.md",
+      "sha256": "b58838c33c6c5489f009560afdc4ac7769d27362765065ac4580718f51c8167e"
+    },
+    {
+      "path": "limit/STATIC_VBS_README_CN.txt",
+      "sha256": "8822bc93ca876590c7cf37ce756ed9d8b689c118e3d1f6c86b3f2d2b5fcb430b"
+    },
+    {
+      "path": "limit/STRICT_STATIC_README_CN.txt",
+      "sha256": "b6580468cce2bc7fca41ce619f672590d81dab3c9b0a0d8c1329d770e779e775"
+    },
+    {
+      "path": "limit/accurate_response.py",
+      "sha256": "99e83e094e5129feebdfe1f9e1d644a0ea05ccc29d1093add83c0130479987fb"
+    },
+    {
+      "path": "limit/plot_results.py",
+      "sha256": "09ebc9bfafe3253533af3c47038bba22124eb2130065f0200b3a915eab022652"
+    },
+    {
+      "path": "limit/requirements.txt",
+      "sha256": "b6aab4c314824b3fdf54426118c2ddce8bfbfd18aefc67f27767b87978c3e63f"
+    },
+    {
+      "path": "limit/results/L6.csv",
+      "sha256": "610fec31daecc6e25f8f320f3cb547866b061ee7906d2c44f9424a17d0844b20"
+    },
+    {
+      "path": "limit/results/L7.csv",
+      "sha256": "2aadab57fa941ae144c16f7d04fb68065afd56b3606f0d96517d6c59e569d350"
+    },
+    {
+      "path": "limit/results/L8.csv",
+      "sha256": "eba48981f8ba07b53792fee7c0212f3f8dd08da2658fd5122d438c7dd80dee13"
+    },
+    {
+      "path": "limit/results/L9.csv",
+      "sha256": "df5643ab3cc12bd48be413a4f4963c47eca8b5e63b7731990f58bdc7b7a1cbf7"
+    },
+    {
+      "path": "limit/results/order-parameters.png",
+      "sha256": "4965f7148daf08ec55a945af5169284fd7930743c286df84c0b068dee5be50f3"
+    },
+    {
+      "path": "limit/results/summary.csv",
+      "sha256": "26dce303f75ef439909326d6c399a58d52d7c3863437cd68d121d962ad95b4eb"
+    },
+    {
+      "path": "limit/results/susceptibility-log.png",
+      "sha256": "42e94bddb957df6d2e126a78dfdfaa2ca70cee1e65a78b2f904f7a0697eb8705"
+    },
+    {
+      "path": "limit/results/validated-summary.csv",
+      "sha256": "019176f251aeaef39fefaeb39e0b88549c81f18776fad4893f750459a806c2b7"
+    },
+    {
+      "path": "limit/source/physical_model.py",
+      "sha256": "897e83ae88b3ba04d2fe995c6f305bf2f6718b9643fa0a05c0490b36f9f6458b"
+    },
+    {
+      "path": "limit/source/predict_vbs_momenta.py",
+      "sha256": "649c9ab02340a06732b206799a285b9841eb1c558ef536edbfbbc125eaad5aee"
+    },
+    {
+      "path": "limit/source/static_limit_response.py",
+      "sha256": "d2e89be0e659b3383a67b383ab207894d91478a9c4d3bb91bf27a8b38a4f0c2a"
+    },
+    {
+      "path": "limit/source/static_vbs_response.py",
+      "sha256": "64378be90fdb35b717f4edca841fcc5beae4728537bb6ebb38429c885d08f2e1"
+    },
+    {
+      "path": "limit/source/validate_physics.py",
+      "sha256": "ba3f10b9f3b47920246bd5b8df0626de513fcbc53fcb8f0cc91a042038a3632c"
+    },
+    {
+      "path": "limit/source/workflow.py",
+      "sha256": "5da1b715d71ebaa1932bbea2345fdf8781ad09fb0769b874fb8bb2fbe25c1ad9"
+    },
+    {
+      "path": "limit/validation/L6-L9-original-verification.json",
+      "sha256": "15460768959954a2d6a8ca542d0bb73c8f967834f17882bb286aa2ed9fc0eeb6"
+    },
+    {
+      "path": "limit/validation/L7-L8-original-verification.json",
+      "sha256": "8cd039e4e6529af4bdf28ab0a4cb6056ea2f4ddefc455a568fe836ec96ff169c"
+    },
+    {
+      "path": "limit/validation/README.md",
+      "sha256": "76a1b26b87f66da8fe1a91b6235c37b04ad68a8154010da5542b4a4532414f2f"
+    },
+    {
+      "path": "limit/validation/migration-momentum-regression.log",
+      "sha256": "f50f45bbac6176bfbe166ab2b69a8efba9cc9fb6f8963dd93205ff84b7652eea"
+    },
+    {
+      "path": "limit/validation/migration-physical-checks.json",
+      "sha256": "91e3e24c17dd7a3549dfe767753579888df6f94279d23eb0749d2fbd5da5b8b2"
+    },
+    {
+      "path": "limit/validation/migration-static-regression.log",
+      "sha256": "a5a8a4c74c95708457b475c917893c829c0d550dce5c7551d3d4bcfd020e3fb7"
+    },
+    {
+      "path": "limit/validation/package-checks.json",
+      "sha256": "c22392e750bab57686cb5f89d813783ea837d2a8f2c67d98e7ab38e606bcc14b"
+    },
+    {
+      "path": "limit/validation/response-precision-audit.original.json",
+      "sha256": "a8934bc22955bfdfb63b8a6bcecefa54004b8e2970d50f25db64a17bc7af54d0"
+    },
+    {
+      "path": "limit/validation/response-source-manifest.original.json",
+      "sha256": "959aab89316a1e76a7938b4c78a3bb1a59bc9ce41804fecac03b0f620416ce25"
     },
     {
       "path": "measurements/20261030/README.md",
@@ -1952,5 +2080,24 @@
     "analysis": "docs/FINITE_SIZE_AND_SHORT_TIME.md",
     "validation": "evidence/finite-size-analysis-20261102/README.md",
     "core_and_frozen_measurements_changed": false
+  },
+  "static_package_update": {
+    "date": "2026-11-02",
+    "baseline_commit": "dd562806b4bf7fad518d5b6b661cae93162ad7b3",
+    "entry": "limit/README.md",
+    "provenance": "limit/PROVENANCE.json",
+    "checks": "limit/validation/package-checks.json",
+    "points": 208,
+    "sizes": [
+      6,
+      7,
+      8,
+      9
+    ],
+    "frozen_static_implementation_bytes_changed": false,
+    "legacy_paths": "Compatibility entries retained",
+    "qmc_cpp_implementation_changed": false,
+    "existing_measurements_changed": false,
+    "new_scans_run": false
   }
 }

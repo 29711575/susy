@@ -1,0 +1,18 @@
+{
+  "status": "VERIFIED_ANALYTIC_PHYSICAL_PARITY_RESPONSE",
+  "archive": "/home/asus/newsusy/limit/calculations/20261029/L7L8-static-physical-lambda0p1-3p5-step0p1-local/response-source.tar.gz",
+  "archive_sha256": "059fbae6ca3b927b9b4c7bd125bbafb7e27e10cd92c197e632e3f7db9e3daf58",
+  "files": {
+    "source.tar.gz": "41d55b778462a05ff1d2d49eeb75a8ef3d054487bf11d4067c10bd02b3edf142",
+    "accurate_response.py": "99e83e094e5129feebdfe1f9e1d644a0ea05ccc29d1093add83c0130479987fb",
+    "recertify.py": "8baf8e71557b2fd296bf99cc3f9861193528cc6b6467769f43601504f7ea7905",
+    "verify_local.py": "0bb8445f82b60d48085d23ecd374c5dc9616f3ea8352de12ba0c6e83b0522af1",
+    "audit_precision.py": "6a4d9863ce1ad57c2ad1dacf13e5ef63eb5621860f74a0e762b3cebbe226cd46",
+    "README_CN.txt": "fcb24b704632ec297068f4745ad92e4867b3033dc43c594112ae6958a3716b67"
+  },
+  "original_frozen_source_unchanged": true,
+  "math": "Signed singular-value Hessian; opposite-sign pair uses symmetric numerator/sqrt(s_i-s_min), ordinary pairs antisymmetric/sqrt(s_i+s_j).",
+  "validation": "/home/asus/newsusy/limit/results/20261029/L7L8-static-physical-lambda0p1-3p5-step0p1-local/response-precision-audit.json",
+  "independent_verification": "/home/asus/newsusy/limit/results/20261029/L7L8-static-physical-lambda0p1-3p5-step0p1-local/local-independent-verification.json",
+  "response_precision_policy": "abs2e-5 ordinary; explicitly bounded relative1e-6 soft; Cauchy endpoint residual/roundoff and Richardson contraction; MP40 fallback"
+}

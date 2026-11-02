@@ -35,6 +35,9 @@ sigma_j(2n_j−1)，故一个准粒子的能量为 2sigma_j。
 [Zschocke、Vojta](https://arxiv.org/abs/1502.03063)讨论的机制。
 本表不能单独预测相互作用临界点、序参量大小或平均符号的排序。
 
+已有物理宇称绝热扫描的 L6–L9 共208点现另行发布于 [limit/](../limit/README.md)，
+包含紧凑表、静态代码与原始验证身份；这些数据不构成有限频率 QMC 的临界标度证据。
+
 复算命令与 CSV 见[本次证据](../evidence/finite-size-analysis-20261102/README.md)。
 
 ## 3. 动量、周期与模式分量

@@ -1,0 +1,18 @@
+test_allowed_k_reference_matches_real_space_elementwise (test_static_vbs_response.StaticVBSResponseTests.test_allowed_k_reference_matches_real_space_elementwise) ... ok
+test_cli_records_real_reference_changes_and_arbitrary_uniform_grid (test_static_vbs_response.StaticVBSResponseTests.test_cli_records_real_reference_changes_and_arbitrary_uniform_grid) ... ok
+test_continuous_q_periodicity_and_conjugate_spectrum (test_static_vbs_response.StaticVBSResponseTests.test_continuous_q_periodicity_and_conjugate_spectrum) ... ok
+test_dense_reference_is_finite_and_has_unit_phonon_shift (test_static_vbs_response.StaticVBSResponseTests.test_dense_reference_is_finite_and_has_unit_phonon_shift) ... ok
+test_finite_energy_matches_bloch_sum (test_static_vbs_response.StaticVBSResponseTests.test_finite_energy_matches_bloch_sum) ... ok
+test_full_energy_difference_matrix_three_steps (test_static_vbs_response.StaticVBSResponseTests.test_full_energy_difference_matrix_three_steps) ... ok
+test_g_zero_hessian_is_identity (test_static_vbs_response.StaticVBSResponseTests.test_g_zero_hessian_is_identity) ... ok
+test_mixed_bond_mode_energy_second_difference (test_static_vbs_response.StaticVBSResponseTests.test_mixed_bond_mode_energy_second_difference) ... ok
+test_periodicity_and_mode_gram_on_all_three_grids (test_static_vbs_response.StaticVBSResponseTests.test_periodicity_and_mode_gram_on_all_three_grids) ... ok
+test_phonon_k_and_majorana_energy_normalization (test_static_vbs_response.StaticVBSResponseTests.test_phonon_k_and_majorana_energy_normalization) ... ok
+test_q_minus_q_spectra_and_self_conjugate_sine (test_static_vbs_response.StaticVBSResponseTests.test_q_minus_q_spectra_and_self_conjugate_sine) ... ok
+test_small_amplitude_second_difference_is_stable (test_static_vbs_response.StaticVBSResponseTests.test_small_amplitude_second_difference_is_stable) ... ok
+test_zero_modes_flagged_with_energy_scan_and_no_hessian (test_static_vbs_response.StaticVBSResponseTests.test_zero_modes_flagged_with_energy_scan_and_no_hessian) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.801s
+
+OK

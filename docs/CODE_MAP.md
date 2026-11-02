@@ -69,8 +69,9 @@ Monte Carlo 事务；物理约定、测试范围和运行方式见
 | `kitaev_ssh/vbs_amplitude_validate.cpp` | 独立 DFT/剪切、模长积分、复权重离散源导数、自由 Rayleigh/半正态矩；CMake/nodeps 目标 kitaev_ssh_vbs_amplitude_validate |
 | `kitaev_ssh/analyze_vbs_amplitude.py` | completed 原始块、固定非零 q 的 VA/chiA/B4、每链联合 JK/bootstrap、局部 Binder 斜率窗口与二倍块长检查；JSON/CSV/PNG |
 | `kitaev_ssh/test_vbs_amplitude.py`、`scripts/validate_vbs_amplitude.py` | 离线统计/拟合/积分检查与原生新旧开关兼容性、固定场矩对照及 L6 smoke |
-| `kitaev_ssh/static_vbs_response.py` | 固定共同 Xbar/Jeff 的静态三键混合 Hessian；全部非零 q、同 q Bloch/实空间对照、实际三档能量差分和多档 BZ 积分；输出 JSON/CSV、候选测量 q-file 与可选 PNG，见 ADR-018 |
-| `kitaev_ssh/static_limit_response.py` | 严格静态有限环面全键多初值松弛，默认保留 trial matter 奇偶；解析全键 Hessian、单畴三键全 q 源响应及简并平移畴范围；JSON/CSV/NPY/NPZ/PNG，见 ADR-020 与 STRICT_STATIC_README_CN.txt |
+| `limit/source/static_vbs_response.py` | 固定共同 Xbar/Jeff 的静态三键混合 Hessian；原 `kitaev_ssh/` 路径为兼容入口，见 ADR-018 |
+| `limit/source/static_limit_response.py` | 严格静态有限环面全键多初值松弛与单畴响应；旧 trial 扇区语义不变，原路径为兼容入口，见 ADR-020 |
+| `limit/source/physical_model.py`、`limit/accurate_response.py` | 显式物理宇称、解析固定宇称 Hessian与软响应认证；四尺寸简表和入口见 [limit/](../limit/README.md) |
 | `kitaev_ssh/test_static_vbs_response.py` | 静态能量归一化、k*I、全部模式正交、混合差分、q/-q/自共轭/非网格与零模边界、CLI 和实际积分记录验证 |
 | `inc/pure_projector_*.h` | Majorana 投影、Pfaffian 权重、Green 函数及稳定化 |
 | `inc/pure_projector_factor.h`、`inc/pure_projector_weight.h` | 不可变传播因子与权重分片；新生成的已认证 dense 整步矩阵可移动到 owner，lvalue 和 generic 构造语义保持 |

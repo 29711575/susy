@@ -1,0 +1,36 @@
+{
+  "status": "COMPLETE_NUMERICALLY_VALIDATED",
+  "points": 138,
+  "L_values": [
+    6,
+    9
+  ],
+  "lambda_range": [
+    0.1,
+    3.5
+  ],
+  "step": 0.05,
+  "physical_parity": {
+    "6": 1,
+    "9": -1
+  },
+  "target_detT_sign": {
+    "6": 1,
+    "9": 1
+  },
+  "local_checks": 138,
+  "maximum_local_energy_difference": 1.9895196601282805e-13,
+  "maximum_local_full_response_matrix_difference": 1.9339410073371255e-09,
+  "maximum_local_finite_field_difference": 1.9251065046077542e-05,
+  "static_search_global_optimality_proven": false,
+  "source_archive_sha256": "41d55b778462a05ff1d2d49eeb75a8ef3d054487bf11d4067c10bd02b3edf142",
+  "files": {
+    "scan-summary.csv": "194add1ee7d8f8b157ab9a6305dfd31c301c7caa7c174c4f6323daf2542c8255",
+    "all-q-order-and-susceptibility.csv": "0112b1f11dbd85a91d138e4f33d2f6e2f2f205b4f227136987e9aa6cc249964d",
+    "search-evidence.csv": "6eee9348b5847f63db4a588c15a411b403d54fa85641419d3b438cfad3795b0e",
+    "order-parameters-L6-L9.png": "d8ab333cbcf55f68ad134269e5b534bb6af0a2bd5eb2b2492ad758572c28a778",
+    "susceptibility-L6-L9.png": "8862c0ff6fb4afc53d6216f959de2fd1367b91912c201456e112f699ece8658c"
+  },
+  "visual_inspection": "PASS: both PNGs inspected; complete 0.10\u20133.50 range, 69 points per L, labels and panels readable",
+  "overlap_check": "PASS: lambda1.50 total-energy difference <=2.85e-14; susceptibility difference <=3.59e-10"
+}

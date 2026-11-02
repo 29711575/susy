@@ -4,6 +4,9 @@
 [测量快照](measurements/20261030/README.md)、[实际验证](evidence/source-sync-20261030/README.md)。
 测量仍为10月30日冻结快照；11月2日仅补充尺寸与标度分析，不表示 HPC 队列或测量会自动更新。
 
+另外，11月2日整理发布了[绝热极限代码与数据](limit/README.md)：10月29日已验证的
+L6/L9各69点、L7/L8各35点，总208点，lambda0.1–3.5；没有重新优化或混入 QMC 数据。
+
 ## 代码现状
 
 代码实现固定规范扇区的声子投影 PfQMC，默认使用 physical matter trial。

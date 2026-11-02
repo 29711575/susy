@@ -1,0 +1,101 @@
+{
+  "status": "COMPLETE_NUMERICALLY_VALIDATED",
+  "points": 70,
+  "L_values": [
+    7,
+    8
+  ],
+  "lambda_range": [
+    0.1,
+    3.5
+  ],
+  "step": 0.1,
+  "physical_parity": {
+    "7": -1,
+    "8": 1
+  },
+  "target_detT_sign": {
+    "7": 1,
+    "8": 1
+  },
+  "fixed_q": {
+    "7": [
+      4,
+      3
+    ],
+    "8": [
+      5,
+      4
+    ]
+  },
+  "local_checks": 70,
+  "maximum_local_energy_difference": 1.1368683772161603e-13,
+  "maximum_local_full_response_matrix_difference": 8.231806349783991e-11,
+  "maximum_local_finite_field_difference": 0.006329137017019093,
+  "static_search_global_optimality_proven": false,
+  "scope": "Fixed zero-flux Wilson++ finite torus; not a flux/Wilson-sector minimization or thermodynamic-limit phase boundary",
+  "response_scope": "Single-domain chi_mu,nu(q)=F_mu H_X^-1 F_nu*/Nc, source -h sum f X; no free-phonon subtraction; domain-selection limits separate",
+  "source_archive_sha256": "41d55b778462a05ff1d2d49eeb75a8ef3d054487bf11d4067c10bd02b3edf142",
+  "source_sha256": {
+    "predict_vbs_momenta.py": "649c9ab02340a06732b206799a285b9841eb1c558ef536edbfbbc125eaad5aee",
+    "validate_physics.py": "ba3f10b9f3b47920246bd5b8df0626de513fcbc53fcb8f0cc91a042038a3632c",
+    "static_vbs_response.py": "64378be90fdb35b717f4edca841fcc5beae4728537bb6ebb38429c885d08f2e1",
+    "static_limit_response.py": "d2e89be0e659b3383a67b383ab207894d91478a9c4d3bb91bf27a8b38a4f0c2a",
+    "workflow.py": "5da1b715d71ebaa1932bbea2345fdf8781ad09fb0769b874fb8bb2fbe25c1ad9",
+    "physical_model.py": "897e83ae88b3ba04d2fe995c6f305bf2f6718b9643fa0a05c0490b36f9f6458b"
+  },
+  "plan_sha256": "8b6b6c3f35e44babc6272ca30edc75f5ebea05d9ab1ae98b0b72983e34be14b1",
+  "local_independent_verification_sha256": "b688cd6edad268b0b06af964f5a905f298c211138e9721efb841c71146ffcaab",
+  "render_script_sha256": "cfb4a21e47b370b42788583663489ca592ba2b1fd01562ac92626f77045ea236",
+  "comparison_source": {
+    "path": "/home/asus/newsusy/limit/results/20261029/L6L9-static-physical-lambda0p1-3p5-step0p05-combined/scan-summary.csv",
+    "sha256": "194add1ee7d8f8b157ab9a6305dfd31c301c7caa7c174c4f6323daf2542c8255",
+    "points": 138,
+    "resolution_preserved": true
+  },
+  "files": {
+    "scan-summary.csv": "48d3fcbace9a77e7c1d00bf11ff6ef655bbff10ed45931c453d469c5f107f5ca",
+    "all-q-order-and-susceptibility.csv": "6475fd874ce1e8ac4e02d5cdf0f85315b9d8b3e3d2c50ddbdc50f2419b6367d5",
+    "search-evidence.csv": "51231774f3acef2c59fbe4b83ae4d979dda96c38b775f34f2cb93367c392b180",
+    "L7-summary.csv": "ff18f44b4b9686f6424ef49a064ce494ebbc5c1e6563230c93da01bee0d43b8f",
+    "L8-summary.csv": "f7f9ad4af549359585a7910f595b7d025a30b6ce23fcf6dbbc74235871970c46",
+    "order-parameters-L7-L8.png": "9d1edb7b6a994050a1a9b8eb39a8a19f3749170c54d675f407ed71d14117fe49",
+    "susceptibility-L7-L8.png": "6a6d6fee75bcf2725b637f2969ce638d4ccc5d68cdd977288c048cd64bdc2d09",
+    "order-parameters-L6-L7-L8-L9.png": "55f48f94acba0a7790f2c017231e3f85888b794e0a5eb03e27947e6de5709623",
+    "susceptibility-L6-L7-L8-L9.png": "d9c76aac86d826a603d966ea909efe8fed6d8f6328b2ac92f6dc02effafe7718",
+    "README_CN.txt": "863cc241c86793329fd3c65bea6478c5b835b129af9b8d39ab33dbc859ccf021",
+    "susceptibility-L7-L8-log.png": "7d28210d5a9a647231dfcd14eb377dff3272cbe238929bcb0875cae1fadf69f1",
+    "susceptibility-L6-L7-L8-L9-log.png": "4a82bb804bf498527d143666c792e8fcea80927dfa337f7836c3992138536cb7"
+  },
+  "response_recertification": {
+    "status": "PASS",
+    "points": 70,
+    "seconds": 8.234627485275269,
+    "adapter_sha256": "99e83e094e5129feebdfe1f9e1d644a0ea05ccc29d1093add83c0130479987fb",
+    "source_archive_unchanged": true,
+    "original_evidence_preserved": "/home/asus/newsusy/limit/results/20261029/L7L8-static-physical-lambda0p1-3p5-step0p1-local/original-response-certification"
+  },
+  "response_precision_policy": "Ordinary absolute2e-5; explicitly uncertainty-bounded relative1e-6 for soft response",
+  "response_adapter_sha256": "99e83e094e5129feebdfe1f9e1d644a0ea05ccc29d1093add83c0130479987fb",
+  "visual_inspection": "PASS: L7/L8 and four-size order panels inspected; susceptibility logarithmic panels have headroom and readable markers/labels.",
+  "supplemental_files": {
+    "selected-patterns.json": "1372b02e988171fe2c7a368138aa9d103b3e5c906c613ea9ed9f8acc4435f58d",
+    "configurations/INDEX.json": "603e7fd9b47efe48cec2ea0edd27548c2cdf8ce06579ee5da1da484aacc316c4",
+    "L6-L7-L8-L9-summary.csv": "019176f251aeaef39fefaeb39e0b88549c81f18776fad4893f750459a806c2b7"
+  },
+  "combined_points": 208,
+  "latest_alias": "/home/asus/newsusy/limit/results/latest",
+  "response_precision_audit": {
+    "status": "PASS",
+    "points": 70,
+    "sources": 280,
+    "source_precision_counts": {
+      "ABSOLUTE_BOUNDED": 268,
+      "RELATIVE_BOUNDED": 12
+    },
+    "soft_relative_target": 1e-06,
+    "maximum_peak_absolute_uncertainty": 0.03520239425211875
+  },
+  "response_source_manifest": "/home/asus/newsusy/limit/results/20261029/L7L8-static-physical-lambda0p1-3p5-step0p1-local/response-source-manifest.json",
+  "response_source_archive_sha256": "059fbae6ca3b927b9b4c7bd125bbafb7e27e10cd92c197e632e3f7db9e3daf58"
+}

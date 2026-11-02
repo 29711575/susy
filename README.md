@@ -10,6 +10,7 @@
 - [当前状态](docs/STATUS.md)：源码版本、默认设置和可用验证。
 - [近期结果与离线作图](measurements/20261030/README.md)：L6/L9 序参量及频率比较。
 - [不同 L 与短时标度](docs/FINITE_SIZE_AND_SHORT_TIME.md)：L6–L9 宇称、动量、公度效应及 2/3 斜率的适用条件。
+- [绝热极限](limit/README.md)：物理宇称静态代码、L6–L9 共208点简表及离线作图。
 - [代码地图](docs/CODE_MAP.md)、[物理约定](docs/PHYSICS_CONVENTIONS.md)、[观测量定义](docs/OBSERVABLES.md)。
 
 ## 代码与工具
@@ -22,7 +23,7 @@
 | 检查点保存与续算 | [说明](docs/CHECKPOINT_RESUME.md)、[工具](scripts/checkpoint_job.py) |
 | 离线分析和任务索引 | [用法](docs/CALCULATION_TOOLS.md)、[scripts/qmc.py](scripts/qmc.py) |
 | 独立确定性检查 | [验证记录](evidence/source-sync-20261030/README.md) |
-| 静态工具 | [全键松弛](STRICT_STATIC_README_CN.txt)、[固定背景曲率](STATIC_VBS_README_CN.txt) |
+| 绝热极限代码与数据 | [limit/](limit/README.md)：全键松弛、准确物理宇称响应、四尺寸结果；原工具路径保留兼容入口 |
 
 生产设置显式选择 physical matter trial、guided bare/beta1 和非零 q 更新；
 参数及测量选项见 [AGENTS.md](AGENTS.md)。总能量默认关闭，matter energy 保留。

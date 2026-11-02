@@ -1,0 +1,4215 @@
+{
+  "status": "PASS",
+  "points": 70,
+  "sources": 280,
+  "source_precision_counts": {
+    "ABSOLUTE_BOUNDED": 268,
+    "RELATIVE_BOUNDED": 12
+  },
+  "absolute_target": 2e-05,
+  "soft_relative_target": 1e-06,
+  "maximum_peak_absolute_uncertainty": 0.03520239425211875,
+  "rows": [
+    {
+      "point": "L8-lambda0p10",
+      "chi_zz_peak": 292622.9589265023,
+      "peak_absolute_uncertainty": 0.03520239425211875,
+      "peak_comparison_bound": 0.04153153513458447,
+      "sources": [
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5165084301169518,
+          "measured": 0.5165084262515052,
+          "absolute_uncertainty": 1.331745953296643e-05,
+          "comparison_bound": 1.3321324979595878e-05,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "minus_sin",
+          "certification": "RELATIVE_BOUNDED",
+          "expected": 292622.44241807226,
+          "measured": 292622.43608893524,
+          "absolute_uncertainty": 0.03518907679258578,
+          "comparison_bound": 0.041518213809604874,
+          "precision_target": 0.2926224424180722
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.520475717159438,
+          "measured": 0.5204757171583579,
+          "absolute_uncertainty": 1.32707522525967e-08,
+          "comparison_bound": 1.3271832277555055e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5204757171531866,
+          "measured": 0.5204757171513069,
+          "absolute_uncertainty": 1.3090008212974228e-08,
+          "comparison_bound": 1.3091887931577221e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda0p20",
+      "chi_zz_peak": 48913.19927636722,
+      "peak_absolute_uncertainty": 0.0016668083121319903,
+      "peak_comparison_bound": 0.0018738028050422743,
+      "sources": [
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5322399909921843,
+          "measured": 0.5322399916796172,
+          "absolute_uncertainty": 1.8883147383300897e-06,
+          "comparison_bound": 1.8890021712184807e-06,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "minus_sin",
+          "certification": "RELATIVE_BOUNDED",
+          "expected": 48912.66703637622,
+          "measured": 48912.66724337002,
+          "absolute_uncertainty": 0.0016649199973936602,
+          "comparison_bound": 0.0018719138028710559,
+          "precision_target": 0.048912667036376214
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5410736560396272,
+          "measured": 0.5410736560287811,
+          "absolute_uncertainty": 1.4990775155891268e-08,
+          "comparison_bound": 1.500162125768574e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5410736560391598,
+          "measured": 0.5410736560415704,
+          "absolute_uncertainty": 1.509211077713176e-08,
+          "comparison_bound": 1.509452140438513e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda0p30",
+      "chi_zz_peak": 15141.085333785066,
+      "peak_absolute_uncertainty": 0.0008571044691001843,
+      "peak_comparison_bound": 0.000932093268597262,
+      "sources": [
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5620044415965899,
+          "measured": 0.5620044416004256,
+          "absolute_uncertainty": 1.687946188167991e-08,
+          "comparison_bound": 1.6883297591207687e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5620044415967014,
+          "measured": 0.562004441593738,
+          "absolute_uncertainty": 1.6757350491143235e-08,
+          "comparison_bound": 1.6760313898440564e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            7,
+            7
+          ],
+          "quadrature": "cos",
+          "certification": "RELATIVE_BOUNDED",
+          "expected": 7570.542672562138,
+          "measured": 7570.542629398165,
+          "absolute_uncertainty": 0.00042854718518494696,
+          "comparison_bound": 0.00047171115798985187,
+          "precision_target": 0.0075705426725621375
+        },
+        {
+          "q": [
+            7,
+            7
+          ],
+          "quadrature": "minus_sin",
+          "certification": "RELATIVE_BOUNDED",
+          "expected": 7570.542661222934,
+          "measured": 7570.542629398107,
+          "absolute_uncertainty": 0.0004285572839152374,
+          "comparison_bound": 0.0004603821106074102,
+          "precision_target": 0.007570542661222934
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda0p40",
+      "chi_zz_peak": 6128.376915923531,
+      "peak_absolute_uncertainty": 0.0001891176985602301,
+      "peak_comparison_bound": 0.0002041924554625525,
+      "sources": [
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "cos",
+          "certification": "RELATIVE_BOUNDED",
+          "expected": 3064.188457194313,
+          "measured": 3064.1884504243867,
+          "absolute_uncertainty": 9.456356260546103e-05,
+          "comparison_bound": 0.00010133348873626178,
+          "precision_target": 0.0030641884571943126
+        },
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "minus_sin",
+          "certification": "RELATIVE_BOUNDED",
+          "expected": 3064.1884587292166,
+          "measured": 3064.188450424386,
+          "absolute_uncertainty": 9.455413595476907e-05,
+          "comparison_bound": 0.00010285896672629073,
+          "precision_target": 0.0030641884587292163
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5835012900709959,
+          "measured": 0.5835012900683033,
+          "absolute_uncertainty": 1.8483317093005673e-08,
+          "comparison_bound": 1.8486009716907296e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5835012900709217,
+          "measured": 0.5835012900680817,
+          "absolute_uncertainty": 1.8606024617716818e-08,
+          "comparison_bound": 1.860886456821381e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda0p50",
+      "chi_zz_peak": 2897.899251526489,
+      "peak_absolute_uncertainty": 1.3731181580867693e-05,
+      "peak_comparison_bound": 1.4500379982285674e-05,
+      "sources": [
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6058429748141908,
+          "measured": 0.6058429748144967,
+          "absolute_uncertainty": 2.0320826573987864e-08,
+          "comparison_bound": 2.032113244043115e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6058185932401396,
+          "measured": 0.6058185932430848,
+          "absolute_uncertainty": 2.0274619605714805e-08,
+          "comparison_bound": 2.027756480535453e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            7,
+            7
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 2897.3240224078727,
+          "measured": 2897.3240216387367,
+          "absolute_uncertainty": 1.3655483387220578e-05,
+          "comparison_bound": 1.4424619409647698e-05,
+          "precision_target": 0.0028973240224078726
+        },
+        {
+          "q": [
+            7,
+            7
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5752291186156988,
+          "measured": 0.5752291186780778,
+          "absolute_uncertainty": 7.569819364711515e-08,
+          "comparison_bound": 7.576057263797674e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda0p60",
+      "chi_zz_peak": 1519.8776114434004,
+      "peak_absolute_uncertainty": 1.1951995054918004e-05,
+      "peak_comparison_bound": 1.2324353197570911e-05,
+      "sources": [
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5882954439875787,
+          "measured": 0.5882954440090497,
+          "absolute_uncertainty": 4.07233061623393e-08,
+          "comparison_bound": 4.0744777098479436e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1519.2893159994123,
+          "measured": 1519.2893156270757,
+          "absolute_uncertainty": 1.1911271748755665e-05,
+          "comparison_bound": 1.2283608420472431e-05,
+          "precision_target": 0.0015192893159994122
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6293074403396863,
+          "measured": 0.6293074403404026,
+          "absolute_uncertainty": 2.2361945230090615e-08,
+          "comparison_bound": 2.2362661545986103e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6293074403396759,
+          "measured": 0.6293074403241459,
+          "absolute_uncertainty": 2.2350904247162032e-08,
+          "comparison_bound": 2.2366434268875094e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda0p70",
+      "chi_zz_peak": 395.6746049165422,
+      "peak_absolute_uncertainty": 0.00023845273697721957,
+      "peak_comparison_bound": 0.00023937520121454912,
+      "sources": [
+        {
+          "q": [
+            4,
+            2
+          ],
+          "quadrature": "cos",
+          "certification": "RELATIVE_BOUNDED",
+          "expected": 395.0258056694413,
+          "measured": 395.02580659190244,
+          "absolute_uncertainty": 0.00023842910967380776,
+          "comparison_bound": 0.0002393515708141702,
+          "precision_target": 0.0003950258056694413
+        },
+        {
+          "q": [
+            4,
+            2
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6487992471009032,
+          "measured": 0.6487992471040002,
+          "absolute_uncertainty": 2.362730341181016e-08,
+          "comparison_bound": 2.363040037893735e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6334073398394764,
+          "measured": 0.6334073398404918,
+          "absolute_uncertainty": 2.3270046779201084e-08,
+          "comparison_bound": 2.3271062189179406e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6334073398394757,
+          "measured": 0.6334073398457187,
+          "absolute_uncertainty": 2.3387908632650034e-08,
+          "comparison_bound": 2.3394151638762107e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda0p80",
+      "chi_zz_peak": 273.68897465567534,
+      "peak_absolute_uncertainty": 0.00011440597426518681,
+      "peak_comparison_bound": 0.00011457778100624291,
+      "sources": [
+        {
+          "q": [
+            4,
+            2
+          ],
+          "quadrature": "cos",
+          "certification": "RELATIVE_BOUNDED",
+          "expected": 273.0167775462857,
+          "measured": 273.0167777180739,
+          "absolute_uncertainty": 0.00011438031184219604,
+          "comparison_bound": 0.00011455210004363785,
+          "precision_target": 0.0002730167775462857
+        },
+        {
+          "q": [
+            4,
+            2
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6721971093895951,
+          "measured": 0.6721971094081347,
+          "absolute_uncertainty": 2.566242299076417e-08,
+          "comparison_bound": 2.5680962605052384e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6521609870699845,
+          "measured": 0.6521609870904058,
+          "absolute_uncertainty": 2.513456894246401e-08,
+          "comparison_bound": 2.5154990273756664e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.652160987069985,
+          "measured": 0.6521609870663277,
+          "absolute_uncertainty": 2.504267447781246e-08,
+          "comparison_bound": 2.504633177450018e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda0p90",
+      "chi_zz_peak": 196.25209124208482,
+      "peak_absolute_uncertainty": 5.817974088612602e-05,
+      "peak_comparison_bound": 5.8275047637172764e-05,
+      "sources": [
+        {
+          "q": [
+            4,
+            2
+          ],
+          "quadrature": "cos",
+          "certification": "RELATIVE_BOUNDED",
+          "expected": 195.55562277687358,
+          "measured": 195.55562268156882,
+          "absolute_uncertainty": 5.8152395886091265e-05,
+          "comparison_bound": 5.8247700642178254e-05,
+          "precision_target": 0.00019555562277687356
+        },
+        {
+          "q": [
+            4,
+            2
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.696468465211242,
+          "measured": 0.696468465209247,
+          "absolute_uncertainty": 2.734500003475875e-08,
+          "comparison_bound": 2.7346994994511698e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6710694196429395,
+          "measured": 0.6710694196394641,
+          "absolute_uncertainty": 2.6535307992280186e-08,
+          "comparison_bound": 2.6538783434436473e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6710694196429384,
+          "measured": 0.6710694196339881,
+          "absolute_uncertainty": 2.6676997766088325e-08,
+          "comparison_bound": 2.6685948051045946e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda1p00",
+      "chi_zz_peak": 144.75229888879002,
+      "peak_absolute_uncertainty": 3.160607385816328e-05,
+      "peak_comparison_bound": 3.161354934650274e-05,
+      "sources": [
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.721748053768152,
+          "measured": 0.7217480537909565,
+          "absolute_uncertainty": 2.9491861448109244e-08,
+          "comparison_bound": 2.9514665984146557e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "RELATIVE_BOUNDED",
+          "expected": 144.03055083502187,
+          "measured": 144.03055084247455,
+          "absolute_uncertainty": 3.157658199671517e-05,
+          "comparison_bound": 3.158403468051859e-05,
+          "precision_target": 0.00014403055083502187
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7242826256592549,
+          "measured": 0.7242826256719456,
+          "absolute_uncertainty": 3.057328386371195e-08,
+          "comparison_bound": 3.0585974490039535e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7242826256592549,
+          "measured": 0.7242826256655311,
+          "absolute_uncertainty": 3.047709149245951e-08,
+          "comparison_bound": 3.048336769424002e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda1p10",
+      "chi_zz_peak": 109.20706357194695,
+      "peak_absolute_uncertainty": 1.807257930493974e-05,
+      "peak_comparison_bound": 1.809325510523382e-05,
+      "sources": [
+        {
+          "q": [
+            4,
+            2
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.74818253750332,
+          "measured": 0.7481825374980321,
+          "absolute_uncertainty": 3.131294845143724e-08,
+          "comparison_bound": 3.131823633268123e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            2
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 108.45888103444362,
+          "measured": 108.45888101377311,
+          "absolute_uncertainty": 1.8041266356488303e-05,
+          "comparison_bound": 1.8061936868901138e-05,
+          "precision_target": 0.00010845888103444361
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7094969882854902,
+          "measured": 0.7094969882639299,
+          "absolute_uncertainty": 3.0259428504747685e-08,
+          "comparison_bound": 3.02809888138413e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7094969882854911,
+          "measured": 0.709496988289707,
+          "absolute_uncertainty": 3.038148115621315e-08,
+          "comparison_bound": 3.038569700610456e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda1p20",
+      "chi_zz_peak": 83.9222462520425,
+      "peak_absolute_uncertainty": 1.0577894567196055e-05,
+      "peak_comparison_bound": 1.0580440535743151e-05,
+      "sources": [
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7759312597339714,
+          "measured": 0.7759312597314474,
+          "absolute_uncertainty": 3.36473258255715e-08,
+          "comparison_bound": 3.364984980659568e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 83.14631499230853,
+          "measured": 83.14631499485198,
+          "absolute_uncertainty": 1.0544247241370483e-05,
+          "comparison_bound": 1.0546790685936555e-05,
+          "precision_target": 8.314631499230853e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7799744770481736,
+          "measured": 0.7799744770587145,
+          "absolute_uncertainty": 3.6064880764804366e-08,
+          "comparison_bound": 3.607542166628937e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7799744770481742,
+          "measured": 0.7799744770670678,
+          "absolute_uncertainty": 3.58814152512332e-08,
+          "comparison_bound": 3.5900308804621666e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda1p30",
+      "chi_zz_peak": 65.48299749006293,
+      "peak_absolute_uncertainty": 6.416618059958426e-06,
+      "peak_comparison_bound": 6.42926044232163e-06,
+      "sources": [
+        {
+          "q": [
+            4,
+            2
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8051662488822204,
+          "measured": 0.8051662488628429,
+          "absolute_uncertainty": 3.610944298774022e-08,
+          "comparison_bound": 3.612882048734512e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            2
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 64.67783124118071,
+          "measured": 64.67783122855771,
+          "absolute_uncertainty": 6.380508616970686e-06,
+          "comparison_bound": 6.393131621834285e-06,
+          "precision_target": 6.467783124118071e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7487322891407194,
+          "measured": 0.748732289106068,
+          "absolute_uncertainty": 3.448179796021455e-08,
+          "comparison_bound": 3.451644935308073e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7487322891407204,
+          "measured": 0.7487322891509657,
+          "absolute_uncertainty": 3.429192708571453e-08,
+          "comparison_bound": 3.4302172334808077e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda1p40",
+      "chi_zz_peak": 51.754363263515856,
+      "peak_absolute_uncertainty": 3.950169087140089e-06,
+      "peak_comparison_bound": 3.95184532317895e-06,
+      "sources": [
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8422238776929043,
+          "measured": 0.8422238776926555,
+          "absolute_uncertainty": 4.188148811554554e-08,
+          "comparison_bound": 4.1881736916525356e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8422238776929056,
+          "measured": 0.8422238777061333,
+          "absolute_uncertainty": 4.216760858895007e-08,
+          "comparison_bound": 4.218083623015467e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            6,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 50.91829223636546,
+          "measured": 50.918292234695116,
+          "absolute_uncertainty": 3.911460294806211e-06,
+          "comparison_bound": 3.913130638669436e-06,
+          "precision_target": 5.091829223636546e-05
+        },
+        {
+          "q": [
+            6,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8360710271503787,
+          "measured": 0.8360710271562709,
+          "absolute_uncertainty": 3.870879233387785e-08,
+          "comparison_bound": 3.871468450951414e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda1p50",
+      "chi_zz_peak": 41.35381896359641,
+      "peak_absolute_uncertainty": 2.855675035525128e-06,
+      "peak_comparison_bound": 2.857153687947854e-06,
+      "sources": [
+        {
+          "q": [
+            4,
+            2
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 40.48498140259689,
+          "measured": 40.48498140113478,
+          "absolute_uncertainty": 2.813949953725867e-06,
+          "comparison_bound": 2.8154120588295227e-06,
+          "precision_target": 4.0484981402596885e-05
+        },
+        {
+          "q": [
+            4,
+            2
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8688375609995307,
+          "measured": 0.868837561016078,
+          "absolute_uncertainty": 4.1725081799261124e-08,
+          "comparison_bound": 4.174162911833165e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7882863274974132,
+          "measured": 0.7882863274691774,
+          "absolute_uncertainty": 3.926390216737894e-08,
+          "comparison_bound": 3.929213802547502e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7882863274974142,
+          "measured": 0.7882863275196389,
+          "absolute_uncertainty": 3.92308517598245e-08,
+          "comparison_bound": 3.925307642637605e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda1p60",
+      "chi_zz_peak": 33.35871451082444,
+      "peak_absolute_uncertainty": 2.3110973601183457e-06,
+      "peak_comparison_bound": 2.3161978751286935e-06,
+      "sources": [
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 32.45505414890383,
+          "measured": 32.455054143855925,
+          "absolute_uncertainty": 2.2661318285232906e-06,
+          "comparison_bound": 2.2711797301755238e-06,
+          "precision_target": 3.2455054148903826e-05
+        },
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.903660361920607,
+          "measured": 0.9036603619732203,
+          "absolute_uncertainty": 4.496553159505506e-08,
+          "comparison_bound": 4.501814495316974e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9119262068968929,
+          "measured": 0.9119262069105076,
+          "absolute_uncertainty": 5.005498067402742e-08,
+          "comparison_bound": 5.00685954500007e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9119262068968939,
+          "measured": 0.9119262068487516,
+          "absolute_uncertainty": 5.0038354435146496e-08,
+          "comparison_bound": 5.008649670309641e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda1p70",
+      "chi_zz_peak": 27.1370091470301,
+      "peak_absolute_uncertainty": 1.9064156742778363e-06,
+      "peak_comparison_bound": 1.9065945940457266e-06,
+      "sources": [
+        {
+          "q": [
+            4,
+            2
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9407262471765454,
+          "measured": 0.9407262471903635,
+          "absolute_uncertainty": 4.737202807319313e-08,
+          "comparison_bound": 4.738584613100222e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            2
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 26.196282899853557,
+          "measured": 26.19628290001866,
+          "absolute_uncertainty": 1.8590436462046432e-06,
+          "comparison_bound": 1.8592087479147244e-06,
+          "precision_target": 2.6196282899853555e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8269471010553322,
+          "measured": 0.8269471010569118,
+          "absolute_uncertainty": 4.3563797508547964e-08,
+          "comparison_bound": 4.35653771338674e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.826947101055333,
+          "measured": 0.8269471010367386,
+          "absolute_uncertainty": 4.3760961968587537e-08,
+          "comparison_bound": 4.3779556316870866e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda1p80",
+      "chi_zz_peak": 22.245704323019652,
+      "peak_absolute_uncertainty": 1.572589507021822e-06,
+      "peak_comparison_bound": 1.5733382529759487e-06,
+      "sources": [
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 21.2655068266846,
+          "measured": 21.265506825944577,
+          "absolute_uncertainty": 1.5218907456841803e-06,
+          "comparison_bound": 1.522630768838047e-06,
+          "precision_target": 2.1265506826684598e-05
+        },
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9801974963350554,
+          "measured": 0.9801974963437782,
+          "absolute_uncertainty": 5.069876133764179e-08,
+          "comparison_bound": 5.070748413790166e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9885936468894161,
+          "measured": 0.9885936468823289,
+          "absolute_uncertainty": 5.8691358294672116e-08,
+          "comparison_bound": 5.869844551437211e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9885936468894172,
+          "measured": 0.9885936468678896,
+          "absolute_uncertainty": 5.9150708146596665e-08,
+          "comparison_bound": 5.9172235704111054e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda1p90",
+      "chi_zz_peak": 18.36792917587483,
+      "peak_absolute_uncertainty": 1.3113917763052214e-06,
+      "peak_comparison_bound": 1.3117086581593114e-06,
+      "sources": [
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.022184906699005,
+          "measured": 1.0221849066830806,
+          "absolute_uncertainty": 5.468622158899643e-08,
+          "comparison_bound": 5.470214596192784e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 17.34574426917582,
+          "measured": 17.345744268874864,
+          "absolute_uncertainty": 1.256705554716225e-06,
+          "comparison_bound": 1.2570065121973836e-06,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.0285606116117132,
+          "measured": 1.0285606115275356,
+          "absolute_uncertainty": 6.359127722539235e-08,
+          "comparison_bound": 6.367545477920864e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.0285606116117139,
+          "measured": 1.0285606116324775,
+          "absolute_uncertainty": 6.39790264188845e-08,
+          "comparison_bound": 6.399979003193564e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda2p00",
+      "chi_zz_peak": 2.2280376857470827,
+      "peak_absolute_uncertainty": 1.1998428352697175e-07,
+      "peak_comparison_bound": 1.2007193474658748e-07,
+      "sources": [
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8120208095551084,
+          "measured": 0.8120208095120084,
+          "absolute_uncertainty": 4.0019983767366536e-08,
+          "comparison_bound": 4.006308373540551e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8120208095551091,
+          "measured": 0.8120208095846123,
+          "absolute_uncertainty": 4.000923149575082e-08,
+          "comparison_bound": 4.0038734673429515e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            7,
+            7
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.1141467966929386,
+          "measured": 1.1141467966923806,
+          "absolute_uncertainty": 6.054907396397912e-08,
+          "comparison_bound": 6.054963196207129e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            7,
+            7
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.1138908890541441,
+          "measured": 1.1138908891412374,
+          "absolute_uncertainty": 5.943520956299263e-08,
+          "comparison_bound": 5.952230278451619e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda2p10",
+      "chi_zz_peak": 2.0271896164637386,
+      "peak_absolute_uncertainty": 1.045100273312546e-07,
+      "peak_comparison_bound": 1.0454122371006814e-07,
+      "sources": [
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.0136716977406126,
+          "measured": 1.0136716977377682,
+          "absolute_uncertainty": 5.211626442628657e-08,
+          "comparison_bound": 5.211910881767566e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.013517918723126,
+          "measured": 1.013517918694774,
+          "absolute_uncertainty": 5.2393762904968025e-08,
+          "comparison_bound": 5.242211489239248e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8058348068162212,
+          "measured": 0.8058348068461726,
+          "absolute_uncertainty": 4.046589128501964e-08,
+          "comparison_bound": 4.049584265973337e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8058348068162219,
+          "measured": 0.8058348067817844,
+          "absolute_uncertainty": 3.983769066338464e-08,
+          "comparison_bound": 3.9872128116273975e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda2p20",
+      "chi_zz_peak": 1.9349035363004503,
+      "peak_absolute_uncertainty": 1.0071389052001556e-07,
+      "peak_comparison_bound": 1.0079893904379467e-07,
+      "sources": [
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9674826957035945,
+          "measured": 0.967482695626932,
+          "absolute_uncertainty": 5.036636595401987e-08,
+          "comparison_bound": 5.044302840818247e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9674208405968552,
+          "measured": 0.9674208406052413,
+          "absolute_uncertainty": 5.034752456599569e-08,
+          "comparison_bound": 5.0355910635612196e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8064896321487574,
+          "measured": 0.8064896321153944,
+          "absolute_uncertainty": 4.044895161839251e-08,
+          "comparison_bound": 4.0482314597438615e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8064896321487582,
+          "measured": 0.8064896321558627,
+          "absolute_uncertainty": 4.035044906000433e-08,
+          "comparison_bound": 4.035755348816121e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda2p30",
+      "chi_zz_peak": 1.8835396121091623,
+      "peak_absolute_uncertainty": 9.763667533817593e-08,
+      "peak_comparison_bound": 9.770922519318842e-08,
+      "sources": [
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8085067358867164,
+          "measured": 0.8085067358900809,
+          "absolute_uncertainty": 4.107366838791852e-08,
+          "comparison_bound": 4.1077032918794645e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8085067358867171,
+          "measured": 0.8085067358887571,
+          "absolute_uncertainty": 4.080830654362506e-08,
+          "comparison_bound": 4.081034657843281e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            7,
+            7
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9417843823198979,
+          "measured": 0.9417843822687685,
+          "absolute_uncertainty": 4.9213005777307707e-08,
+          "comparison_bound": 4.9264135211327676e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            7,
+            7
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9417552297892644,
+          "measured": 0.9417552298106848,
+          "absolute_uncertainty": 4.842366956086823e-08,
+          "comparison_bound": 4.844508998186074e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda2p40",
+      "chi_zz_peak": 1.851799485331178,
+      "peak_absolute_uncertainty": 9.69621659265247e-08,
+      "peak_comparison_bound": 9.700654520455494e-08,
+      "sources": [
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8125215695569223,
+          "measured": 0.8125215695750928,
+          "absolute_uncertainty": 4.172028865922382e-08,
+          "comparison_bound": 4.1738459124356345e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8125215695569232,
+          "measured": 0.8125215695615706,
+          "absolute_uncertainty": 4.1489135479137695e-08,
+          "comparison_bound": 4.1493782872718776e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            7,
+            7
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9259035366617865,
+          "measured": 0.9259035366962998,
+          "absolute_uncertainty": 4.830770915589628e-08,
+          "comparison_bound": 4.83422224370182e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            7,
+            7
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9258959486693916,
+          "measured": 0.9258959486595256,
+          "absolute_uncertainty": 4.865445677062841e-08,
+          "comparison_bound": 4.866432276753674e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda2p50",
+      "chi_zz_peak": 1.830889166017974,
+      "peak_absolute_uncertainty": 9.68303396723677e-08,
+      "peak_comparison_bound": 9.689212602617874e-08,
+      "sources": [
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.915444583008987,
+          "measured": 0.9154445830705171,
+          "absolute_uncertainty": 4.829644198845166e-08,
+          "comparison_bound": 4.835797210278862e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9154445830089872,
+          "measured": 0.9154445830092435,
+          "absolute_uncertainty": 4.853389768391604e-08,
+          "comparison_bound": 4.8534153923390124e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8152416763262893,
+          "measured": 0.8152416763352139,
+          "absolute_uncertainty": 4.253721089873638e-08,
+          "comparison_bound": 4.254613553754213e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8152416763262902,
+          "measured": 0.8152416763397214,
+          "absolute_uncertainty": 4.25951037263601e-08,
+          "comparison_bound": 4.260853498246741e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda2p60",
+      "chi_zz_peak": 1.816552275457969,
+      "peak_absolute_uncertainty": 9.698336554769684e-08,
+      "peak_comparison_bound": 9.71074917014967e-08,
+      "sources": [
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8199906165371863,
+          "measured": 0.8199906165496206,
+          "absolute_uncertainty": 4.324064458383938e-08,
+          "comparison_bound": 4.3253078859670575e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8199906165371871,
+          "measured": 0.8199906165270282,
+          "absolute_uncertainty": 4.33987235559862e-08,
+          "comparison_bound": 4.3408882429728425e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            7,
+            7
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9082761377289852,
+          "measured": 0.9082761377798122,
+          "absolute_uncertainty": 4.8222872556034295e-08,
+          "comparison_bound": 4.827369956530236e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            7,
+            7
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9082761377289841,
+          "measured": 0.9082761378022832,
+          "absolute_uncertainty": 4.8760492991662545e-08,
+          "comparison_bound": 4.883379213619435e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda2p70",
+      "chi_zz_peak": 1.8064853606862314,
+      "peak_absolute_uncertainty": 9.780629643988921e-08,
+      "peak_comparison_bound": 9.799620042131825e-08,
+      "sources": [
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8219918492677456,
+          "measured": 0.8219918492775102,
+          "absolute_uncertainty": 4.4139664036162175e-08,
+          "comparison_bound": 4.414942866970836e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8219918492677464,
+          "measured": 0.8219918492578819,
+          "absolute_uncertainty": 4.366335869325407e-08,
+          "comparison_bound": 4.3673223135850167e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            7,
+            7
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9032426803431163,
+          "measured": 0.9032426802077594,
+          "absolute_uncertainty": 4.9398504717989296e-08,
+          "comparison_bound": 4.953386155483936e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            7,
+            7
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9032426803431152,
+          "measured": 0.9032426803976623,
+          "absolute_uncertainty": 4.840779172189992e-08,
+          "comparison_bound": 4.8462338866478894e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda2p80",
+      "chi_zz_peak": 1.7993306847790231,
+      "peak_absolute_uncertainty": 9.758278951609411e-08,
+      "peak_comparison_bound": 9.764296782287629e-08,
+      "sources": [
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.825542064794057,
+          "measured": 0.8255420648283232,
+          "absolute_uncertainty": 4.454582057205898e-08,
+          "comparison_bound": 4.458008671753561e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8255420647940577,
+          "measured": 0.8255420647671157,
+          "absolute_uncertainty": 4.441341851745994e-08,
+          "comparison_bound": 4.4440360521643125e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            7,
+            7
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8996653423895122,
+          "measured": 0.8996653423754503,
+          "absolute_uncertainty": 4.862636520081911e-08,
+          "comparison_bound": 4.864042717462671e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            7,
+            7
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8996653423895111,
+          "measured": 0.8996653424356275,
+          "absolute_uncertainty": 4.8956424315274995e-08,
+          "comparison_bound": 4.900254064824957e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda2p90",
+      "chi_zz_peak": 1.794227372293794,
+      "peak_absolute_uncertainty": 9.818685041487837e-08,
+      "peak_comparison_bound": 9.822555123520457e-08,
+      "sources": [
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8191390407962171,
+          "measured": 0.819139040889771,
+          "absolute_uncertainty": 4.492443944149601e-08,
+          "comparison_bound": 4.501799327284447e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8191390407962178,
+          "measured": 0.8191390408010285,
+          "absolute_uncertainty": 4.453982538975239e-08,
+          "comparison_bound": 4.4544636097140395e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            7,
+            7
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8971136861468978,
+          "measured": 0.8971136861321968,
+          "absolute_uncertainty": 4.92464709062637e-08,
+          "comparison_bound": 4.926117192444427e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            7,
+            7
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8971136861468965,
+          "measured": 0.8971136861708963,
+          "absolute_uncertainty": 4.894037950861467e-08,
+          "comparison_bound": 4.8964379310760294e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda3p00",
+      "chi_zz_peak": 1.7906373983334278,
+      "peak_absolute_uncertainty": 9.931412272921623e-08,
+      "peak_comparison_bound": 9.93456629441005e-08,
+      "sources": [
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8953186991667134,
+          "measured": 0.8953186991561702,
+          "absolute_uncertainty": 4.973285733718125e-08,
+          "comparison_bound": 4.97434004591123e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8953186991667137,
+          "measured": 0.8953186991877108,
+          "absolute_uncertainty": 4.958126539203498e-08,
+          "comparison_bound": 4.96022624849882e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8228247643477642,
+          "measured": 0.8228247643896265,
+          "absolute_uncertainty": 4.575124116099339e-08,
+          "comparison_bound": 4.5793103452404514e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8228247643477649,
+          "measured": 0.8228247643662355,
+          "absolute_uncertainty": 4.5491900313227665e-08,
+          "comparison_bound": 4.551037098266605e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda3p10",
+      "chi_zz_peak": 1.7881730518791177,
+      "peak_absolute_uncertainty": 1.006879245026992e-07,
+      "peak_comparison_bound": 1.0078134521830701e-07,
+      "sources": [
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8263501607505013,
+          "measured": 0.8263501607346476,
+          "absolute_uncertainty": 4.570081529380497e-08,
+          "comparison_bound": 4.571666894552971e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8263501607505022,
+          "measured": 0.826350160771023,
+          "absolute_uncertainty": 4.582826333572908e-08,
+          "comparison_bound": 4.584878414300474e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            7,
+            7
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8940865259395593,
+          "measured": 0.8940865258744783,
+          "absolute_uncertainty": 5.022780699645775e-08,
+          "comparison_bound": 5.029288793709437e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            7,
+            7
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8940865259395581,
+          "measured": 0.8940865259112183,
+          "absolute_uncertainty": 5.046011750624145e-08,
+          "comparison_bound": 5.0488457281212634e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda3p20",
+      "chi_zz_peak": 1.7865655779305998,
+      "peak_absolute_uncertainty": 1.0065124616024983e-07,
+      "peak_comparison_bound": 1.0071018823369409e-07,
+      "sources": [
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8932827889652993,
+          "measured": 0.8932827889977658,
+          "absolute_uncertainty": 5.002156956577365e-08,
+          "comparison_bound": 5.005403603972737e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8932827889652996,
+          "measured": 0.8932827889917752,
+          "absolute_uncertainty": 5.062967659447618e-08,
+          "comparison_bound": 5.0656152193966716e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8415351535946067,
+          "measured": 0.8415351536156824,
+          "absolute_uncertainty": 4.779129079916917e-08,
+          "comparison_bound": 4.7812366495912534e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8415351535946073,
+          "measured": 0.8415351535975052,
+          "absolute_uncertainty": 4.716221406070757e-08,
+          "comparison_bound": 4.716511196484645e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda3p30",
+      "chi_zz_peak": 1.7856204566783438,
+      "peak_absolute_uncertainty": 1.017994671938502e-07,
+      "peak_comparison_bound": 1.0181485133225782e-07,
+      "sources": [
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8928102283391715,
+          "measured": 0.8928102283418959,
+          "absolute_uncertainty": 5.096828740293752e-08,
+          "comparison_bound": 5.097101189023995e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8928102283391719,
+          "measured": 0.8928102283265122,
+          "absolute_uncertainty": 5.0831179790912675e-08,
+          "comparison_bound": 5.084383944201787e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8329550863857758,
+          "measured": 0.8329550864165345,
+          "absolute_uncertainty": 4.7100524761338544e-08,
+          "comparison_bound": 4.7131283490235784e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8329550863857764,
+          "measured": 0.8329550863966158,
+          "absolute_uncertainty": 4.7209363673468607e-08,
+          "comparison_bound": 4.722020300290263e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda3p40",
+      "chi_zz_peak": 1.7851937268890938,
+      "peak_absolute_uncertainty": 1.0264794785903785e-07,
+      "peak_comparison_bound": 1.0266084476480341e-07,
+      "sources": [
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.836052224080664,
+          "measured": 0.8360522240557463,
+          "absolute_uncertainty": 4.795150867550351e-08,
+          "comparison_bound": 4.797642641004589e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8360522240806649,
+          "measured": 0.8360522240899687,
+          "absolute_uncertainty": 4.805475701209433e-08,
+          "comparison_bound": 4.806406079206299e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            7,
+            7
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8925968634445478,
+          "measured": 0.892596863447139,
+          "absolute_uncertainty": 5.142316287279347e-08,
+          "comparison_bound": 5.1425754022310644e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            7,
+            7
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8925968634445466,
+          "measured": 0.8925968634342408,
+          "absolute_uncertainty": 5.122478498624438e-08,
+          "comparison_bound": 5.123509074249277e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L8-lambda3p50",
+      "chi_zz_peak": 1.7851767983209166,
+      "peak_absolute_uncertainty": 1.0376290486108722e-07,
+      "peak_comparison_bound": 1.038123984925027e-07,
+      "sources": [
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8925883991604577,
+          "measured": 0.8925883991864421,
+          "absolute_uncertainty": 5.159380916515258e-08,
+          "comparison_bound": 5.161979349095472e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.892588399160458,
+          "measured": 0.8925883991369487,
+          "absolute_uncertainty": 5.216909569593464e-08,
+          "comparison_bound": 5.2192605001547985e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.83902366144268,
+          "measured": 0.8390236614589422,
+          "absolute_uncertainty": 4.8549451852482984e-08,
+          "comparison_bound": 4.8565714066280786e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8390236614426808,
+          "measured": 0.8390236614268813,
+          "absolute_uncertainty": 4.862943619290393e-08,
+          "comparison_bound": 4.864523566574507e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda0p10",
+      "chi_zz_peak": 1.0439796213481003,
+      "peak_absolute_uncertainty": 2.5661916534032397e-08,
+      "peak_comparison_bound": 2.5672342305389745e-08,
+      "sources": [
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5219898106740498,
+          "measured": 0.5219898106638439,
+          "absolute_uncertainty": 1.2821905397608315e-08,
+          "comparison_bound": 1.2832111344806787e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5219898106740505,
+          "measured": 0.5219898106738307,
+          "absolute_uncertainty": 1.2840011136424084e-08,
+          "comparison_bound": 1.284023096058296e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5168010037805791,
+          "measured": 0.5168010037863237,
+          "absolute_uncertainty": 1.261742738345452e-08,
+          "comparison_bound": 1.2623171899428536e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5168010037805797,
+          "measured": 0.5168010037860782,
+          "absolute_uncertainty": 1.2677178166626365e-08,
+          "comparison_bound": 1.2682676657178123e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda0p20",
+      "chi_zz_peak": 1.0894555082483954,
+      "peak_absolute_uncertainty": 3.0453508097672406e-08,
+      "peak_comparison_bound": 3.046306045657628e-08,
+      "sources": [
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5447277541241974,
+          "measured": 0.544727754130395,
+          "absolute_uncertainty": 1.5114864467222503e-08,
+          "comparison_bound": 1.5121062065212868e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5447277541241982,
+          "measured": 0.5447277541275529,
+          "absolute_uncertainty": 1.53386436304499e-08,
+          "comparison_bound": 1.534199839136341e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5334147534631221,
+          "measured": 0.5334147534495653,
+          "absolute_uncertainty": 1.4856683693477953e-08,
+          "comparison_bound": 1.4870240404787045e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5334147534631227,
+          "measured": 0.5334147534511892,
+          "absolute_uncertainty": 1.4836497934201026e-08,
+          "comparison_bound": 1.4848431499448117e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda0p30",
+      "chi_zz_peak": 1.1367826855304808,
+      "peak_absolute_uncertainty": 3.400890434142332e-08,
+      "peak_comparison_bound": 3.40264459762347e-08,
+      "sources": [
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5499509815523544,
+          "measured": 0.5499509815452026,
+          "absolute_uncertainty": 1.6403620044909856e-08,
+          "comparison_bound": 1.6410771879589886e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5499509815523551,
+          "measured": 0.5499509815695972,
+          "absolute_uncertainty": 1.652080509013551e-08,
+          "comparison_bound": 1.6538047186774845e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5683913427652402,
+          "measured": 0.5683913427522497,
+          "absolute_uncertainty": 1.707682558333077e-08,
+          "comparison_bound": 1.7089816080897305e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5683913427652403,
+          "measured": 0.5683913427606891,
+          "absolute_uncertainty": 1.6932078758092546e-08,
+          "comparison_bound": 1.6936629895337392e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda0p40",
+      "chi_zz_peak": 1.1863403163457986,
+      "peak_absolute_uncertainty": 3.7717272119202073e-08,
+      "peak_comparison_bound": 3.773062532663075e-08,
+      "sources": [
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5931701581728989,
+          "measured": 0.5931701581838987,
+          "absolute_uncertainty": 1.8748295461839545e-08,
+          "comparison_bound": 1.8759295329522926e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5931701581728998,
+          "measured": 0.5931701581752531,
+          "absolute_uncertainty": 1.8968976657362526e-08,
+          "comparison_bound": 1.8971329997107823e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5665149237101691,
+          "measured": 0.5665149237165077,
+          "absolute_uncertainty": 1.8026363415268486e-08,
+          "comparison_bound": 1.8032702011582978e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5665149237101699,
+          "measured": 0.56651492369149,
+          "absolute_uncertainty": 1.7947717025139993e-08,
+          "comparison_bound": 1.796639686059622e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda0p50",
+      "chi_zz_peak": 1.2385417779345882,
+      "peak_absolute_uncertainty": 4.153636965329883e-08,
+      "peak_comparison_bound": 4.1541373428470813e-08,
+      "sources": [
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6192708889672937,
+          "measured": 0.6192708889634929,
+          "absolute_uncertainty": 2.0837628057867817e-08,
+          "comparison_bound": 2.084142879537032e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6192708889672944,
+          "measured": 0.6192708889660914,
+          "absolute_uncertainty": 2.0698741595431014e-08,
+          "comparison_bound": 2.0699944633100498e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5832093612391435,
+          "measured": 0.5832093612218904,
+          "absolute_uncertainty": 1.9580759742769863e-08,
+          "comparison_bound": 1.9598012830617143e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.5832093612391442,
+          "measured": 0.5832093612406396,
+          "absolute_uncertainty": 1.957350011764501e-08,
+          "comparison_bound": 1.957499547703688e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda0p60",
+      "chi_zz_peak": 1.2938460756399262,
+      "peak_absolute_uncertainty": 4.560595285720382e-08,
+      "peak_comparison_bound": 4.5618355158611905e-08,
+      "sources": [
+        {
+          "q": [
+            3,
+            5
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6469230378199627,
+          "measured": 0.6469230378295515,
+          "absolute_uncertainty": 2.2797372734026644e-08,
+          "comparison_bound": 2.2806961508245726e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            3,
+            5
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6469230378199634,
+          "measured": 0.6469230378171499,
+          "absolute_uncertainty": 2.2808580123177173e-08,
+          "comparison_bound": 2.281139365036618e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6001365567465599,
+          "measured": 0.6001365567409297,
+          "absolute_uncertainty": 2.116580052592203e-08,
+          "comparison_bound": 2.117143068892451e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6001365567465604,
+          "measured": 0.6001365567267687,
+          "absolute_uncertainty": 2.1227230266403955e-08,
+          "comparison_bound": 2.1247021990219342e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda0p70",
+      "chi_zz_peak": 1.3527712609193872,
+      "peak_absolute_uncertainty": 5.0044468760909236e-08,
+      "peak_comparison_bound": 5.006737743586626e-08,
+      "sources": [
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6763856304596932,
+          "measured": 0.6763856304467396,
+          "absolute_uncertainty": 2.504539130748874e-08,
+          "comparison_bound": 2.5058344945650858e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.676385630459694,
+          "measured": 0.6763856304696491,
+          "absolute_uncertainty": 2.4999077453420494e-08,
+          "comparison_bound": 2.50090324902154e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.617400154731342,
+          "measured": 0.6174001547145388,
+          "absolute_uncertainty": 2.2705690421371014e-08,
+          "comparison_bound": 2.2722493646848716e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6174001547313428,
+          "measured": 0.6174001547349307,
+          "absolute_uncertainty": 2.2745057499997776e-08,
+          "comparison_bound": 2.2748645407746457e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda0p80",
+      "chi_zz_peak": 1.4159106844843872,
+      "peak_absolute_uncertainty": 5.463230265826548e-08,
+      "peak_comparison_bound": 5.469414063744717e-08,
+      "sources": [
+        {
+          "q": [
+            3,
+            5
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7079553422421934,
+          "measured": 0.7079553422979878,
+          "absolute_uncertainty": 2.7403871995841628e-08,
+          "comparison_bound": 2.745966647598877e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            3,
+            5
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7079553422421938,
+          "measured": 0.7079553422482373,
+          "absolute_uncertainty": 2.7228430662423852e-08,
+          "comparison_bound": 2.72344741614584e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6351071167461303,
+          "measured": 0.6351071167496364,
+          "absolute_uncertainty": 2.4238230832764507e-08,
+          "comparison_bound": 2.4241736917076274e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6351071167461312,
+          "measured": 0.6351071167333796,
+          "absolute_uncertainty": 2.4328105858617643e-08,
+          "comparison_bound": 2.4340857436189278e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda0p90",
+      "chi_zz_peak": 1.4839531707857183,
+      "peak_absolute_uncertainty": 5.991214297461278e-08,
+      "peak_comparison_bound": 5.995597724416025e-08,
+      "sources": [
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7419765853928587,
+          "measured": 0.7419765854098476,
+          "absolute_uncertainty": 2.990420750396544e-08,
+          "comparison_bound": 2.9921196358732856e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7419765853928596,
+          "measured": 0.7419765853660142,
+          "absolute_uncertainty": 3.0007935470647354e-08,
+          "comparison_bound": 3.0034780885427396e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6533697630476061,
+          "measured": 0.6533697630873879,
+          "absolute_uncertainty": 2.6305431183107498e-08,
+          "comparison_bound": 2.6345213027592774e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6533697630476069,
+          "measured": 0.6533697630435078,
+          "absolute_uncertainty": 2.6348383848870742e-08,
+          "comparison_bound": 2.635248290329996e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda1p00",
+      "chi_zz_peak": 1.5577085820485874,
+      "peak_absolute_uncertainty": 6.532018201474322e-08,
+      "peak_comparison_bound": 6.535914418156942e-08,
+      "sources": [
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7788542910242933,
+          "measured": 0.778854290997035,
+          "absolute_uncertainty": 3.258909418842145e-08,
+          "comparison_bound": 3.261635249514435e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7788542910242944,
+          "measured": 0.7788542910359982,
+          "absolute_uncertainty": 3.2731087826321776e-08,
+          "comparison_bound": 3.274279168642507e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6723079994784238,
+          "measured": 0.6723079994281279,
+          "absolute_uncertainty": 2.794614250701861e-08,
+          "comparison_bound": 2.799643838559169e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6723079994784247,
+          "measured": 0.6723079994775025,
+          "absolute_uncertainty": 2.8158641986763025e-08,
+          "comparison_bound": 2.815956413800728e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda1p10",
+      "chi_zz_peak": 1.638140809256764,
+      "peak_absolute_uncertainty": 7.091675808932272e-08,
+      "peak_comparison_bound": 7.095863836634684e-08,
+      "sources": [
+        {
+          "q": [
+            4,
+            2
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8190704046283814,
+          "measured": 0.8190704045994458,
+          "absolute_uncertainty": 3.5284863256907244e-08,
+          "comparison_bound": 3.531379888857575e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            2
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8190704046283825,
+          "measured": 0.8190704046413272,
+          "absolute_uncertainty": 3.5631894832415465e-08,
+          "comparison_bound": 3.564483947777108e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6920518203950123,
+          "measured": 0.6920518204373797,
+          "absolute_uncertainty": 2.992966525640048e-08,
+          "comparison_bound": 2.99720325882655e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.6920518203950132,
+          "measured": 0.6920518204330747,
+          "absolute_uncertainty": 2.9969444737888045e-08,
+          "comparison_bound": 3.000750618077436e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda1p20",
+      "chi_zz_peak": 1.7264110815182503,
+      "peak_absolute_uncertainty": 7.7702007930966e-08,
+      "peak_comparison_bound": 7.770741449505132e-08,
+      "sources": [
+        {
+          "q": [
+            3,
+            5
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8632055407591248,
+          "measured": 0.8632055407547784,
+          "absolute_uncertainty": 3.8908545231759105e-08,
+          "comparison_bound": 3.891289164387821e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            3,
+            5
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8632055407591256,
+          "measured": 0.8632055407601857,
+          "absolute_uncertainty": 3.8793462699206895e-08,
+          "comparison_bound": 3.879452285117311e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7127441969854318,
+          "measured": 0.7127441969944209,
+          "absolute_uncertainty": 3.1981716148111027e-08,
+          "comparison_bound": 3.199070529087451e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7127441969854327,
+          "measured": 0.7127441969904558,
+          "absolute_uncertainty": 3.1823786397143844e-08,
+          "comparison_bound": 3.182880949019646e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda1p30",
+      "chi_zz_peak": 1.8239357840408745,
+      "peak_absolute_uncertainty": 8.562104722980932e-08,
+      "peak_comparison_bound": 8.569943685793134e-08,
+      "sources": [
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7345444872520928,
+          "measured": 0.7345444872595547,
+          "absolute_uncertainty": 3.402175619054874e-08,
+          "comparison_bound": 3.4029218110519545e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7345444872520935,
+          "measured": 0.7345444872423728,
+          "absolute_uncertainty": 3.463415454810411e-08,
+          "comparison_bound": 3.464387532784082e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9119678920204373,
+          "measured": 0.9119678920567402,
+          "absolute_uncertainty": 4.276244213858916e-08,
+          "comparison_bound": 4.279874509922677e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            5,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9119678920204373,
+          "measured": 0.9119678919783506,
+          "absolute_uncertainty": 4.2858605091220164e-08,
+          "comparison_bound": 4.290069175870456e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda1p40",
+      "chi_zz_peak": 1.93246498557017,
+      "peak_absolute_uncertainty": 9.346098119190178e-08,
+      "peak_comparison_bound": 9.355618392648641e-08,
+      "sources": [
+        {
+          "q": [
+            3,
+            5
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9662324927850846,
+          "measured": 0.9662324927192122,
+          "absolute_uncertainty": 4.655120450252788e-08,
+          "comparison_bound": 4.661707692115876e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            3,
+            5
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9662324927850853,
+          "measured": 0.9662324928144156,
+          "absolute_uncertainty": 4.6909776689373893e-08,
+          "comparison_bound": 4.693910700532765e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7576325422250426,
+          "measured": 0.7576325422769674,
+          "absolute_uncertainty": 3.649657722168242e-08,
+          "comparison_bound": 3.654850201947723e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7576325422250435,
+          "measured": 0.7576325422575009,
+          "absolute_uncertainty": 3.6347914773883746e-08,
+          "comparison_bound": 3.638037214400866e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda1p50",
+      "chi_zz_peak": 2.0541910552729927,
+      "peak_absolute_uncertainty": 1.0394532763859991e-07,
+      "peak_comparison_bound": 1.0397694767851966e-07,
+      "sources": [
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.0270955276364957,
+          "measured": 1.0270955276124305,
+          "absolute_uncertainty": 5.1941621185868514e-08,
+          "comparison_bound": 5.196568638015029e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.0270955276364973,
+          "measured": 1.027095527644052,
+          "absolute_uncertainty": 5.20037064527314e-08,
+          "comparison_bound": 5.201126129836937e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7822137370739922,
+          "measured": 0.7822137370619147,
+          "absolute_uncertainty": 3.897409413758377e-08,
+          "comparison_bound": 3.898617169875716e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.7822137370739933,
+          "measured": 0.7822137370660306,
+          "absolute_uncertainty": 3.8792336149574235e-08,
+          "comparison_bound": 3.880029889115145e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda1p60",
+      "chi_zz_peak": 2.1919018992967803,
+      "peak_absolute_uncertainty": 1.1433142537276471e-07,
+      "peak_comparison_bound": 1.143672809135234e-07,
+      "sources": [
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.0959509496483892,
+          "measured": 1.0959509496491109,
+          "absolute_uncertainty": 5.715605475217468e-08,
+          "comparison_bound": 5.715677639714068e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            2,
+            4
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.0959509496483908,
+          "measured": 1.0959509496835247,
+          "absolute_uncertainty": 5.717537062059003e-08,
+          "comparison_bound": 5.7210504516382713e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8085252324030638,
+          "measured": 0.8085252324216398,
+          "absolute_uncertainty": 4.1748366257430454e-08,
+          "comparison_bound": 4.1766942176011574e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.808525232403065,
+          "measured": 0.8085252323773066,
+          "absolute_uncertainty": 4.167518172889402e-08,
+          "comparison_bound": 4.170094012431065e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda1p70",
+      "chi_zz_peak": 2.5012162074052777,
+      "peak_absolute_uncertainty": 1.366100460324013e-07,
+      "peak_comparison_bound": 1.3664908413848238e-07,
+      "sources": [
+        {
+          "q": [
+            3,
+            5
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.250608103702638,
+          "measured": 1.2506081036955885,
+          "absolute_uncertainty": 6.75002335517459e-08,
+          "comparison_bound": 6.750728302386305e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            3,
+            5
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.2506081037026393,
+          "measured": 1.2506081036706507,
+          "absolute_uncertainty": 6.910981248065539e-08,
+          "comparison_bound": 6.914180111461931e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8399177758828407,
+          "measured": 0.8399177758640209,
+          "absolute_uncertainty": 4.458830578944929e-08,
+          "comparison_bound": 4.460712551300662e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8399177758828416,
+          "measured": 0.8399177758916255,
+          "absolute_uncertainty": 4.4800293262174546e-08,
+          "comparison_bound": 4.480907723572308e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda1p80",
+      "chi_zz_peak": 288.525310920709,
+      "peak_absolute_uncertainty": 0.00020958149904463488,
+      "peak_comparison_bound": 0.00020984892915291544,
+      "sources": [
+        {
+          "q": [
+            2,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.4853892269546092,
+          "measured": 1.485389226947207,
+          "absolute_uncertainty": 1.0031881995584459e-07,
+          "comparison_bound": 1.0032622203479437e-07,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            2,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "RELATIVE_BOUNDED",
+          "expected": 287.03992169375437,
+          "measured": 287.0399219611771,
+          "absolute_uncertainty": 0.00020948118022467903,
+          "comparison_bound": 0.00020974860293088065,
+          "precision_target": 0.00028703992169375436
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.1233527002529153,
+          "measured": 1.1233527001442243,
+          "absolute_uncertainty": 8.144857241688201e-08,
+          "comparison_bound": 8.155726347303742e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.1233527002529164,
+          "measured": 1.1233527002509416,
+          "absolute_uncertainty": 8.056719426245954e-08,
+          "comparison_bound": 8.056916912717574e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda1p90",
+      "chi_zz_peak": 109.38131750539955,
+      "peak_absolute_uncertainty": 2.991162165567372e-05,
+      "peak_comparison_bound": 2.99434621841098e-05,
+      "sources": [
+        {
+          "q": [
+            3,
+            2
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 21.32391936497682,
+          "measured": 21.32391936402674,
+          "absolute_uncertainty": 5.665781204694228e-06,
+          "comparison_bound": 5.666731285597068e-06,
+          "precision_target": 2.132391936497682e-05
+        },
+        {
+          "q": [
+            3,
+            2
+          ],
+          "quadrature": "minus_sin",
+          "certification": "RELATIVE_BOUNDED",
+          "expected": 88.05739814042275,
+          "measured": 88.0573981095323,
+          "absolute_uncertainty": 2.4245840450979495e-05,
+          "comparison_bound": 2.4276730898512733e-05,
+          "precision_target": 8.805739814042274e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.2975966712680902,
+          "measured": 1.2975966712836111,
+          "absolute_uncertainty": 1.051938872335859e-07,
+          "comparison_bound": 1.0520940815147016e-07,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.2975966712680902,
+          "measured": 1.297596671234482,
+          "absolute_uncertainty": 1.0630510514014007e-07,
+          "comparison_bound": 1.0633871336745232e-07,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda2p00",
+      "chi_zz_peak": 54.555757591612824,
+      "peak_absolute_uncertainty": 8.217406114977616e-06,
+      "peak_comparison_bound": 8.219126562761853e-06,
+      "sources": [
+        {
+          "q": [
+            3,
+            2
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 10.929504565349076,
+          "measured": 10.929504564722537,
+          "absolute_uncertainty": 2.28815354734885e-06,
+          "comparison_bound": 2.2887800861696747e-06,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            3,
+            2
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 43.62625302626375,
+          "measured": 43.62625302516984,
+          "absolute_uncertainty": 5.929252567628766e-06,
+          "comparison_bound": 5.930346476592178e-06,
+          "precision_target": 4.3626253026263745e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.480102510079265,
+          "measured": 1.4801025099525669,
+          "absolute_uncertainty": 1.3400175113997337e-07,
+          "comparison_bound": 1.3412844934745438e-07,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.4801025100792682,
+          "measured": 1.4801025100888525,
+          "absolute_uncertainty": 1.3359900928740885e-07,
+          "comparison_bound": 1.3360859362073583e-07,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda2p10",
+      "chi_zz_peak": 31.217071831874176,
+      "peak_absolute_uncertainty": 4.057546297088889e-06,
+      "peak_comparison_bound": 4.058336959735355e-06,
+      "sources": [
+        {
+          "q": [
+            3,
+            2
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 6.495593938984529,
+          "measured": 6.4955939391841655,
+          "absolute_uncertainty": 1.3077522201105563e-06,
+          "comparison_bound": 1.3079518568621307e-06,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            3,
+            2
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 24.721477892889652,
+          "measured": 24.721477892298626,
+          "absolute_uncertainty": 2.749794076978332e-06,
+          "comparison_bound": 2.7503851028732235e-06,
+          "precision_target": 2.472147789288965e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.6646702614354352,
+          "measured": 1.6646702616325264,
+          "absolute_uncertainty": 1.655808025183529e-07,
+          "comparison_bound": 1.6577789375057646e-07,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.6646702614354432,
+          "measured": 1.6646702616125877,
+          "absolute_uncertainty": 1.6502278569233754e-07,
+          "comparison_bound": 1.6519993021361147e-07,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda2p20",
+      "chi_zz_peak": 19.56361097078064,
+      "peak_absolute_uncertainty": 2.52109246134601e-06,
+      "peak_comparison_bound": 2.524887653062459e-06,
+      "sources": [
+        {
+          "q": [
+            3,
+            2
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 4.275540911344387,
+          "measured": 4.275540912722467,
+          "absolute_uncertainty": 8.214917159976864e-07,
+          "comparison_bound": 8.228697958701248e-07,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            3,
+            2
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 15.288070059436254,
+          "measured": 15.288070061853366,
+          "absolute_uncertainty": 1.6996007453483235e-06,
+          "comparison_bound": 1.7020178571923343e-06,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.8320023845636602,
+          "measured": 1.8320023844093984,
+          "absolute_uncertainty": 1.9492559385289678e-07,
+          "comparison_bound": 1.9507985556741017e-07,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 1.8320023845636595,
+          "measured": 1.832002384690919,
+          "absolute_uncertainty": 1.9281424061535611e-07,
+          "comparison_bound": 1.9294150015159838e-07,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda2p30",
+      "chi_zz_peak": 1.8233353305299667,
+      "peak_absolute_uncertainty": 9.445591086627169e-08,
+      "peak_comparison_bound": 9.454015880822774e-08,
+      "sources": [
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.911669655218862,
+          "measured": 0.9116696552192344,
+          "absolute_uncertainty": 4.70933116489835e-08,
+          "comparison_bound": 4.709368401778596e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9116656753111049,
+          "measured": 0.9116656752272293,
+          "absolute_uncertainty": 4.7362599217288184e-08,
+          "comparison_bound": 4.7446474790441775e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8086997865972917,
+          "measured": 0.8086997865564672,
+          "absolute_uncertainty": 4.117796658536793e-08,
+          "comparison_bound": 4.121879104029563e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8086997865972925,
+          "measured": 0.8086997865911899,
+          "absolute_uncertainty": 4.12267161346446e-08,
+          "comparison_bound": 4.123281869754406e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda2p40",
+      "chi_zz_peak": 1.8087349243675241,
+      "peak_absolute_uncertainty": 9.472010365491208e-08,
+      "peak_comparison_bound": 9.478028618054175e-08,
+      "sources": [
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9043694877528499,
+          "measured": 0.9043694877709941,
+          "absolute_uncertainty": 4.7157218260269945e-08,
+          "comparison_bound": 4.717536252413909e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.9043654366146735,
+          "measured": 0.9043654365726352,
+          "absolute_uncertainty": 4.756288539464213e-08,
+          "comparison_bound": 4.760492365640266e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.810650024652417,
+          "measured": 0.8106500246727425,
+          "absolute_uncertainty": 4.24371260975591e-08,
+          "comparison_bound": 4.245745161660473e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8106500246524181,
+          "measured": 0.8106500246666628,
+          "absolute_uncertainty": 4.223886239325969e-08,
+          "comparison_bound": 4.225310710977714e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda2p50",
+      "chi_zz_peak": 1.7985535815102716,
+      "peak_absolute_uncertainty": 9.643755369104389e-08,
+      "peak_comparison_bound": 9.654405860704151e-08,
+      "sources": [
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8992784082443208,
+          "measured": 0.8992784083080158,
+          "absolute_uncertainty": 4.8411064448543064e-08,
+          "comparison_bound": 4.847475938675574e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8992751732659509,
+          "measured": 0.8992751732231409,
+          "absolute_uncertainty": 4.802648924250083e-08,
+          "comparison_bound": 4.806929922028577e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.813217175453015,
+          "measured": 0.8132171754981435,
+          "absolute_uncertainty": 4.335933244505599e-08,
+          "comparison_bound": 4.340446101260556e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8132171754530156,
+          "measured": 0.8132171754857764,
+          "absolute_uncertainty": 4.284713025336157e-08,
+          "comparison_bound": 4.287989104743912e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda2p60",
+      "chi_zz_peak": 1.791345400510645,
+      "peak_absolute_uncertainty": 9.561782348524262e-08,
+      "peak_comparison_bound": 9.574006814408265e-08,
+      "sources": [
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.895677708943786,
+          "measured": 0.8956777090452794,
+          "absolute_uncertainty": 4.77517958819241e-08,
+          "comparison_bound": 4.7853289362210864e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8956676915668591,
+          "measured": 0.8956676915876103,
+          "absolute_uncertainty": 4.786602760331852e-08,
+          "comparison_bound": 4.788677878187179e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8160850582907923,
+          "measured": 0.8160850582821926,
+          "absolute_uncertainty": 4.38789910579404e-08,
+          "comparison_bound": 4.3887590734466845e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8160850582907931,
+          "measured": 0.816085058276481,
+          "absolute_uncertainty": 4.31769580035959e-08,
+          "comparison_bound": 4.319127011065095e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda2p70",
+      "chi_zz_peak": 1.7862319272433171,
+      "peak_absolute_uncertainty": 9.704512570327861e-08,
+      "peak_comparison_bound": 9.710664693583138e-08,
+      "sources": [
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.89311977993226,
+          "measured": 0.893119779945272,
+          "absolute_uncertainty": 4.798908276450057e-08,
+          "comparison_bound": 4.8002094800393783e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8931121473110566,
+          "measured": 0.8931121473595658,
+          "absolute_uncertainty": 4.905604293877804e-08,
+          "comparison_bound": 4.9104552135437595e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8190889662297863,
+          "measured": 0.8190889662546335,
+          "absolute_uncertainty": 4.343047916352198e-08,
+          "comparison_bound": 4.345532628788e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8190889662297872,
+          "measured": 0.8190889662255657,
+          "absolute_uncertainty": 4.339910265521216e-08,
+          "comparison_bound": 4.3403324167240997e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda2p80",
+      "chi_zz_peak": 1.7826454997617274,
+      "peak_absolute_uncertainty": 9.648937368018926e-08,
+      "peak_comparison_bound": 9.655046847607826e-08,
+      "sources": [
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8221374114914797,
+          "measured": 0.8221374114897279,
+          "absolute_uncertainty": 4.5007077915900023e-08,
+          "comparison_bound": 4.500882973681058e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8221374114914809,
+          "measured": 0.8221374115009055,
+          "absolute_uncertainty": 4.4232583492633256e-08,
+          "comparison_bound": 4.4242008064866997e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            6,
+            6
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8913207244890178,
+          "measured": 0.8913207244854346,
+          "absolute_uncertainty": 4.813124624596917e-08,
+          "comparison_bound": 4.8134829379758847e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            6,
+            6
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8913247752727096,
+          "measured": 0.8913247753302213,
+          "absolute_uncertainty": 4.835812743422008e-08,
+          "comparison_bound": 4.841563909631941e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda2p90",
+      "chi_zz_peak": 1.7802016321940652,
+      "peak_absolute_uncertainty": 9.761271326513837e-08,
+      "peak_comparison_bound": 9.767159727391843e-08,
+      "sources": [
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8901013754938911,
+          "measured": 0.8901013755473771,
+          "absolute_uncertainty": 4.863949444734876e-08,
+          "comparison_bound": 4.86929804407608e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8901002567001743,
+          "measured": 0.8901002567055724,
+          "absolute_uncertainty": 4.89732188177896e-08,
+          "comparison_bound": 4.897861683315763e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.825177483984373,
+          "measured": 0.8251774840358476,
+          "absolute_uncertainty": 4.537480294171211e-08,
+          "comparison_bound": 4.5426277544070436e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.825177483984374,
+          "measured": 0.825177484019402,
+          "absolute_uncertainty": 4.4892422406093136e-08,
+          "comparison_bound": 4.492745049763157e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda3p00",
+      "chi_zz_peak": 1.7786300645258968,
+      "peak_absolute_uncertainty": 9.910489250813986e-08,
+      "peak_comparison_bound": 9.913821829471464e-08,
+      "sources": [
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8281779113660552,
+          "measured": 0.8281779113524267,
+          "absolute_uncertainty": 4.642396421036343e-08,
+          "comparison_bound": 4.643759275310222e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8281779113660562,
+          "measured": 0.8281779114113744,
+          "absolute_uncertainty": 4.650565216545213e-08,
+          "comparison_bound": 4.6550970359094306e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            6,
+            6
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8893154691904518,
+          "measured": 0.8893154692085034,
+          "absolute_uncertainty": 4.9318846749123526e-08,
+          "comparison_bound": 4.9336898309370116e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            6,
+            6
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8893145953354449,
+          "measured": 0.8893145953201707,
+          "absolute_uncertainty": 4.9786045759016335e-08,
+          "comparison_bound": 4.980131998534452e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda3p10",
+      "chi_zz_peak": 1.7777350619515824,
+      "peak_absolute_uncertainty": 9.998027431232891e-08,
+      "peak_comparison_bound": 1.0005406406441529e-07,
+      "sources": [
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8888689249574413,
+          "measured": 0.8888689248937475,
+          "absolute_uncertainty": 4.9976666780098145e-08,
+          "comparison_bound": 5.00403606080878e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8888661369941406,
+          "measured": 0.8888661370042366,
+          "absolute_uncertainty": 5.000360753223076e-08,
+          "comparison_bound": 5.0013703456327494e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8311201430499765,
+          "measured": 0.831120143026823,
+          "absolute_uncertainty": 4.683961109242251e-08,
+          "comparison_bound": 4.6862764571556463e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8311201430499774,
+          "measured": 0.8311201429614558,
+          "absolute_uncertainty": 4.614445565898892e-08,
+          "comparison_bound": 4.6232977293455965e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda3p20",
+      "chi_zz_peak": 1.7773713516977463,
+      "peak_absolute_uncertainty": 1.0092307451165679e-07,
+      "peak_comparison_bound": 1.0093878949652575e-07,
+      "sources": [
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8886867832751457,
+          "measured": 0.8886867832846695,
+          "absolute_uncertainty": 5.038417260834315e-08,
+          "comparison_bound": 5.039369643451529e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8886845684226009,
+          "measured": 0.8886845684287921,
+          "absolute_uncertainty": 5.053890190331364e-08,
+          "comparison_bound": 5.054509306201046e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.833993381816659,
+          "measured": 0.8339933818473102,
+          "absolute_uncertainty": 4.722862193880389e-08,
+          "comparison_bound": 4.7259273087090046e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.83399338181666,
+          "measured": 0.8339933818678155,
+          "absolute_uncertainty": 4.740736375601718e-08,
+          "comparison_bound": 4.745851916925593e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda3p30",
+      "chi_zz_peak": 1.7774289033738744,
+      "peak_absolute_uncertainty": 1.0211225212633651e-07,
+      "peak_comparison_bound": 1.02177079381012e-07,
+      "sources": [
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8887153381369582,
+          "measured": 0.8887153381304902,
+          "absolute_uncertainty": 5.084946868374936e-08,
+          "comparison_bound": 5.085593673206852e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8887135652369162,
+          "measured": 0.888713565178557,
+          "absolute_uncertainty": 5.126278344258715e-08,
+          "comparison_bound": 5.132114264894348e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8367916857580349,
+          "measured": 0.8367916856480058,
+          "absolute_uncertainty": 4.791264536429285e-08,
+          "comparison_bound": 4.802267446123754e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8367916857580358,
+          "measured": 0.8367916858134347,
+          "absolute_uncertainty": 4.787173033710875e-08,
+          "comparison_bound": 4.792712924479222e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda3p40",
+      "chi_zz_peak": 1.7778229504108307,
+      "peak_absolute_uncertainty": 1.0387362813322126e-07,
+      "peak_comparison_bound": 1.0392173387483366e-07,
+      "sources": [
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.888912189754382,
+          "measured": 0.8889121897294604,
+          "absolute_uncertainty": 5.208384343937852e-08,
+          "comparison_bound": 5.210876505970149e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8889107606564486,
+          "measured": 0.8889107606332645,
+          "absolute_uncertainty": 5.178978469384274e-08,
+          "comparison_bound": 5.181296881513217e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8395122136037312,
+          "measured": 0.8395122135934439,
+          "absolute_uncertainty": 4.832280313987138e-08,
+          "comparison_bound": 4.8333090466417557e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8395122136037322,
+          "measured": 0.8395122136346052,
+          "absolute_uncertainty": 4.864287011590079e-08,
+          "comparison_bound": 4.867374308674726e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    },
+    {
+      "point": "L7-lambda3p50",
+      "chi_zz_peak": 1.778487243763768,
+      "peak_absolute_uncertainty": 1.0387076124545823e-07,
+      "peak_comparison_bound": 1.0395000863188907e-07,
+      "sources": [
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8892442016201624,
+          "measured": 0.8892442016673955,
+          "absolute_uncertainty": 5.180528312491194e-08,
+          "comparison_bound": 5.185251623122699e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            1,
+            1
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8892430421436054,
+          "measured": 0.8892430421115911,
+          "absolute_uncertainty": 5.20654781205463e-08,
+          "comparison_bound": 5.2097492400662087e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "cos",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8421541291374551,
+          "measured": 0.8421541291386948,
+          "absolute_uncertainty": 4.936672187921467e-08,
+          "comparison_bound": 4.9367961554243965e-08,
+          "precision_target": 2e-05
+        },
+        {
+          "q": [
+            4,
+            3
+          ],
+          "quadrature": "minus_sin",
+          "certification": "ABSOLUTE_BOUNDED",
+          "expected": 0.8421541291374562,
+          "measured": 0.8421541290714112,
+          "absolute_uncertainty": 4.9087518308973036e-08,
+          "comparison_bound": 4.915356336728424e-08,
+          "precision_target": 2e-05
+        }
+      ]
+    }
+  ],
+  "response_adapter_sha256": "99e83e094e5129feebdfe1f9e1d644a0ea05ccc29d1093add83c0130479987fb"
+}

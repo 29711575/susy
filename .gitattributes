@@ -1,0 +1,2 @@
+# Preserve the byte-identical certified CSV, whose original line endings are CRLF.
+limit/results/validated-summary.csv -text whitespace=cr-at-eol

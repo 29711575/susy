@@ -1,0 +1,44 @@
+{
+  "date": "2026-11-02",
+  "baseline_commit": "dd562806b4bf7fad518d5b6b661cae93162ad7b3",
+  "published_points": 208,
+  "L_points": {
+    "6": 69,
+    "7": 35,
+    "8": 35,
+    "9": 69
+  },
+  "compact_data_vs_original": "PASS: every published field matches the combined certified table and the two original scan tables",
+  "normalization_and_grids": "PASS",
+  "frozen_source_byte_identity": "PASS: all 7 files",
+  "compatibility_entries": "PASS: CLI help and existing static/momentum regressions",
+  "static_regression_tests": 13,
+  "momentum_regression_tests": 11,
+  "independent_Fock_cases": 72,
+  "maximum_Fock_energy_error": 1.2434497875801753e-14,
+  "physical_model_imports": [
+    6,
+    7,
+    8,
+    9
+  ],
+  "cpp_and_build_files_unchanged": 187,
+  "original_measurement_files_unchanged": 74,
+  "relative_file_links_checked": 86,
+  "relative_file_links": "PASS for all new references; pre-existing local-audit references recorded separately",
+  "pre_existing_local_audit_links": [
+    {
+      "document": "docs/CODE_MAP.md",
+      "target": "../audit/1022/gamma-next-kernels/README_CN.txt"
+    },
+    {
+      "document": "docs/CODE_MAP.md",
+      "target": "../reports/physics-check-20261005/PHYSICS_AND_ISSUES_CN.md"
+    }
+  ],
+  "plot_visual_inspection": "PASS: four-size order and logarithmic susceptibility PNGs",
+  "validation_runtime": "/home/asus/.venv/bin/python with NumPy/SciPy; bare system Python lacks SciPy",
+  "new_scans_or_QMC_run": false,
+  "checksum_command": "sha256sum --check --quiet SHA256SUMS",
+  "scope": "Migration, frozen-source identity, offline data/plot checks and deterministic references; no global-minimum or thermodynamic inference"
+}
