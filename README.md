@@ -1,7 +1,7 @@
 # SSH–Kitaev 声子投影 PfQMC
 
 本仓库整理 `quick1010` 的生产核心、独立验证和冻结测量快照。
-当前数值核心对应 2026-10-28 已验证源码，最近整理日期为 2026-10-30。
+当前数值核心对应 2026-10-28 已验证源码，分析说明补充至 2026-11-02。
 研究对象是固定规范与指定 matter 扇区的声子耦合 Majorana 投影问题。
 
 ## 从哪里开始
@@ -9,6 +9,7 @@
 - [当前研究摘要](HANDOFF_REPORT_CN.md)：结果、仍待检查的问题和结论边界。
 - [当前状态](docs/STATUS.md)：源码版本、默认设置和可用验证。
 - [近期结果与离线作图](measurements/20261030/README.md)：L6/L9 序参量及频率比较。
+- [不同 L 与短时标度](docs/FINITE_SIZE_AND_SHORT_TIME.md)：L6–L9 宇称、动量、公度效应及 2/3 斜率的适用条件。
 - [代码地图](docs/CODE_MAP.md)、[物理约定](docs/PHYSICS_CONVENTIONS.md)、[观测量定义](docs/OBSERVABLES.md)。
 
 ## 代码与工具

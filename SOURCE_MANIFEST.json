@@ -17,7 +17,7 @@
     },
     {
       "path": "HANDOFF_REPORT_CN.md",
-      "sha256": "bc5b7bfda9df38e89ada04f032f99678c4c638037e3013d558c6d6a3431bb0b3"
+      "sha256": "67d8e5fa244bba904445882d516f39beef3cc24c9922d5e431d9dc14a00bb7e7"
     },
     {
       "path": "LICENSE",
@@ -33,7 +33,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "b222b42fc4b8c9d9816c70b9a52f592f5c95b3d3e95238c8e1c5d6aacb80929d"
+      "sha256": "2d8675b707426255fc6eefe0161c9d5b526f366a6b32a57287bbf69fc7d05ad2"
     },
     {
       "path": "SHEARED_PBC.md",
@@ -76,12 +76,16 @@
       "sha256": "7d6d866db72316ca59b7d89f2d7bf18eb8822652284f38d68517dc1af8dd09ae"
     },
     {
+      "path": "docs/FINITE_SIZE_AND_SHORT_TIME.md",
+      "sha256": "f24408ee999ec87a15b07d65fc811ce5c15b548745944518aad6a6c179217cc5"
+    },
+    {
       "path": "docs/NUMERICAL_INVARIANTS.md",
       "sha256": "1d111cbe39a9f4168a72937a9a51ab8c995c4aa457f90cf2c0e86d3b7122a56e"
     },
     {
       "path": "docs/OBSERVABLES.md",
-      "sha256": "013b70615363a557c2dcd2d5b86bf207f199d7c1b5d11770e8fd7596d8b21317"
+      "sha256": "5964bdc6688acdeb0ae5520ecb1a387239f8036d2a641dbc777aa9f02e4b657a"
     },
     {
       "path": "docs/PFQMC_CORRECTNESS.md",
@@ -89,7 +93,7 @@
     },
     {
       "path": "docs/PHYSICS_CONVENTIONS.md",
-      "sha256": "5c9396d8789155472f871a7009ad6fb6766485ed9fc43d3fc3936216785fc3a5"
+      "sha256": "eea14831172252b131a0182f1e4679cc45fcd538f68894b20bd8822546126ff9"
     },
     {
       "path": "docs/RESEARCH_CHARTER.md",
@@ -101,11 +105,11 @@
     },
     {
       "path": "docs/SOURCES.md",
-      "sha256": "05234987c21c07c1921b901708d7cb9d7555de8b63158555af50b2051fd7f9c5"
+      "sha256": "631af842cf2069fae02f33941b0f0a6a74fe9227a9aa5579843400ec6b38d5b4"
     },
     {
       "path": "docs/STATUS.md",
-      "sha256": "1eca8dad5f0dd3a6e5e384218c926a7d2839933f91aabfc22aa2e3ba5e6e4fee"
+      "sha256": "49b10347eb5cc4d210fd0a9ebe4614a8c26b4d6555f7368d92c44a7a8cd29b24"
     },
     {
       "path": "docs/TASK_TEMPLATE.md",
@@ -402,6 +406,18 @@
     {
       "path": "evidence/export-validation/summary.json",
       "sha256": "8dd9d5467b76cfe7c1e035e1547093cdb37dcfc0e02ac8a4c31f579f26d10016"
+    },
+    {
+      "path": "evidence/finite-size-analysis-20261102/README.md",
+      "sha256": "c60d1a836bd30ff87edc8d920889a89ff55bba400fd49a73fd4b751137fa53a3"
+    },
+    {
+      "path": "evidence/finite-size-analysis-20261102/bare-spectrum.csv",
+      "sha256": "aef73012d985a56807f726b6cab17ff7a8f335ebebd23224f03a50cd830a3a30"
+    },
+    {
+      "path": "evidence/finite-size-analysis-20261102/checks.json",
+      "sha256": "b38353d094a9b0141628247d69082b561e3588926f019e03d1829d616538b6a0"
     },
     {
       "path": "evidence/numerics-policy-20261013/README.md",
@@ -1636,6 +1652,10 @@
       "sha256": "7b1c3852f1a21f1db92ab4578ce2d85a9c9892b4a895465174fe114f9df39321"
     },
     {
+      "path": "measurements/20261030/README.md",
+      "sha256": "b71d455ab02567120cd98a182dea42599545208d956cb90d11eabc8a4c32dfac"
+    },
+    {
       "path": "reproduction/ordered_cdw_20260909/odd_sector_ed.h",
       "sha256": "99906d0116640db194286671fe5e77831fb2f6608660ebe178a8be4c2fc08473"
     },
@@ -1788,6 +1808,10 @@
       "sha256": "a9b34ceb30effeac1d522ba5b86bb8fb6b0d971e577068b0b401c97333b83b64"
     },
     {
+      "path": "validation/finite_size_reference.py",
+      "sha256": "8d4a409a01281136acedbe98589760685942ad48083b0e07224daa96184feaf5"
+    },
+    {
       "path": "validation/interacting_ed/README.txt",
       "sha256": "a626abb41e6d555cbfbecae6aca026dda688570aa2bcb5894c222f8ce3e9f299"
     },
@@ -1920,5 +1944,13 @@
   "core_numerics_policy": "production-v1",
   "numerical_export_validation": "evidence/source-sync-20261030/README.md",
   "cleanup_archive": "docs/history/legacy-hpc-scripts-before-20261030.zip",
-  "cleanup_note": "32 legacy task files archived with exact bytes and SHA256; 5 referenced plans retained. Previous exported layout is recoverable from prior_github_head."
+  "cleanup_note": "32 legacy task files archived with exact bytes and SHA256; 5 referenced plans retained. Previous exported layout is recoverable from prior_github_head.",
+  "documentation_update": {
+    "date": "2026-11-02",
+    "baseline_commit": "e5fc359cdb15b09417446e7e56e543c00691f114",
+    "scope": "Finite-size/parity/commensuration and conditional SUSY short-time analysis; deterministic four-size bare-spectrum reference",
+    "analysis": "docs/FINITE_SIZE_AND_SHORT_TIME.md",
+    "validation": "evidence/finite-size-analysis-20261102/README.md",
+    "core_and_frozen_measurements_changed": false
+  }
 }

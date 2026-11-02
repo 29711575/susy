@@ -1,0 +1,26 @@
+{
+  "date": "2026-11-02",
+  "baseline_commit": "e5fc359cdb15b09417446e7e56e543c00691f114",
+  "scope": "Documentation and deterministic X=0 reference only; no new QMC, HPC operations or optimization",
+  "bare_spectrum_sizes": [
+    6,
+    7,
+    8,
+    9
+  ],
+  "bare_spectrum_real_space_vs_bloch": "PASS (script assertion atol=3e-14)",
+  "existing_reference_max_absolute_difference": 4.996003610813204e-16,
+  "production_core_files_unchanged": 253,
+  "frozen_measurement_and_historical_evidence_files_unchanged": 140,
+  "relative_file_links_checked": 82,
+  "relative_file_links": "PASS",
+  "whitespace_check": "PASS",
+  "checksum_verification_command": "sha256sum --check --quiet SHA256SUMS",
+  "new_files": [
+    "docs/FINITE_SIZE_AND_SHORT_TIME.md",
+    "validation/finite_size_reference.py",
+    "evidence/finite-size-analysis-20261102/README.md",
+    "evidence/finite-size-analysis-20261102/bare-spectrum.csv",
+    "evidence/finite-size-analysis-20261102/checks.json"
+  ]
+}

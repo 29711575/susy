@@ -44,6 +44,9 @@ L6/s0/++/J=(1,1,.5) 从 -1 修正为 +1；同设置 L9 的 -1 原样保留。
 历史静态优化的 trial 奇偶含义未被悄悄改写。见
 [ADR-023](decisions/ADR-023-physical-matter-trial.md)。
 
+L6–L9 的裸谱数值、公度条件与短时标度的关系见
+[不同 L 分析](FINITE_SIZE_AND_SHORT_TIME.md)。该说明不改变这里的规范和宇称定义。
+
 ## PHY-02 Majorana 因子与代码生成元
 
 $$
