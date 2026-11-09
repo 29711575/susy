@@ -1,0 +1,32 @@
+{
+  "probe_executable": "/home/sunxr/1102/L6-Jz0p6-l2-w0p1-tau7p2-32-defaultfix/physical_trial_inspect",
+  "Jz": 0.6,
+  "energy": -68.31095053768641,
+  "independent_expected_energy": -68.31095053768642,
+  "L": 7,
+  "trial": {
+    "full_physical_spin_projection": false,
+    "required_code_parity": -1,
+    "blocked_momentum_fractional": [
+      0,
+      0
+    ],
+    "blocked_momentum_indices": [
+      -1,
+      -1
+    ],
+    "blocking_energy_cost": 0,
+    "actual_code_parity": -1,
+    "physical_parity_compatible": true,
+    "minimum_mode_degeneracy": 0,
+    "policy": "physical",
+    "unrestricted_code_parity": -1,
+    "spin_mapping": "positive_spin_H; standard_D_plus; u_code=-u_phys",
+    "blocked": false
+  },
+  "probe_binary_sha256": "8e0b631ea2774a5bd28ab16056f74131fc58bbe0b64a33b84c3fe571900bf6f4",
+  "independent_Bloch_vacuum_energy": -68.31095053768641,
+  "independent_Bloch_gap": 0.3099162641747421,
+  "independent_Bloch_expected_energy": -68.31095053768641,
+  "passed": true
+}

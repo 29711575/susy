@@ -1,0 +1,72 @@
+[
+  {
+    "L": 6,
+    "Nc": 36,
+    "free_vacuum_energy": -50.372700234707914,
+    "sigma_min": 0.40000000000000024,
+    "bare_single_quasiparticle_gap": 0.8000000000000005,
+    "min_modes": [
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        2
+      ]
+    ],
+    "required_code_parity": 1,
+    "free_vacuum_code_parity": -1,
+    "trial_blocked": true,
+    "trial_blocking_energy_cost": 0.8000000000000005,
+    "valley_transfer_indices": [
+      [
+        4,
+        2
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "bare_intervalley_Q": [
+      0.5969866840206783,
+      0.40301331597932166
+    ]
+  },
+  {
+    "L": 7,
+    "Nc": 49,
+    "free_vacuum_energy": -68.31095053768644,
+    "sigma_min": 0.15495813208737105,
+    "bare_single_quasiparticle_gap": 0.3099162641747421,
+    "min_modes": [
+      [
+        2,
+        5
+      ],
+      [
+        5,
+        2
+      ]
+    ],
+    "required_code_parity": -1,
+    "free_vacuum_code_parity": -1,
+    "trial_blocked": false,
+    "trial_blocking_energy_cost": 0,
+    "valley_transfer_indices": [
+      [
+        4,
+        3
+      ],
+      [
+        3,
+        4
+      ]
+    ],
+    "bare_intervalley_Q": [
+      0.5969866840206783,
+      0.40301331597932166
+    ]
+  }
+]

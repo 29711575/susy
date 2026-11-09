@@ -1,0 +1,96 @@
+{
+  "task": "L6-Jz0p6-l2-w01-tau36-60-w016-tau4-32",
+  "port": 20015,
+  "queue": "workq",
+  "remote_root": "/home/sunxr/1105/L6-Jz0p6-l2-w01-tau36-60-w016-tau4-32",
+  "runtime_parent": "/home/sunxr/1102/L6-Jz0p6-l2-w0p1-tau7p2-32-defaultfix",
+  "source_archive_sha256": "9ac0476d099da19a2f082cae1afbce2d6bd2d922de97f857f1bca27f74283401",
+  "runtime_binary_sha256": "dbc4402db7b51049231683f367b04e7be776b840bd7df35ff53a61d30e8bf3f9",
+  "chains": 75,
+  "groups": [
+    {
+      "name": "L6J06w01",
+      "indices": "0-20",
+      "omega": 0.1,
+      "dt": 0.4,
+      "taus": [
+        36,
+        40,
+        44,
+        48,
+        52,
+        56,
+        60
+      ]
+    },
+    {
+      "name": "L6J06w016",
+      "indices": "21-74",
+      "omega": 0.16,
+      "dt": 0.2,
+      "taus": [
+        4,
+        4.8,
+        5.6,
+        6.4,
+        7.2,
+        8,
+        8.8,
+        9.6,
+        10.4,
+        12,
+        13.6,
+        15.2,
+        16.8,
+        19.2,
+        21.6,
+        24,
+        28,
+        32
+      ]
+    }
+  ],
+  "settings": {
+    "L": 6,
+    "J": [
+      1,
+      1,
+      0.6
+    ],
+    "lambda_value": 2,
+    "k": 1,
+    "seeds_per_point": 3,
+    "sweeps": 30000,
+    "warmup": 0,
+    "analysis_discard": 4000,
+    "matter_trial": "physical automatic same lowest free mode as prior task (2,4)/6",
+    "q_mode": [
+      3,
+      2
+    ],
+    "collective_every": 1,
+    "collective_kind": "gamma-pm",
+    "collective_beta_scales": [
+      0.0625,
+      0.125,
+      0.25
+    ],
+    "fermions": 1,
+    "vbs": 1,
+    "vbs_mode": "all",
+    "vbs_susceptibility": 1,
+    "vbs_amplitude": 1,
+    "vbs_amplitude_response": 1,
+    "measure_energy": 1,
+    "measure_total_energy": 0,
+    "pbs_walltime": "720:00:00",
+    "numerics": "production",
+    "weight_engine": "combined",
+    "defer_phase": 1,
+    "prefix_cache": 1,
+    "cayley_cache": 1,
+    "center_green_fast": 1,
+    "qr_block": 1
+  },
+  "source_provenance": "Reuse verified 20261102 target20015 frozen extension used by original Jz0.6 task; no rebuild/source changes; existing tasks untouched."
+}

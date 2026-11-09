@@ -1,0 +1,59 @@
+{
+  "hosts": [
+    {
+      "port": 20015,
+      "receipt": {
+        "reused": 132,
+        "bytes_reduced": 46726779443,
+        "ledger_utc": "2026-11-09T04:05:10.777539Z",
+        "path": "/home/sunxr/1109/Jz06-current-results/snapshot.json.gz",
+        "captured_utc": "2026-11-09T04:16:58.170802Z",
+        "sha256": "b372622ecf677a168a24a78cebfbc17d35816b64f420639dc714587e978c0a69",
+        "port": 20015,
+        "statuses": {
+          "captured": 426
+        }
+      },
+      "ledger_utc": "2026-11-09T04:05:10.777539Z",
+      "roots": [
+        "/home/sunxr/1102/L6-Jz0p6-l2-w0p1-tau7p2-32-defaultfix",
+        "/home/sunxr/1105/L6-Jz0p6-l2-w01-tau36-60-w016-tau4-32",
+        "/home/sunxr/1106/L6-Jz06-lambda1p5-2p5-half-tau",
+        "/home/sunxr/1107/resubmit-158897-20015",
+        "/home/sunxr/1107/return-20022-queued-to20015-1654",
+        "/home/sunxr/1107/return-92860-queued-to20015",
+        "/home/sunxr/1108/L7-Jz06-lambda2-w01-tau4-60-mixed-dt-3seed-20015",
+        "/home/sunxr/1108/L7-Jz06-lambda2-w016-tau4-60-3seed-20015"
+      ],
+      "ledger_statuses": {}
+    },
+    {
+      "port": 20022,
+      "receipt": {
+        "reused": 159,
+        "bytes_reduced": 16702457,
+        "ledger_utc": "2026-11-09T03:59:45.982592Z",
+        "path": "/home/sunxr/1109/Jz06-current-results/snapshot.json.gz",
+        "captured_utc": "2026-11-09T03:59:57.099616Z",
+        "sha256": "9bc3ab97e301f966c27007ca0074a86958ad2cd72a5ba250f168ee0fc41b77cf",
+        "port": 20022,
+        "statuses": {
+          "captured": 159
+        }
+      },
+      "ledger_utc": "2026-11-09T03:59:45.982592Z",
+      "roots": [
+        "/home/sunxr/1106/rebalance-20015-to20022",
+        "/home/sunxr/1107/migrate-158896-to20022-workq",
+        "/home/sunxr/1107/migrate-158898-to20022-testq",
+        "/home/sunxr/1108/L7-fill-free-cpus-20022",
+        "/home/sunxr/1108/L7-fill-free-cpus-20022/configuration-segments"
+      ],
+      "ledger_statuses": {}
+    }
+  ],
+  "selected_chains": 562,
+  "excluded_or_unpooled": 13,
+  "points": 189,
+  "export_scope": "Only lambda=2, L6/L7, tau<=24; frozen November9 snapshots. Not current HPC status."
+}
