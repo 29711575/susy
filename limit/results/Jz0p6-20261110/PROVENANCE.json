@@ -1,0 +1,122 @@
+{
+  "snapshot_date": "2026-11-10",
+  "captured_utc": "2026-11-10T12:29:07.904361+00:00",
+  "status": "PARTIAL_VALIDATED_SNAPSHOT",
+  "points": 238,
+  "expected_points": 240,
+  "missing": [
+    {
+      "L": 10,
+      "lambda_value": 0.1,
+      "status": "pending"
+    },
+    {
+      "L": 10,
+      "lambda_value": 0.2,
+      "status": "pending"
+    }
+  ],
+  "parameters": {
+    "J": [
+      1,
+      1,
+      0.6
+    ],
+    "spring_k": 1,
+    "lambda_definition": "g^2/k; k=1, g=sqrt(lambda)",
+    "lambda_min": 0.1,
+    "lambda_max": 3.0,
+    "lambda_step": 0.1,
+    "L": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "geometry": "square Lx=Ly=L, shear=0",
+    "zero_flux": true,
+    "wilson": [
+      1,
+      1
+    ],
+    "required_code_parity": {
+      "3": -1,
+      "4": 1,
+      "5": -1,
+      "6": 1,
+      "7": -1,
+      "8": 1,
+      "9": -1,
+      "10": 1
+    }
+  },
+  "observables": {
+    "m2_z": "max_{q!=0} |sum_r X_z(r) exp(-iqr)/L^2|^2",
+    "chi_zz_max_nonzero": "max_{q!=0} Re(Fz^dagger H_X^-1 Fz)/L^2; all bonds relax, stable single domain",
+    "source_coupling": "-h sum_r f(r) X_z(r)",
+    "normalization": "raw displacement X, no extra g^2 rescaling and no free-phonon subtraction",
+    "momentum": "q=(n1/L,n2/L); peaks may differ between observables"
+  },
+  "sources": [
+    {
+      "workspace_path": "limit/results/20261110/L348910-Jz06-static-lambda01-3/current-summary.csv",
+      "sha256": "234576bf81875691e2b14d973cd63d38858688a3c6709c2ed3b45a3f01b8d2a2",
+      "points": 148
+    },
+    {
+      "workspace_path": "limit/results/20261110/L567-Jz06-static-lambda01-3/scan-summary.csv",
+      "sha256": "52978eaa6ad9ddb741ab0223aa9f52b01483319e971dc8b47b46adff260b945c",
+      "points": 90
+    }
+  ],
+  "source_assets": [
+    {
+      "workspace_path": "limit/results/20261110/L567-Jz06-static-lambda01-3/provenance.json",
+      "sha256": "e2144ccd541097ee6dd340246425ef894a2e381b3281cd573e78117c5d8bbfd1"
+    },
+    {
+      "workspace_path": "limit/results/20261110/L348910-Jz06-static-lambda01-3/provenance.json",
+      "sha256": "6b0a65bac58b6d77759ca6c35af4d1945d8149f11b2fe47afbe740807b7626d4"
+    },
+    {
+      "workspace_path": "limit/results/20261110/L348910-Jz06-static-lambda01-3/hpc-deployment-inputs.json",
+      "sha256": "33085cb397a499077f00efc26e86d8688dd973636f7cff59fb0e9cc307c5e168"
+    },
+    {
+      "workspace_path": "limit/results/20261110/L348910-Jz06-static-lambda01-3/local-gmp-runtime.json",
+      "sha256": "9a984cba52c1ef33ebe146158e4621dd3b36892dcb3fabced6cf64aef38dddbd"
+    }
+  ],
+  "runtimes": [
+    {
+      "location": "original local static batch",
+      "python": "3.14",
+      "numpy": "2.4.6",
+      "scipy": "1.18.0",
+      "mpmath": "1.4.1"
+    },
+    {
+      "location": "HPC response certification",
+      "python": "3.7.8",
+      "numpy": "1.21.6",
+      "scipy": "1.7.3",
+      "mpmath": "1.3.0, vendored"
+    },
+    {
+      "location": "local repaired L8 lambda0.1/0.2 only",
+      "mpmath": "1.4.1",
+      "backend": "gmpy",
+      "gmpy2": "2.3.2"
+    }
+  ],
+  "scope": "Fixed finite torus, physical matter parity, fixed zero-flux Wilson++; verified local-minimum candidates, no global minimum or thermodynamic phase-boundary proof",
+  "publication": "Compact verified tables and static figures only; no new scan or change to frozen repository sources",
+  "offline_plot": {
+    "path": "limit/plot_Jz0p6.py",
+    "sha256": "a6e2a1748674d3b737fcd0fe173bf2b8b1fc76dc775ad5a5f600f3ffb88022db"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "published_points": 238,
+  "planned_points": 240,
+  "pending": [
+    [
+      10,
+      0.1
+    ],
+    [
+      10,
+      0.2
+    ]
+  ],
+  "checks": [
+    "all compact m2/chi values match original validated rows exactly",
+    "all per-L tables equal merged subsets",
+    "no duplicates; exact grid and explicit pending coverage",
+    "all new README relative links resolve",
+    "portable plotting executed and both exported PNGs visually inspected",
+    "frozen physics sources and historical data untouched"
+  ]
+}

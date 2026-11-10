@@ -1,0 +1,62 @@
+{
+  "status": "PASS_FOR_PUBLISHED_ROWS",
+  "published_points": 238,
+  "expected_points": 240,
+  "missing": [
+    {
+      "L": 10,
+      "lambda_value": 0.1,
+      "status": "pending"
+    },
+    {
+      "L": 10,
+      "lambda_value": 0.2,
+      "status": "pending"
+    }
+  ],
+  "counts_by_L": {
+    "3": 30,
+    "4": 30,
+    "5": 30,
+    "6": 30,
+    "7": 30,
+    "8": 30,
+    "9": 30,
+    "10": 28
+  },
+  "export_checks": [
+    "unique (L,lambda) and exact .1 grid",
+    "all published records validated=True",
+    "physical parity equals (-1)^(L^2) in this gauge/geometry",
+    "positive Hessian eigenvalue >1e-10 and gradient <2e-7",
+    "finite nonnegative m2 and positive chi",
+    "known missing points explicitly pending; no zero fill or interpolation"
+  ],
+  "calculation_checks": [
+    "gradient and positive-curvature stable branch",
+    "analytic signed-Hessian directional checks and energy gradients",
+    "physical parity, reduced energy, self-consistency",
+    "translation invariance and direct Fourier check",
+    "peak-q real cos/sin finite-field source derivatives",
+    "independent real-space Majorana spectrum and pivoted Pfaffian energy/gradient checks"
+  ],
+  "response_targets": {
+    "absolute": 2e-05,
+    "soft_relative": 1e-06,
+    "policy": "max(absolute target, relative target*abs(expected)), per real source; soft points use residual-bounded Richardson/high-precision endpoint certificates"
+  },
+  "maxima": {
+    "gradient_max": 1.6653345369377348e-15,
+    "hessian_directional_error": 1.3461193826280748e-09,
+    "reduced_energy_error": 1.9895196601282805e-13,
+    "stationarity_error": 1.6653345369377348e-15,
+    "independent_energy_error": 2.2737367544323206e-13,
+    "translation_energy_error": 2.2737367544323206e-13,
+    "dft_error": 6.162054248366335e-16
+  },
+  "notes": [
+    "finite_field_response_error is a deterministic derivative-comparison residual, not a Monte Carlo error bar",
+    "original failed L8 lambda0.1/0.2 HPC attempts superseded by independently checked successful local repairs",
+    "soft L10 lambda0.1/0.2 remain unpublished until response certification succeeds"
+  ]
+}

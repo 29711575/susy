@@ -10,7 +10,7 @@
 - [当前状态](docs/STATUS.md)：源码版本、默认设置和可用验证。
 - [近期结果与离线作图](measurements/20261030/README.md)：L6/L9 序参量及频率比较。
 - [不同 L 与短时标度](docs/FINITE_SIZE_AND_SHORT_TIME.md)：L6–L9 宇称、动量、公度效应及 2/3 斜率的适用条件。
-- [绝热极限](limit/README.md)：物理宇称静态代码、L6–L9 共208点简表及离线作图。
+- [绝热极限](limit/README.md)：物理宇称静态代码、历史Jz=0.5数据，以及新增Jz=0.6、L3–L10共238个已验证点和离线作图。
 - [代码地图](docs/CODE_MAP.md)、[物理约定](docs/PHYSICS_CONVENTIONS.md)、[观测量定义](docs/OBSERVABLES.md)。
 
 ## 代码与工具
