@@ -21,7 +21,7 @@
     },
     {
       "path": "HANDOFF_REPORT_CN.md",
-      "sha256": "608ee64be01667b8be677363e7615ad87482726f3061841871606c3a6b87384b"
+      "sha256": "2127cf2f5a78fb9a0883a71e05313695a5e3192c1f1a5ad38e747319e643bc7d"
     },
     {
       "path": "LICENSE",
@@ -29,15 +29,15 @@
     },
     {
       "path": "OPTIMIZATION_README_CN.md",
-      "sha256": "a2d20808359b090c188b2e7822a549dbdd532cdff52a0b7c8b877ee5f2a07c8e"
+      "sha256": "0aa639de4155e2dc0c4b2559611dc813fe4b64e2fd9e9f79a1d52ff77989a04a"
     },
     {
       "path": "PHASE_ON_DEMAND.md",
-      "sha256": "62021cc3c460fff655ed6803db9c9e3e38ee0166c385046921ca0c9ee9193484"
+      "sha256": "5a18e891cb5d42e3f404176ce4e870e21df49b3ea7026ef629909b80e37b2860"
     },
     {
       "path": "README.md",
-      "sha256": "f6fa8cb38ed6b040c62b0062444011799fe4ceb3f9acba178c09259fdf2c7035"
+      "sha256": "016b654a560ea9bfde58ec046b08098e111810881ce2a2ac70e6e6c33928398b"
     },
     {
       "path": "SHEARED_PBC.md",
@@ -73,7 +73,7 @@
     },
     {
       "path": "docs/CODE_MAP.md",
-      "sha256": "0acc0b9d8dcc9990bddf386b98c7bfe899e6badaa9d5b2d7d157715a050cec50"
+      "sha256": "bd1dea380a9c32fd71a851320a3bdb350b737f07f32b870591e4a3173d39bd5d"
     },
     {
       "path": "docs/DRIVEN_FTS_METHOD.md",
@@ -113,7 +113,7 @@
     },
     {
       "path": "docs/STATUS.md",
-      "sha256": "27f1c75e009996e2798508abd39cbf3cc3eb7014262e0d631b816776b3efc9a7"
+      "sha256": "d0afc9449dec7575ba7d1f16f9000ab92ec05c6cc326e8d3bd7bf2fc83576149"
     },
     {
       "path": "docs/TASK_TEMPLATE.md",
@@ -273,7 +273,7 @@
     },
     {
       "path": "docs/history/README.md",
-      "sha256": "221bb8f458281963ef60fd90bf30e45d980b3d6ff59e146c35044b011ad56261"
+      "sha256": "8fe8ec7974e1fdb3b5764c9ea36ba3a2b7f1dd85405a82b499f01fd849f3dc81"
     },
     {
       "path": "docs/history/REPORTS.md",
@@ -2046,6 +2046,34 @@
     {
       "path": "validation/pcn_grid_projection/wait_then_plan.py",
       "sha256": "92ef64a66ce8297b452fd386f4e20fd723378bcceb051770f84b006ec5bfac4b"
+    },
+    {
+      "path": "measurements/README.md",
+      "sha256": "2d48efc4261c2433e5a811780ffe9d837af830f328047775f4afcb98d9810bbd"
+    },
+    {
+      "path": "docs/QMC_REVIEW_GUIDE_CN.md",
+      "sha256": "f22b287b917bafbca8cb99f1b2da564a49162f9af4146b37129bfd08192ae0de"
+    },
+    {
+      "path": "docs/REPORT_INDEX_CN.md",
+      "sha256": "445eaa90d7c54a109c8995a49fa7c409333ebcbb72d4d195a6215fcc500f2004"
+    },
+    {
+      "path": "docs/history/CODE_MAP_BEFORE_20261116.md",
+      "sha256": "5d0731de89344376f440634a331e1be3a4320ddfe0dae726ba5fdd859c792a84"
+    },
+    {
+      "path": "docs/history/HANDOFF_REPORT_20261102.md",
+      "sha256": "fcc68a3fcd2b57bd956f0d24e9f624601d3079897a963cd72246611e2a0633e8"
+    },
+    {
+      "path": "docs/history/OPTIMIZATION_BEFORE_20261116.md",
+      "sha256": "e5e161efbf4475d1d8970e7871d7e55be765b10073200c81410cfa87af74e480"
+    },
+    {
+      "path": "docs/history/PHASE_ON_DEMAND_BEFORE_20261116.md",
+      "sha256": "3edaaeffb9d18fb71b25019bd61342dcc793260df88845f8b423960e05cb9c6c"
     }
   ],
   "scope": "Repository cleanup: current entry guides, archived legacy HPC task files and historical status; numerical core and measurement datasets unchanged",
@@ -2099,5 +2127,16 @@
     "qmc_cpp_implementation_changed": false,
     "existing_measurements_changed": false,
     "new_scans_run": false
+  },
+  "review_documentation_update": {
+    "date": "2026-11-16",
+    "baseline_commit": "b085974c18b5db4935536aa4fe84b5f778428cc5",
+    "entry": "docs/QMC_REVIEW_GUIDE_CN.md",
+    "report_index": "docs/REPORT_INDEX_CN.md",
+    "scope": "First-time QMC review guide, code reading order, report index, condensed research/optimization/phase/state reports; original long reports preserved under docs/history",
+    "qmc_implementation_changed": false,
+    "measurement_datasets_changed": false,
+    "new_build_or_mc_run": false,
+    "publication_authorized_by_user": true
   }
 }
